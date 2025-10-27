@@ -1,8 +1,10 @@
 package bus.station.model;
 
+import bus.station.interfaces.Identifiable;
+
 import java.util.List;
 
-public class Route {
+public class Route implements Identifiable {
     private String id;
     private BusStation origin;
     private BusStation destination;
@@ -17,10 +19,12 @@ public class Route {
         this.trips = trips;
     }
 
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }

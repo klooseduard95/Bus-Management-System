@@ -1,10 +1,11 @@
 package bus.station.model;
 
 import bus.station.enums.BusStatus;
+import bus.station.interfaces.Identifiable;
 
 import java.time.LocalDate;
 
-public class Bus {
+public class Bus implements Identifiable {
     private String id;
     private String registrationNumber;
     private int capacity;
@@ -21,10 +22,12 @@ public class Bus {
         this.lastMaintenanceDate = lastMaintenanceDate;
     }
 
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }

@@ -1,8 +1,10 @@
 package bus.station.model;
 
+import bus.station.interfaces.Identifiable;
+
 import java.util.List;
 
-public class BusStation {
+public class BusStation implements Identifiable {
     private String id;
     private String name;
     private String city;
@@ -18,11 +20,11 @@ public class BusStation {
         this.openingHours = openingHours;
         this.parkingAvailable = parkingAvailable;
     }
-
+    @Override
     public String getId() {
         return id;
     }
-
+    @Override
     public void setId(String id) {
         this.id = id;
     }

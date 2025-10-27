@@ -1,6 +1,8 @@
 package bus.station.model;
 
-public abstract class Staff {
+import bus.station.interfaces.Identifiable;
+
+public abstract class Staff implements Identifiable {
     private String id;
     private String name;
 
@@ -9,10 +11,12 @@ public abstract class Staff {
         this.name = name;
     }
 
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }

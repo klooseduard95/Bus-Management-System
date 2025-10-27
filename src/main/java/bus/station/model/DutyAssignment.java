@@ -1,8 +1,9 @@
 package bus.station.model;
 
 import bus.station.enums.Role;
+import bus.station.interfaces.Identifiable;
 
-public class DutyAssignment {
+public class DutyAssignment implements Identifiable {
     private String Id;
     private String TripId;
     private String StaffId;
@@ -15,10 +16,12 @@ public class DutyAssignment {
         this.role = role;
     }
 
+    @Override
     public String getId() {
         return Id;
     }
 
+    @Override
     public void setId(String id) {
         Id = id;
     }

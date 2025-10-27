@@ -1,8 +1,10 @@
 package bus.station.model;
 
+import bus.station.interfaces.Identifiable;
+
 import java.util.List;
 
-public class Passenger {
+public class Passenger implements Identifiable {
     private String id;
     private String name;
     private String currency;
@@ -19,10 +21,12 @@ public class Passenger {
         this.loyaltyLevel = loyaltyLevel;
     }
 
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }

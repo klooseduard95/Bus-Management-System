@@ -1,12 +1,13 @@
 package bus.station.model;
 
 import bus.station.enums.BusTripStatus;
+import bus.station.interfaces.Identifiable;
 
 import java.time.LocalTime;
 import java.util.List;
 
 
-public class BusTrip {
+public class BusTrip implements Identifiable {
     private String id;
     private String routeId;
     private String busId;
@@ -25,10 +26,12 @@ public class BusTrip {
         this.busTripStatus = busTripStatus;
     }
 
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }

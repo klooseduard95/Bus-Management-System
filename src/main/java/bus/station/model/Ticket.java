@@ -1,6 +1,10 @@
 package bus.station.model;
 
-public class Ticket {
+import bus.station.interfaces.Identifiable;
+
+import java.io.Serializable;
+
+public class Ticket implements Identifiable {
     private String id;
     private String tripId;
     private String passengerId;
@@ -15,10 +19,12 @@ public class Ticket {
         this.price = price;
     }
 
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }
