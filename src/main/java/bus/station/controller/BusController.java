@@ -27,5 +27,4 @@ public class BusController {
         return busService.findAll();
     }
 
-
 }

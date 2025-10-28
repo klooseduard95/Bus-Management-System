@@ -24,4 +24,5 @@ public class BusService {
     public Optional<Bus> findBusById(String id) {
         return busRepo.findById(id);
     }
+
 }
