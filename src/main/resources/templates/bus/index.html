@@ -36,6 +36,10 @@
                 <td th:text="${bus.lastMaintenanceDate}">[Maintenance]</td>
                 <td th:text="${bus.hasAccessibilitySupport} ? 'Yes' : 'No'">[Access]</td>
                 <td>
+                    <a th:href="@{/bus/{id}/edit(id=${bus.id})}"
+                       class="btn btn-warning btn-sm me-2">
+                        Edit
+                    </a>
                     <form th:action="@{/bus/{id}/delete(id=${bus.id})}" method="post">
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
