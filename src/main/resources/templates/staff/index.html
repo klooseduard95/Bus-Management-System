@@ -1,10 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
+<head th:replace="~{fragments :: head-links(title='Staff List')}"></head>
+
+<body>
+<div class="d-flex">
+    <div th:replace="~{fragments :: sidebar}"></div>
+
+    <div class="container-fluid p-4">
+        <h1 class="mb-3">👥 Staff Management</h1>
+
+        <a th:href="@{/staff/driver/new}" class="btn btn-primary mb-3 me-2">
+            Add New Driver
+        </a>
+        <a th:href="@{/staff/manager/new}" class="btn btn-info mb-3">
+            Add New Trip Manager
+        </a>
+
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Specific Info (Experience/Code)</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="staff : ${allStaff}">
+                <td th:text="${staff.name}">[Name]</td>
+
+                <td th:text="${staff.class.simpleName}">[Type]</td>
+
+                <td>
+                        <span th:if="${staff instanceof T(bus.station.model.Driver)}"
+                              th:text="${((bus.station.model.Driver)staff).yearsOfExperience + ' years'}">
+                        </span>
+                    <span th:if="${staff instanceof T(bus.station.model.TripManager)}"
+                          th:text="${((bus.station.model.TripManager)staff).employeeCode}">
+                        </span>
+                </td>
+
+                <td>
+                    <a th:if="${staff instanceof T(bus.station.model.Driver)}"
+                       th:href="@{/staff/driver/{id}/edit(id=${staff.id})}"
+                       class="btn btn-warning btn-sm me-2">
+                        Edit
+                    </a>
+                    <a th:if="${staff instanceof T(bus.station.model.TripManager)}"
+                       th:href="@{/staff/manager/{id}/edit(id=${staff.id})}"
+                       class="btn btn-warning btn-sm me-2">
+                        Edit
+                    </a>
+
+                    <form th:action="@{/staff/{id}/delete(id=${staff.id})}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:replace="~{fragments :: body-scripts}"></div>
 </body>
 </html>
