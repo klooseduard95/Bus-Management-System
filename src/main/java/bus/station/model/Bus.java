@@ -13,6 +13,10 @@ public class Bus implements Identifiable {
     private LocalDate lastMaintenanceDate;
     private boolean hasAccessibilitySupport;
 
+    public Bus() {
+
+    }
+
     public Bus(String id, String registrationNumber, int capacity, BusStatus status, LocalDate lastMaintenanceDate, boolean hasAccessibilitySupport) {
         this.id = id;
         this.registrationNumber = registrationNumber;
