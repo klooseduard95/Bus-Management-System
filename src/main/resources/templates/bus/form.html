@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{fragments :: head-links(title='Create Bus')}"></head>
+<head th:replace="~{fragments :: head-links(title=${bus.id == null ? 'Create Bus' : 'Edit Bus'})}"></head>
 
 <body>
-
 <div class="d-flex">
-
     <div th:replace="~{fragments :: sidebar}"></div>
 
     <div class="container-fluid p-4">
-        <h1>Create New Bus</h1>
+
+        <h1 th:text="${bus.id == null ? 'Create New Bus' : 'Edit Bus'}">Formular Bus</h1>
 
         <form th:action="@{/bus}" th:object="${bus}" method="post" class="col-md-6">
+
+            <input type="hidden" th:field="*{id}" />
 
             <div class="mb-3">
                 <label for="registrationNumber" class="form-label">Registration Number:</label>
@@ -35,13 +36,15 @@
             </div>
 
             <div>
-                <button type="submit" class="btn btn-success me-2">Save Bus</button>
+                <button type="submit" class="btn btn-success me-2"
+                        th:text="${bus.id == null ? 'Save Bus' : 'Update Bus'}">
+                    Save
+                </button>
                 <a th:href="@{/bus}" class="btn btn-secondary">Back to List</a>
             </div>
         </form>
     </div>
 </div>
-
 <div th:replace="~{fragments :: body-scripts}"></div>
 </body>
 </html>

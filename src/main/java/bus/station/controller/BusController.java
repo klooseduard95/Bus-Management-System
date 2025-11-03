@@ -30,16 +30,28 @@ public class BusController {
         return "bus/form";
     }
 
-    @PostMapping
-    public String createBus(@ModelAttribute Bus bus) {
-        busService.save(bus);
-        return "redirect:/bus";
-    }
-
     @PostMapping("{id}/delete")
     public String deleteBus(@PathVariable String id) {
         busService.deleteById(id);
 
+        return "redirect:/bus";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showEditForm(@PathVariable String id, Model model) {
+        Optional<Bus> busOptional = busService.findBusById(id);
+
+        if (busOptional.isPresent()) {
+            model.addAttribute("bus", busOptional.get());
+            return "bus/form";
+        } else {
+            return "redirect:/bus";
+        }
+    }
+
+    @PostMapping
+    public String createOrUpdateBus(@ModelAttribute Bus bus) {
+        busService.save(bus);
         return "redirect:/bus";
     }
 
