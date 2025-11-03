@@ -13,7 +13,9 @@ public class Passenger implements Identifiable {
     private LocalDate dateOfBirth;
     private boolean requiresSpecialAssistance;
 
-    public Passenger(String id, String name, String currency, List<Ticket> tickets, String email, String loyaltyLevel, LocalDate dateOfBirth, boolean requiresSpecialAssistance) {
+    public Passenger() {}
+
+    public Passenger(String id, String name, String currency, List<Ticket> tickets, String email, String loyaltyLevel) {
         this.id = id;
         this.name = name;
         this.currency = currency;

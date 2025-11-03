@@ -11,6 +11,8 @@ public class Route implements Identifiable {
     private double distance;
     private List<BusTrip> trips;
 
+    public Route() {}
+
     public Route(String id, BusStation origin, BusStation destination, double distance, List<BusTrip> trips) {
         this.id = id;
         this.origin = origin;

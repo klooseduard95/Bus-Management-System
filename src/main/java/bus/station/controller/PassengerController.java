@@ -5,13 +5,12 @@ import bus.station.service.PassengerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/passengers")
+@Controller
+@RequestMapping("/passenger")
 public class PassengerController {
     private final PassengerService passengerService;
 

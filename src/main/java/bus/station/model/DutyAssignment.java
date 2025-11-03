@@ -9,6 +9,8 @@ public class DutyAssignment implements Identifiable {
     private String StaffId;
     private Role role;
 
+    public DutyAssignment() {}
+
     public DutyAssignment(String id, String tripId, String staffId, Role role) {
         Id = id;
         TripId = tripId;
