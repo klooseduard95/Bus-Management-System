@@ -2,30 +2,45 @@ package bus.station.controller;
 
 import bus.station.model.Bus;
 import bus.station.service.BusService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/buses")
+@Controller
+@RequestMapping("/bus")
 public class BusController {
     private final BusService busService;
 
     public BusController(BusService busService) {
         this.busService = busService;
     }
-    @GetMapping("/")
-    public List<Bus> findAll() {
-        return busService.findAll();
+
+    @GetMapping
+    public String getBusList(Model model) {
+        model.addAttribute("buses", busService.findAll());
+        return "bus/index";
     }
 
-    @GetMapping("/{id}")
-    public Optional<Bus> findBusById(@PathVariable String id) {
-        return busService.findBusById(id);
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("bus", new Bus());
+        return "bus/form";
+    }
+
+    @PostMapping
+    public String createBus(@ModelAttribute Bus bus) {
+        busService.save(bus);
+        return "redirect:/bus";
+    }
+
+    @PostMapping("{id}/delete")
+    public String deleteBus(@PathVariable String id) {
+        busService.deleteById(id);
+
+        return "redirect:/bus";
     }
 
 }
