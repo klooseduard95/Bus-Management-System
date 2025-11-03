@@ -25,4 +25,12 @@ public class BusService {
         return busRepo.findById(id);
     }
 
+    public Bus save(Bus bus) {
+        return busRepo.save(bus);
+    }
+
+    public void deleteById(String id) {
+        busRepo.deleteById(id);
+    }
+
 }

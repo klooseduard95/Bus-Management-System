@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head-links(title='Create Bus')}"></head>
+
+<body>
+
+<div class="d-flex">
+
+    <div th:replace="~{fragments :: sidebar}"></div>
+
+    <div class="container-fluid p-4">
+        <h1>Create New Bus</h1>
+
+        <form th:action="@{/bus}" th:object="${bus}" method="post" class="col-md-6">
+
+            <div class="mb-3">
+                <label for="registrationNumber" class="form-label">Registration Number:</label>
+                <input type="text" id="registrationNumber" th:field="*{registrationNumber}" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label for="capacity" class="form-label">Capacity:</label>
+                <input type="number" id="capacity" th:field="*{capacity}" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label for="lastMaintenanceDate" class="form-label">Last Maintenance Date:</label>
+                <input type="date" id="lastMaintenanceDate" th:field="*{lastMaintenanceDate}" class="form-control" />
+            </div>
+
+            <div class="mb-3 form-check">
+                <input type="checkbox" id="hasAccessibilitySupport" th:field="*{hasAccessibilitySupport}" class="form-check-input" />
+                <label for="hasAccessibilitySupport" class="form-check-label">Has Accessibility Support</label>
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-success me-2">Save Bus</button>
+                <a th:href="@{/bus}" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:replace="~{fragments :: body-scripts}"></div>
+</body>
+</html>
