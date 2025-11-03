@@ -24,4 +24,11 @@ public class StaffService {
     public List<Staff> findAll(){
         return staffRepo.findAll();
     }
+
+    public Staff save(Staff staff){
+        return staffRepo.save(staff);
+    }
+    public boolean delete(String id){
+        return staffRepo.deleteById(id);
+    }
 }
