@@ -55,11 +55,6 @@ public class RouteController {
         }
     }
 
-    /**
-     * POST /route
-     * Gestionează Crearea și Actualizarea (Editarea).
-     * Această metodă este manuală pentru a lega corect ID-urile din formular.
-     */
     @PostMapping
     public String createOrUpdateRoute(@RequestParam(value = "id", required = false) String id,
                                       @RequestParam("originId") String originId,
