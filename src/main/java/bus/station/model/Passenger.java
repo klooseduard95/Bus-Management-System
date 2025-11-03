@@ -2,6 +2,7 @@ package bus.station.model;
 
 import bus.station.interfaces.Identifiable;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class Passenger implements Identifiable {
@@ -9,16 +10,16 @@ public class Passenger implements Identifiable {
     private String name;
     private String currency;
     private List<Ticket> tickets;
-    private String email;
-    private String loyaltyLevel;
+    private LocalDate dateOfBirth;
+    private boolean requiresSpecialAssistance;
 
-    public Passenger(String id, String name, String currency, List<Ticket> tickets, String email, String loyaltyLevel) {
+    public Passenger(String id, String name, String currency, List<Ticket> tickets, String email, String loyaltyLevel, LocalDate dateOfBirth, boolean requiresSpecialAssistance) {
         this.id = id;
         this.name = name;
         this.currency = currency;
         this.tickets = tickets;
-        this.email = email;
-        this.loyaltyLevel = loyaltyLevel;
+        this.dateOfBirth = dateOfBirth;
+        this.requiresSpecialAssistance = requiresSpecialAssistance;
     }
 
     @Override
@@ -55,19 +56,19 @@ public class Passenger implements Identifiable {
         this.tickets = tickets;
     }
 
-    public String getEmail() {
-        return email;
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
-    public String getLoyaltyLevel() {
-        return loyaltyLevel;
+    public boolean isRequiresSpecialAssistance() {
+        return requiresSpecialAssistance;
     }
 
-    public void setLoyaltyLevel(String loyaltyLevel) {
-        this.loyaltyLevel = loyaltyLevel;
+    public void setRequiresSpecialAssistance(boolean requiresSpecialAssistance) {
+        this.requiresSpecialAssistance = requiresSpecialAssistance;
     }
 }

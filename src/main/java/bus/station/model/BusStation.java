@@ -9,16 +9,12 @@ public class BusStation implements Identifiable {
     private String name;
     private String city;
     private List<BusTrip> trips;
-    private String openingHours;
-    private boolean parkingAvailable;
 
     public BusStation(String id, String name, String city, List<BusTrip> trips, String openingHours, boolean parkingAvailable) {
         this.id = id;
         this.name = name;
         this.city = city;
         this.trips = trips;
-        this.openingHours = openingHours;
-        this.parkingAvailable = parkingAvailable;
     }
     @Override
     public String getId() {
@@ -53,19 +49,4 @@ public class BusStation implements Identifiable {
         this.trips = trips;
     }
 
-    public String getOpeningHours() {
-        return openingHours;
-    }
-
-    public void setOpeningHours(String openingHours) {
-        this.openingHours = openingHours;
-    }
-
-    public boolean isParkingAvailable() {
-        return parkingAvailable;
-    }
-
-    public void setParkingAvailable(boolean parkingAvailable) {
-        this.parkingAvailable = parkingAvailable;
-    }
 }

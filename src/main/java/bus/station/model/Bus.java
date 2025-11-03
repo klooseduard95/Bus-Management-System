@@ -10,16 +10,16 @@ public class Bus implements Identifiable {
     private String registrationNumber;
     private int capacity;
     private BusStatus status;
-    private String model;
     private LocalDate lastMaintenanceDate;
+    private boolean hasAccessibilitySupport;
 
-    public Bus(String id, String registrationNumber, int capacity, BusStatus status, String model, LocalDate lastMaintenanceDate) {
+    public Bus(String id, String registrationNumber, int capacity, BusStatus status, LocalDate lastMaintenanceDate, boolean hasAccessibilitySupport) {
         this.id = id;
         this.registrationNumber = registrationNumber;
         this.capacity = capacity;
         this.status = status;
-        this.model = model;
         this.lastMaintenanceDate = lastMaintenanceDate;
+        this.hasAccessibilitySupport = hasAccessibilitySupport;
     }
 
     @Override
@@ -30,6 +30,14 @@ public class Bus implements Identifiable {
     @Override
     public void setId(String id) {
         this.id = id;
+    }
+
+    public boolean isHasAccessibilitySupport() {
+        return hasAccessibilitySupport;
+    }
+
+    public void setHasAccessibilitySupport(boolean hasAccessibilitySupport) {
+        this.hasAccessibilitySupport = hasAccessibilitySupport;
     }
 
     public String getRegistrationNumber() {
@@ -54,14 +62,6 @@ public class Bus implements Identifiable {
 
     public void setStatus(BusStatus status) {
         this.status = status;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
     }
 
     public LocalDate getLastMaintenanceDate() {

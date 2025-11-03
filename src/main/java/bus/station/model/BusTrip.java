@@ -15,8 +15,10 @@ public class BusTrip implements Identifiable {
     private List<Ticket> tickets;
     private List<DutyAssignment> assignments;
     private BusTripStatus busTripStatus;
+    private int availableSeats;
+    private double basePrice;
 
-    public BusTrip(String id, String routeId, String busId, LocalTime startTime, List<Ticket> tickets, List<DutyAssignment> assignments, BusTripStatus busTripStatus) {
+    public BusTrip(String id, String routeId, String busId, LocalTime startTime, List<Ticket> tickets, List<DutyAssignment> assignments, BusTripStatus busTripStatus, int availableSeats, double basePrice) {
         this.id = id;
         this.routeId = routeId;
         this.busId = busId;
@@ -24,6 +26,8 @@ public class BusTrip implements Identifiable {
         this.tickets = tickets;
         this.assignments = assignments;
         this.busTripStatus = busTripStatus;
+        this.availableSeats = availableSeats;
+        this.basePrice = basePrice;
     }
 
     @Override
@@ -82,5 +86,21 @@ public class BusTrip implements Identifiable {
 
     public void setStatus(BusTripStatus busTripStatus) {
         this.busTripStatus = busTripStatus;
+    }
+
+    public int getAvailableSeats() {
+        return availableSeats;
+    }
+
+    public void setAvailableSeats(int availableSeats) {
+        this.availableSeats = availableSeats;
+    }
+
+    public double getBasePrice() {
+        return basePrice;
+    }
+
+    public void setBasePrice(double basePrice) {
+        this.basePrice = basePrice;
     }
 }
