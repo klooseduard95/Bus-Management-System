@@ -27,7 +27,11 @@
 
             <div class="mb-3">
                 <label for="lastMaintenanceDate" class="form-label">Last Maintenance Date:</label>
-                <input type="date" id="lastMaintenanceDate" th:field="*{lastMaintenanceDate}" class="form-control" />
+
+                <input type="date" id="lastMaintenanceDate"
+                       name="lastMaintenanceDate"
+                       th:value="${bus.lastMaintenanceDate != null ? #temporals.format(bus.lastMaintenanceDate, 'yyyy-MM-dd') : ''}"
+                       class="form-control" />
             </div>
 
             <div class="mb-3 form-check">
