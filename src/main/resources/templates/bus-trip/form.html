@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head-links(title=${busTrip.id == null ? 'Create' : 'Edit'} + ' Bus Trip')}"></head>
+
+<body>
+<div class="d-flex">
+    <div th:replace="~{fragments :: sidebar}"></div>
+
+    <div class="container-fluid p-4">
+        <h1 th:text="${busTrip.id == null ? 'Create New Trip' : 'Edit Trip'}">Formular Cursă</h1>
+
+        <form th:action="@{/bus-trip}" th:object="${busTrip}" method="post" class="col-md-6">
+
+            <input type="hidden" th:field="*{id}" />
+
+            <div class="mb-3">
+                <label for="routeId" class="form-label">Route:</label>
+                <select id="routeId" th:field="*{routeId}" class="form-select" required>
+                    <option value="">-- Select Route --</option>
+                    <option th:each="route : ${allRoutes}"
+                            th:value="${route.id}"
+                            th:text="${route.origin != null ? route.origin.name : 'N/A'} + ' - ' + ${route.destination != null ? route.destination.name : 'N/A'}">
+                        [Route Name]
+                    </option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="busId" class="form-label">Bus:</label>
+                <select id="busId" th:field="*{busId}" class="form-select" required>
+                    <option value="">-- Select Bus --</option>
+                    <option th:each="bus : ${allBuses}"
+                            th:value="${bus.id}"
+                            th:text="${bus.registrationNumber}">
+                        [Bus Registration]
+                    </option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="startTime" class="form-label">Start Time:</label>
+                <input type="time" id="startTime" th:field="*{startTime}" class="form-control" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="availableSeats" class="form-label">Available Seats:</label>
+                <input type="number" id="availableSeats" th:field="*{availableSeats}" class="form-control" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="basePrice" class="form-label">Base Price:</label>
+                <input type="number" step="0.01" id="basePrice" th:field="*{basePrice}" class="form-control" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="status" class="form-label">Status:</label>
+                <select id="status" th:field="*{status}" class="form-select" required>
+                    <option th:each="stat : ${T(bus.station.model.enums.BusTripStatus).values()}"
+                            th:value="${stat}"
+                            th:text="${stat}">
+                        [Status]
+                    </option>
+                </select>
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-success me-2"
+                        th:text="${busTrip.id == null ? 'Save Trip' : 'Update Trip'}">
+                    Save
+                </button>
+                <a th:href="@{/bus-trip}" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:replace="~{fragments :: body-scripts}"></div>
+</body>
+</html>

@@ -20,7 +20,7 @@ public class BusTrip implements Identifiable {
 
     public BusTrip() {}
 
-    public BusTrip(String id, String routeId, String busId, LocalTime startTime, List<Ticket> tickets, List<DutyAssignment> assignments, BusTripStatus busTripStatus) {
+    public BusTrip(String id, String routeId, String busId, LocalTime startTime, List<Ticket> tickets, List<DutyAssignment> assignments, BusTripStatus busTripStatus, int availableSeats, double basePrice) {
         this.id = id;
         this.routeId = routeId;
         this.busId = busId;

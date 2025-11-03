@@ -16,11 +16,22 @@ public class RouteService {
         this.routeRepo = routeRepo;
     }
 
-    public Optional<Route> findByID(String id) {
+    public List<Route> findAll() {
+        return routeRepo.findAll();
+    }
+
+    public Route save(Route route) {
+        if (route.getOrigin() != null && route.getOrigin().equals(route.getDestination())) {
+            throw new IllegalArgumentException("Origin and Destination cannot be the same.");
+        }
+        return routeRepo.save(route);
+    }
+
+    public Optional<Route> findById(String id) {
         return routeRepo.findById(id);
     }
 
-    public List<Route> findAll() {
-        return routeRepo.findAll();
+    public void deleteById(String id) {
+        routeRepo.deleteById(id);
     }
 }

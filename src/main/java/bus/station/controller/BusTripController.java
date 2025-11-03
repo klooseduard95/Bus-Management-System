@@ -1,31 +1,67 @@
 package bus.station.controller;
 
 import bus.station.model.BusTrip;
+import bus.station.repository.BusRepo;
+import bus.station.repository.RouteRepo;
 import bus.station.service.BusTripService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/bustrips")
+@Controller
+@RequestMapping("/bus-trip")
 public class BusTripController {
     private final BusTripService busTripService;
+    private final RouteRepo routeRepo;
+    private final BusRepo busRepo;
 
-    public BusTripController(BusTripService busTripService) {
+
+    public BusTripController(BusTripService busTripService, RouteRepo routeRepo, BusRepo busRepo) {
         this.busTripService = busTripService;
+        this.routeRepo = routeRepo;
+        this.busRepo = busRepo;
+    }
+    private void addRoutesAndBusesToModel(Model model) {
+        model.addAttribute("allRoutes", routeRepo.findAll());
+        model.addAttribute("allBuses", busRepo.findAll());
     }
 
-    @RequestMapping("/")
-    public List<BusTrip> findAll() {
-        return busTripService.findAll();
+    @GetMapping
+    public String getBusTripList(Model model) {
+        model.addAttribute("busTrips", busTripService.findAll());
+        return "bus-trip/index";
     }
 
-    @RequestMapping("/{id}")
-    public Optional<BusTrip> findBusTripById(@PathVariable String id) {
-        return busTripService.findBusTripById(id);
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("busTrip", new BusTrip());
+        addRoutesAndBusesToModel(model);
+        return "bus-trip/form";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showEditForm(@PathVariable String id, Model model) {
+        Optional<BusTrip> busTripOptional = busTripService.findById(id);
+        if (busTripOptional.isPresent()) {
+            model.addAttribute("busTrip", busTripOptional.get());
+            addRoutesAndBusesToModel(model);
+            return "bus-trip/form";
+        } else {
+            return "redirect:/bus-trip";
+        }
+    }
+
+    @PostMapping
+    public String createOrUpdateBusTrip(@ModelAttribute BusTrip busTrip) {
+        busTripService.save(busTrip);
+        return "redirect:/bus-trip";
+    }
+
+    @PostMapping("/{id}/delete")
+    public String deleteBusTrip(@PathVariable String id) {
+        busTripService.deleteById(id);
+        return "redirect:/bus-trip";
     }
 }

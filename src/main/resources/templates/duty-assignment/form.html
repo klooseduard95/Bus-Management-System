@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head-links(title=${assignment.id == null ? 'Create' : 'Edit'} + ' Assignment')}"></head>
+
+<body>
+<div class="d-flex">
+    <div th:replace="~{fragments :: sidebar}"></div>
+
+    <div class="container-fluid p-4">
+        <h1 th:text="${assignment.id == null ? 'Create New Assignment' : 'Edit Assignment'}">Formular Alocare</h1>
+
+        <form th:action="@{/duty-assignment}" th:object="${assignment}" method="post" class="col-md-6">
+
+            <input type="hidden" th:field="*{id}" />
+
+            <div class="mb-3">
+                <label for="tripId" class="form-label">Trip:</label>
+                <select id="tripId" th:field="*{tripId}" class="form-select" required>
+                    <option value="">-- Select Trip --</option>
+                    <option th:each="trip : ${allTrips}"
+                            th:value="${trip.id}"
+                            th:text="${trip.id}"> [Trip ID]
+                    </option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="staffId" class="form-label">Staff Member:</label>
+                <select id="staffId" th:field="*{staffId}" class="form-select" required>
+                    <option value="">-- Select Staff --</option>
+                    <option th:each="staff : ${allStaff}"
+                            th:value="${staff.id}"
+                            th:text="${staff.name}">
+                        [Staff Name]
+                    </option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="role" class="form-label">Role:</label>
+                <select id="role" th:field="*{role}" class="form-select" required>
+                    <option value="">-- Select Role --</option>
+                    <option th:each="r : ${T(bus.station.model.Role).values()}"
+                            th:value="${r}"
+                            th:text="${r}">
+                        [Role]
+                    </option>
+                </select>
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-success me-2"
+                        th:text="${assignment.id == null ? 'Save Assignment' : 'Update Assignment'}">
+                    Save
+                </button>
+                <a th:href="@{/duty-assignment}" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:replace="~{fragments :: body-scripts}"></div>
+</body>
+</html>

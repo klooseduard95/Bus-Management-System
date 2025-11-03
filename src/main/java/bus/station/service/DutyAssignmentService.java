@@ -21,7 +21,18 @@ public class DutyAssignmentService {
         return dutyAssignmentRepo.findAll();
     }
 
-    public Optional<DutyAssignment> findDutyAssignmentById(String id) {
+    public DutyAssignment save(DutyAssignment dutyAssignment) {
+        if (dutyAssignment.getTripId() == null || dutyAssignment.getStaffId() == null) {
+            throw new IllegalArgumentException("Trip ID and Staff ID are required.");
+        }
+        return dutyAssignmentRepo.save(dutyAssignment);
+    }
+
+    public Optional<DutyAssignment> findById(String id) {
         return dutyAssignmentRepo.findById(id);
+    }
+
+    public void deleteById(String id) {
+        dutyAssignmentRepo.deleteById(id);
     }
 }

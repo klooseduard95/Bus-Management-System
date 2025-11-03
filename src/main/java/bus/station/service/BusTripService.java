@@ -21,7 +21,18 @@ public class BusTripService {
         return busTripRepo.findAll();
     }
 
-    public Optional<BusTrip> findBusTripById(String id) {
+    public BusTrip save(BusTrip busTrip) {
+        if (busTrip.getAvailableSeats() < 0) {
+            busTrip.setAvailableSeats(0);
+        }
+        return busTripRepo.save(busTrip);
+    }
+
+    public Optional<BusTrip> findById(String id) {
         return busTripRepo.findById(id);
+    }
+
+    public void deleteById(String id) {
+        busTripRepo.deleteById(id);
     }
 }

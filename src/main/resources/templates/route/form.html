@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head-links(title=${route.id == null ? 'Create' : 'Edit'} + ' Route')}"></head>
+
+<body>
+<div class="d-flex">
+    <div th:replace="~{fragments :: sidebar}"></div>
+
+    <div class="container-fluid p-4">
+        <h1 th:text="${route.id == null ? 'Create New Route' : 'Edit Route'}">Formular Rută</h1>
+
+        <form th:action="@{/route}" method="post" class="col-md-6">
+
+            <input type="hidden" th:field="${route.id}" name="id" />
+
+            <div class="mb-3">
+                <label for="originId" class="form-label">Origin Station:</label>
+                <select id="originId" name="originId" class="form-select" required>
+                    <option value="">-- Select Origin --</option>
+                    <option th:each="station : ${allBusStations}"
+                            th:value="${station.id}"
+                            th:text="${station.name + ' (' + station.city + ')'}"
+                            th:selected="${route.origin != null && route.origin.id == station.id}">
+                        [Station Name (City)]
+                    </option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="destinationId" class="form-label">Destination Station:</label>
+                <select id="destinationId" name="destinationId" class="form-select" required>
+                    <option value="">-- Select Destination --</option>
+                    <option th:each="station : ${allBusStations}"
+                            th:value="${station.id}"
+                            th:text="${station.name + ' (' + station.city + ')'}"
+                            th:selected="${route.destination != null && route.destination.id == station.id}">
+                        [Station Name (City)]
+                    </option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="distance" class="form-label">Distance (km):</label>
+                <input type="number" step="0.1" id="distance" name="distance"
+                       th:value="${route.distance}" class="form-control" required />
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-success me-2"
+                        th:text="${route.id == null ? 'Save Route' : 'Update Route'}">
+                    Save
+                </button>
+                <a th:href="@{/route}" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:replace="~{fragments :: body-scripts}"></div>
+</body>
+</html>

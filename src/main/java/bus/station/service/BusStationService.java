@@ -21,8 +21,19 @@ public class BusStationService {
         return busStationRepo.findAll();
     }
 
-    public Optional<BusStation> findBusStationById(String id) {
+    public BusStation save(BusStation busStation) {
+        if (busStation.getName() == null || busStation.getName().isEmpty()) {
+            throw new IllegalArgumentException("Station name is required");
+        }
+        return busStationRepo.save(busStation);
+    }
+
+    public Optional<BusStation> findById(String id) {
         return busStationRepo.findById(id);
+    }
+
+    public boolean deleteById(String id) {
+        return busStationRepo.deleteById(id);
     }
 
 }

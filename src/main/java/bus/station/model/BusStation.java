@@ -12,11 +12,10 @@ public class BusStation implements Identifiable {
 
     public BusStation() {}
 
-    public BusStation(String id, String name, String city, List<BusTrip> trips, String openingHours, boolean parkingAvailable) {
+    public BusStation(String id, String name, String city) {
         this.id = id;
         this.name = name;
         this.city = city;
-        this.trips = trips;
     }
     @Override
     public String getId() {

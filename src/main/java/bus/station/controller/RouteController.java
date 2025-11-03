@@ -1,33 +1,95 @@
 package bus.station.controller;
 
+import bus.station.model.BusStation;
 import bus.station.model.Route;
+import bus.station.repository.BusStationRepo;
 import bus.station.repository.RouteRepo;
+import bus.station.service.RouteService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/routes")
+@RequestMapping("/route")
 public class RouteController {
-    private RouteRepo routeRepo;
+    private final RouteService routeService;
+    private final RouteRepo routeRepo;
+    private final BusStationRepo busStationRepo;
 
-    public RouteController(RouteRepo routeRepo) {
+    public RouteController(RouteService routeService, RouteRepo routeRepo, BusStationRepo busStationRepo) {
+        this.routeService = routeService;
         this.routeRepo = routeRepo;
+        this.busStationRepo = busStationRepo;
     }
 
-    @GetMapping ("/{id}")
-    public Optional<Route>  findById(@PathVariable String id) {
-        return routeRepo.findById(id);
+    private void addBusStationsToModel(Model model) {
+        List<BusStation> stations = busStationRepo.findAll();
+        model.addAttribute("allBusStations", stations);
     }
 
-    @GetMapping("/")
-    public List<Route> findAll() {
-        return routeRepo.findAll();
+    @GetMapping
+    public String getRouteList(Model model) {
+        model.addAttribute("routes", routeService.findAll());
+        return "route/index";
     }
 
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("route", new Route());
+        addBusStationsToModel(model);
+        return "route/form";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showEditForm(@PathVariable String id, Model model) {
+        Optional<Route> routeOptional = routeService.findById(id);
+        if (routeOptional.isPresent()) {
+            model.addAttribute("route", routeOptional.get());
+            addBusStationsToModel(model);
+            return "route/form";
+        } else {
+            return "redirect:/route";
+        }
+    }
+
+    /**
+     * POST /route
+     * Gestionează Crearea și Actualizarea (Editarea).
+     * Această metodă este manuală pentru a lega corect ID-urile din formular.
+     */
+    @PostMapping
+    public String createOrUpdateRoute(@RequestParam(value = "id", required = false) String id,
+                                      @RequestParam("originId") String originId,
+                                      @RequestParam("destinationId") String destinationId,
+                                      @RequestParam("distance") double distance) {
+
+        BusStation origin = busStationRepo.findById(originId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Origin Station ID: " + originId));
+        BusStation destination = busStationRepo.findById(destinationId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Destination Station ID: " + destinationId));
+
+        Route route;
+        if (id != null && !id.isEmpty()) {
+            route = routeService.findById(id).orElse(new Route());
+        } else {
+            route = new Route();
+        }
+
+        route.setOrigin(origin);
+        route.setDestination(destination);
+        route.setDistance(distance);
+
+        routeService.save(route);
+        return "redirect:/route";
+    }
+
+    @PostMapping("/{id}/delete")
+    public String deleteRoute(@PathVariable String id) {
+        routeService.deleteById(id);
+        return "redirect:/route";
+    }
 
 }
