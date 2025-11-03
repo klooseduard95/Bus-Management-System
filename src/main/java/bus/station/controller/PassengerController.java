@@ -1,10 +1,11 @@
 package bus.station.controller;
 
+import bus.station.model.Bus;
 import bus.station.model.Passenger;
 import bus.station.service.PassengerService;
+import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,13 +19,41 @@ public class PassengerController {
         this.passengerService = passengerService;
     }
 
-    @RequestMapping("/{id}")
-    public Optional<Passenger> findById(@PathVariable String id) {
-        return passengerService.findPassengerById(id);
+
+    @GetMapping
+    public String getPassengerList(Model model) {
+        model.addAttribute("passengers",passengerService.findAllPassenger());
+        return "passenger/index";
     }
 
-    @RequestMapping("/")
-    public List<Passenger> findAll() {
-        return passengerService.findAllPassenger();
+    @GetMapping("/new")
+    public String addPassenger(Model model) {
+        model.addAttribute("passenger", new Passenger());
+        return "passenger/form";
+    }
+
+    @PostMapping
+    public String createOrUpdatePassenger(@ModelAttribute Passenger passenger) {
+        passengerService.save(passenger);
+        return "redirect:/passenger";
+    }
+
+    @PostMapping("{id}/delete")
+    public String deleteBus(@PathVariable String id) {
+        passengerService.deleteById(id);
+
+        return "redirect:/passenger";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showEditForm(@PathVariable String id, Model model) {
+        Optional<Passenger> passengerOptional = passengerService.findPassengerById(id);
+
+        if (passengerOptional.isPresent()) {
+            model.addAttribute("passenger", passengerOptional.get());
+            return "passenger/form";
+        } else {
+            return "redirect:/passenger";
+        }
     }
 }

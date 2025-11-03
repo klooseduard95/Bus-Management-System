@@ -1,5 +1,6 @@
 package bus.station.service;
 
+import bus.station.model.Bus;
 import bus.station.model.Passenger;
 import bus.station.repository.PassengerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,13 @@ public class PassengerService {
 
     public Optional<Passenger> findPassengerById(String id){
         return passengerRepo.findById(id);
+    }
+
+    public Passenger save(Passenger passenger) {
+        return passengerRepo.save(passenger);
+    }
+
+    public void deleteById(String id) {
+        passengerRepo.deleteById(id);
     }
 }

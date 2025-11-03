@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head-links(title=${passenger.id == null ? 'Create Passenger' : 'Edit Passenger'})}"></head>
+
+<body>
+<div class="d-flex">
+    <div th:replace="~{fragments :: sidebar}"></div>
+
+    <div class="container-fluid p-4">
+
+        <h1 th:text="${passenger.id == null ? 'Create New Passenger' : 'Edit Passenger'}">Formular Passenger</h1>
+
+        <form th:action="@{/passenger}" th:object="${passenger}" method="post" class="col-md-6">
+
+            <input type="hidden" th:field="*{id}" />
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Name:</label>
+                <input type="text" id="name" th:field="*{name}" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label for="currency" class="form-label">Currency:</label>
+                <input type="text" id="currency" th:field="*{currency}" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label for="dateOfBirth" class="form-label">Date of birth:</label>
+
+                <input type="date" id="dateOfBirth"
+                       name="dateOfBirth"
+                       th:value="${passenger.dateOfBirth != null ? #temporals.format(passenger.dateOfBirth, 'yyyy-MM-dd') : ''}"
+                       class="form-control" />
+            </div>
+
+            <div class="mb-3 form-check">
+                <input type="checkbox" id="requiresSpecialAssistance" th:field="*{requiresSpecialAssistance}" class="form-check-input" />
+                <label for="requiresSpecialAssistance" class="form-check-label">Requires special assistance</label>
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-success me-2"
+                        th:text="${passenger.id == null ? 'Save Passenger' : 'Update Passenger'}">
+                    Save
+                </button>
+                <a th:href="@{/passenger}" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+<div th:replace="~{fragments :: body-scripts}"></div>
+</body>
+</html>
