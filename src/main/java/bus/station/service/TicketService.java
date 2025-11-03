@@ -1,6 +1,5 @@
 package bus.station.service;
 
-import bus.station.model.Staff;
 import bus.station.model.Ticket;
 import bus.station.repository.TicketRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class TicketService {
         return  ticketRepo.findAll();
     }
 
-    public boolean deleteByID(String id) {
+    public boolean deleteById(String id) {
         return ticketRepo.deleteById(id);
     }
 

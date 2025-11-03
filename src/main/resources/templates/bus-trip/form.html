@@ -56,7 +56,7 @@
             <div class="mb-3">
                 <label for="status" class="form-label">Status:</label>
                 <select id="status" th:field="*{status}" class="form-select" required>
-                    <option th:each="stat : ${T(bus.station.model.enums.BusTripStatus).values()}"
+                    <option th:each="stat : ${T(bus.station.enums.BusTripStatus).values()}"
                             th:value="${stat}"
                             th:text="${stat}">
                         [Status]
