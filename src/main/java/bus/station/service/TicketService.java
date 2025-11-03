@@ -24,4 +24,12 @@ public class TicketService {
     public List<Ticket> findAll() {
         return  ticketRepo.findAll();
     }
+
+    public boolean deleteByID(String id) {
+        return ticketRepo.deleteById(id);
+    }
+
+    public void save(Ticket ticket) {
+        ticketRepo.save(ticket);
+    }
 }
