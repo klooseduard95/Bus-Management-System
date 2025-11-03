@@ -12,6 +12,8 @@ public class Passenger implements Identifiable {
     private String email;
     private String loyaltyLevel;
 
+    public Passenger() {}
+
     public Passenger(String id, String name, String currency, List<Ticket> tickets, String email, String loyaltyLevel) {
         this.id = id;
         this.name = name;

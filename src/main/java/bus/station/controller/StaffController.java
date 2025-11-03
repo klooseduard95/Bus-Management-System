@@ -2,14 +2,16 @@ package bus.station.controller;
 
 import bus.station.model.Staff;
 import bus.station.service.StaffService;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
 
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+@Controller
 @RequestMapping("/staff")
 public class StaffController {
     private final StaffService staffService;
@@ -17,12 +19,12 @@ public class StaffController {
         this.staffService = staffService;
     }
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public List<Staff> getAllStaff(){
         return staffService.findAll();
     }
 
-    @RequestMapping("/{id}")
+    @GetMapping("/{id}")
     public Optional<Staff> findByid(@PathVariable String id){
         return staffService.findById(id);
     }

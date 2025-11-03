@@ -12,6 +12,8 @@ public class BusStation implements Identifiable {
     private String openingHours;
     private boolean parkingAvailable;
 
+    public BusStation() {}
+
     public BusStation(String id, String name, String city, List<BusTrip> trips, String openingHours, boolean parkingAvailable) {
         this.id = id;
         this.name = name;

@@ -6,6 +6,8 @@ public class Driver extends Staff {
     private List<DutyAssignment> assignments;
     private int yearsOfExperience;
 
+    public Driver() {}
+
     public Driver(String id, String name, List<DutyAssignment> assignments, int yearsOfExperience) {
         super(id, name);
         this.yearsOfExperience = yearsOfExperience;
