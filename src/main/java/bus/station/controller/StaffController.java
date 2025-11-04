@@ -52,7 +52,7 @@ public class StaffController {
         return "redirect:/staff";
     }
 
-    @GetMapping("/{id}/driver/edit")
+    @GetMapping("/driver/{id}/edit")
     public String showEditFormDriver(@PathVariable String id, Model model){
         Optional<Staff> driver = staffService.findById(id);
 
@@ -64,7 +64,7 @@ public class StaffController {
         }
     }
 
-    @GetMapping("/{id}/manager/edit")
+    @GetMapping("/manager/{id}/edit")
     public String showEditFormManager(@PathVariable String id, Model model){
         Optional<Staff> manager = staffService.findById(id);
 
