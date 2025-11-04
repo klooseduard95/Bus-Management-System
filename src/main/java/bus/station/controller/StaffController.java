@@ -23,7 +23,8 @@ public class StaffController {
 
     @GetMapping
     public String getAllStaff(Model model){
-        model.addAttribute("staff", staffService.findAll());
+        model.addAttribute("allStaff", staffService.findAll());
+        model.addAttribute("staffType", Staff.class.getSimpleName());
         return "staff/index";
     }
 

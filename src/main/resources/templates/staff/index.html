@@ -30,34 +30,34 @@
             <tr th:each="staff : ${allStaff}">
                 <td th:text="${staff.name}">[Name]</td>
 
-                <td th:text="${staff.class.simpleName}">[Type]</td>
+                <td>
+                    <span th:if="${staff instanceof T(bus.station.model.Driver)}">Driver</span>
+                    <span th:if="${staff instanceof T(bus.station.model.TripManager)}">Trip Manager</span>
+                </td>
 
                 <td>
-                        <span th:if="${staff instanceof T(bus.station.model.Driver)}"
-                              th:text="${((bus.station.model.Driver)staff).yearsOfExperience + ' years'}">
-                        </span>
+        <span th:if="${staff instanceof T(bus.station.model.Driver)}"
+              th:text="${staff.yearsOfExperience + ' years'}"></span>
+
                     <span th:if="${staff instanceof T(bus.station.model.TripManager)}"
-                          th:text="${((bus.station.model.TripManager)staff).employeeCode}">
-                        </span>
+                          th:text="${staff.employeeCode}"></span>
                 </td>
 
                 <td>
                     <a th:if="${staff instanceof T(bus.station.model.Driver)}"
                        th:href="@{/staff/driver/{id}/edit(id=${staff.id})}"
-                       class="btn btn-warning btn-sm me-2">
-                        Edit
-                    </a>
+                       class="btn btn-warning btn-sm me-2">Edit</a>
+
                     <a th:if="${staff instanceof T(bus.station.model.TripManager)}"
                        th:href="@{/staff/manager/{id}/edit(id=${staff.id})}"
-                       class="btn btn-warning btn-sm me-2">
-                        Edit
-                    </a>
+                       class="btn btn-warning btn-sm me-2">Edit</a>
 
                     <form th:action="@{/staff/{id}/delete(id=${staff.id})}" method="post" class="d-inline">
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
                 </td>
             </tr>
+
             </tbody>
         </table>
     </div>
