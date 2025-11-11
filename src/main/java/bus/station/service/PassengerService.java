@@ -1,7 +1,7 @@
 package bus.station.service;
 
 import bus.station.model.Passenger;
-import bus.station.repository.PassengerRepo;
+import bus.station.repository.PassengerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,26 +10,26 @@ import java.util.Optional;
 
 @Service
 public class PassengerService {
-    private final PassengerRepo passengerRepo;
+    private final PassengerRepository passengerRepository;
 
     @Autowired
-    public PassengerService(PassengerRepo passengerRepo) {
-        this.passengerRepo = passengerRepo;
+    public PassengerService(PassengerRepository passengerRepository) {
+        this.passengerRepository = passengerRepository;
     }
 
     public List<Passenger> findAllPassenger(){
-        return passengerRepo.findAll();
+        return passengerRepository.findAll();
     }
 
     public Optional<Passenger> findPassengerById(String id){
-        return passengerRepo.findById(id);
+        return passengerRepository.findById(id);
     }
 
     public Passenger save(Passenger passenger) {
-        return passengerRepo.save(passenger);
+        return passengerRepository.save(passenger);
     }
 
     public boolean deleteById(String id) {
-        return passengerRepo.deleteById(id);
+        return passengerRepository.deleteById(id);
     }
 }

@@ -1,8 +1,8 @@
 package bus.station.controller;
 
 import bus.station.model.Ticket;
-import bus.station.repository.BusTripRepo;
-import bus.station.repository.PassengerRepo;
+import bus.station.repository.BusTripRepository;
+import bus.station.repository.PassengerRepository;
 import bus.station.service.TicketService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,18 +15,18 @@ import java.util.Optional;
 @RequestMapping("/ticket")
 public class TicketController {
     private final TicketService ticketService;
-    private final BusTripRepo busTripRepo;
-    private final PassengerRepo passengerRepo;
+    private final BusTripRepository busTripRepository;
+    private final PassengerRepository passengerRepository;
 
-    public TicketController(TicketService ticketService, BusTripRepo busTripRepo, PassengerRepo passengerRepo) {
+    public TicketController(TicketService ticketService, BusTripRepository busTripRepository, PassengerRepository passengerRepository) {
         this.ticketService = ticketService;
-        this.busTripRepo = busTripRepo;
-        this.passengerRepo = passengerRepo;
+        this.busTripRepository = busTripRepository;
+        this.passengerRepository = passengerRepository;
     }
 
     private void addDropdownDataToModel(Model model) {
-        model.addAttribute("allTrips", busTripRepo.findAll());
-        model.addAttribute("allPassengers", passengerRepo.findAll());
+        model.addAttribute("allTrips", busTripRepository.findAll());
+        model.addAttribute("allPassengers", passengerRepository.findAll());
     }
 
     @GetMapping

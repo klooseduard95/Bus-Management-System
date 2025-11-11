@@ -2,7 +2,7 @@ package bus.station.controller;
 
 
 import bus.station.model.DutyAssignment;
-import bus.station.repository.BusTripRepo;
+import bus.station.repository.BusTripRepository;
 import bus.station.repository.StaffRepo;
 import bus.station.service.DutyAssignmentService;
 import org.springframework.stereotype.Controller;
@@ -16,19 +16,19 @@ import java.util.Optional;
 public class DutyAssignmentController {
 
     private final DutyAssignmentService dutyAssignmentService;
-    private final BusTripRepo busTripRepo;
+    private final BusTripRepository busTripRepository;
     private final StaffRepo staffRepo;
 
     public DutyAssignmentController(DutyAssignmentService dutyAssignmentService,
-                                    BusTripRepo busTripRepo,
+                                    BusTripRepository busTripRepository,
                                     StaffRepo staffRepo) {
         this.dutyAssignmentService = dutyAssignmentService;
-        this.busTripRepo = busTripRepo;
+        this.busTripRepository = busTripRepository;
         this.staffRepo = staffRepo;
     }
 
     private void addDropdownDataToModel(Model model) {
-        model.addAttribute("allTrips", busTripRepo.findAll());
+        model.addAttribute("allTrips", busTripRepository.findAll());
 
         model.addAttribute("allStaff", staffRepo.findAll());
     }

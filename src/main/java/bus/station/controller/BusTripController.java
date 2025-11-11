@@ -2,7 +2,7 @@ package bus.station.controller;
 
 import bus.station.model.BusTrip;
 import bus.station.repository.BusRepo;
-import bus.station.repository.RouteRepo;
+import bus.station.repository.RouteRepository;
 import bus.station.service.BusTripService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,17 +14,17 @@ import java.util.Optional;
 @RequestMapping("/bus-trip")
 public class BusTripController {
     private final BusTripService busTripService;
-    private final RouteRepo routeRepo;
+    private final RouteRepository routeRepository;
     private final BusRepo busRepo;
 
 
-    public BusTripController(BusTripService busTripService, RouteRepo routeRepo, BusRepo busRepo) {
+    public BusTripController(BusTripService busTripService, RouteRepository routeRepository, BusRepo busRepo) {
         this.busTripService = busTripService;
-        this.routeRepo = routeRepo;
+        this.routeRepository = routeRepository;
         this.busRepo = busRepo;
     }
     private void addRoutesAndBusesToModel(Model model) {
-        model.addAttribute("allRoutes", routeRepo.findAll());
+        model.addAttribute("allRoutes", routeRepository.findAll());
         model.addAttribute("allBuses", busRepo.findAll());
     }
 

@@ -1,7 +1,7 @@
 package bus.station.service;
 
 import bus.station.model.Route;
-import bus.station.repository.RouteRepo;
+import bus.station.repository.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,28 +10,28 @@ import java.util.Optional;
 
 @Service
 public class RouteService {
-    private final RouteRepo  routeRepo;
+    private final RouteRepository routeRepository;
     @Autowired
-    public RouteService(RouteRepo  routeRepo) {
-        this.routeRepo = routeRepo;
+    public RouteService(RouteRepository routeRepository) {
+        this.routeRepository = routeRepository;
     }
 
     public List<Route> findAll() {
-        return routeRepo.findAll();
+        return routeRepository.findAll();
     }
 
     public Route save(Route route) {
         if (route.getOrigin() != null && route.getOrigin().equals(route.getDestination())) {
             throw new IllegalArgumentException("Origin and Destination cannot be the same.");
         }
-        return routeRepo.save(route);
+        return routeRepository.save(route);
     }
 
     public Optional<Route> findById(String id) {
-        return routeRepo.findById(id);
+        return routeRepository.findById(id);
     }
 
     public void deleteById(String id) {
-        routeRepo.deleteById(id);
+        routeRepository.deleteById(id);
     }
 }

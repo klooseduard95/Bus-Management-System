@@ -3,7 +3,7 @@ package bus.station.controller;
 import bus.station.model.BusStation;
 import bus.station.model.Route;
 import bus.station.repository.BusStationRepo;
-import bus.station.repository.RouteRepo;
+import bus.station.repository.RouteRepository;
 import bus.station.service.RouteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,12 +16,12 @@ import java.util.Optional;
 @RequestMapping("/route")
 public class RouteController {
     private final RouteService routeService;
-    private final RouteRepo routeRepo;
+    private final RouteRepository routeRepository;
     private final BusStationRepo busStationRepo;
 
-    public RouteController(RouteService routeService, RouteRepo routeRepo, BusStationRepo busStationRepo) {
+    public RouteController(RouteService routeService, RouteRepository routeRepository, BusStationRepo busStationRepo) {
         this.routeService = routeService;
-        this.routeRepo = routeRepo;
+        this.routeRepository = routeRepository;
         this.busStationRepo = busStationRepo;
     }
 
