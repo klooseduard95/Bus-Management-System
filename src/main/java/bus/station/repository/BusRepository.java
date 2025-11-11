@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class BusRepo extends JsonFileRepository<Bus>{
+public class BusRepository extends JsonFileRepository<Bus>{
 
-    public BusRepo(ObjectMapper objectMapper) {
+    public BusRepository(ObjectMapper objectMapper) {
         super("data/buses.json", objectMapper, new TypeReference<>() {
         });
     }
