@@ -7,7 +7,7 @@ import java.util.*;
 
 public abstract class InMemoryRepo<T extends Identifiable> implements RepoInterface<T, String> {
 
-    private Map<String, T> storage = new HashMap<>();
+    private final Map<String, T> storage = new HashMap<>();
 
     @Override
     public T save(T entity) {
