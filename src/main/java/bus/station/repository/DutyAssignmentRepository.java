@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 public class DutyAssignmentRepository extends JsonFileRepository<DutyAssignment> {
 
     public DutyAssignmentRepository(ObjectMapper objectMapper) {
-        super("data/duty-assignment", objectMapper, new TypeReference<>() {});
+        super("data/duty-assignments.json", objectMapper, new TypeReference<>() {});
     }
 }

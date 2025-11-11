@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 public class PassengerRepository extends JsonFileRepository<Passenger> {
 
     public PassengerRepository(ObjectMapper objectMapper) {
-        super("data/passenger", objectMapper, new TypeReference<>() {});
+        super("data/passengers.json", objectMapper, new TypeReference<>() {});
     }
 }

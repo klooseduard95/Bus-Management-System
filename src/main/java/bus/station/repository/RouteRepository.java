@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 public class RouteRepository extends JsonFileRepository<Route> {
 
     public RouteRepository(ObjectMapper objectMapper) {
-        super("data/route", objectMapper, new TypeReference<>() {});
+        super("data/routes.json", objectMapper, new TypeReference<>() {});
     }}

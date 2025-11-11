@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 public class BusStationRepository extends JsonFileRepository<BusStation> {
 
     public BusStationRepository(ObjectMapper objectMapper) {
-        super("data/bus-station.json", objectMapper, new TypeReference<>() {});
+        super("data/bus-stations.json", objectMapper, new TypeReference<>() {});
     }
 
 }

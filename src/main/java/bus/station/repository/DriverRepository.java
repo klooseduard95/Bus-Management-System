@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public class DriverRepository extends JsonFileRepository<Driver> {
     public DriverRepository(ObjectMapper objectMapper) {
-        super("data/driver.json", objectMapper, new TypeReference<>() {
+        super("data/drivers.json", objectMapper, new TypeReference<>() {
         });
     }
 
