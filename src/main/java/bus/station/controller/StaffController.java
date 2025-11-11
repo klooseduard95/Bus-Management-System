@@ -1,30 +1,39 @@
 package bus.station.controller;
 
 import bus.station.model.Driver;
-import bus.station.model.Passenger;
 import bus.station.model.Staff;
 import bus.station.model.TripManager;
-import bus.station.service.StaffService;
+import bus.station.service.DriverService;
+import bus.station.service.TripManagerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/staff")
 public class StaffController {
-    private final StaffService staffService;
-    public StaffController(StaffService staffService) {
-        this.staffService = staffService;
+    private final DriverService driverService;
+    private final TripManagerService tripManagerService;
+    public StaffController(DriverService driverService, TripManagerService tripManagerService) {
+        this.driverService = driverService;
+        this.tripManagerService = tripManagerService;
     }
 
     @GetMapping
     public String getAllStaff(Model model){
-        model.addAttribute("allStaff", staffService.findAll());
-        model.addAttribute("staffType", Staff.class.getSimpleName());
+        List<Driver> drivers = driverService.findAll();
+        List<TripManager> managers = tripManagerService.findAll();
+
+        List<Staff> allStaff = new ArrayList<>();
+        allStaff.addAll(drivers);
+        allStaff.addAll(managers);
+
+        model.addAttribute("allStaff", allStaff);
         return "staff/index";
     }
 
@@ -42,21 +51,21 @@ public class StaffController {
 
     @PostMapping("/driver")
     public String createOrUpdateDriver(@ModelAttribute Driver driver) {
-        staffService.save(driver);
+        driverService.saveDriver(driver);
         return "redirect:/staff";
     }
 
     @PostMapping("/manager")
     public String createOrUpdateManager(@ModelAttribute TripManager manager) {
-        staffService.save(manager);
+        tripManagerService.save(manager);
         return "redirect:/staff";
     }
 
     @GetMapping("/driver/{id}/edit")
     public String showEditFormDriver(@PathVariable String id, Model model){
-        Optional<Staff> driver = staffService.findById(id);
+        Optional<Driver> driver = driverService.findDriverById(id);
 
-        if(driver.isPresent() && driver.get() instanceof Driver){
+        if(driver.isPresent()){
             model.addAttribute("driver", (Driver) driver.get());
             return "staff/driver/form";
         } else {
@@ -66,9 +75,9 @@ public class StaffController {
 
     @GetMapping("/manager/{id}/edit")
     public String showEditFormManager(@PathVariable String id, Model model){
-        Optional<Staff> manager = staffService.findById(id);
+        Optional<TripManager> manager = tripManagerService.findManagerById(id);
 
-        if(manager.isPresent() && manager.get() instanceof TripManager){
+        if(manager.isPresent()){
             model.addAttribute("manager", (TripManager) manager.get());
             return "staff/manager/form";
         } else {
@@ -76,9 +85,16 @@ public class StaffController {
         }
     }
 
-    @PostMapping("/{id}/delete")
-    public String deleteStaff(@PathVariable String id){
-        staffService.delete(id);
+    @PostMapping("/driver/{id}/delete")
+    public String deleteDriver(@PathVariable String id){
+        driverService.deleteDriverById(id);
         return "redirect:/staff";
     }
+
+    @PostMapping("/manager/{id}/delete")
+    public String deleteTripManager(@PathVariable String id){
+        tripManagerService.delete(id);
+        return "redirect:/staff";
+    }
+
 }
