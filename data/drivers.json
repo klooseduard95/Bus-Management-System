@@ -1,0 +1,16 @@
+[ {
+  "id" : "87ca6e4f-ac93-408a-b83b-91c43660c88b",
+  "name" : "Sofer1",
+  "assignments" : null,
+  "yearsOfExperience" : 12
+}, {
+  "id" : "0957b427-0a13-42bb-a440-db3ca567e6a1",
+  "name" : "Sofer2",
+  "assignments" : null,
+  "yearsOfExperience" : 12
+}, {
+  "id" : "ba830eeb-06df-4676-a827-bbf3d40742ad",
+  "name" : "Sofer3",
+  "assignments" : null,
+  "yearsOfExperience" : 15
+} ]

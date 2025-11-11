@@ -1,0 +1,26 @@
+[ {
+  "id" : "f442bff9-0f5e-44bb-9390-094fcf951482",
+  "name" : "Ploiesti",
+  "city" : "Ploiesti",
+  "trips" : null
+}, {
+  "id" : "5835af21-68cf-4f0a-83db-77f2ba8ed441",
+  "name" : "Sighișoara",
+  "city" : "Sighisoara",
+  "trips" : null
+}, {
+  "id" : "af8ba4b8-50e6-4a93-8ec0-73ea820117bb",
+  "name" : "Cluj",
+  "city" : "Cluj",
+  "trips" : null
+}, {
+  "id" : "c29abc97-1142-4918-a20e-d9080a7d4be2",
+  "name" : "Militari",
+  "city" : "Bucuresti",
+  "trips" : null
+}, {
+  "id" : "cdb00b2e-c2e0-4a0c-9381-b5df60a76661",
+  "name" : "Brasov",
+  "city" : "BRasov",
+  "trips" : null
+} ]

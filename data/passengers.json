@@ -1,0 +1,15 @@
+[ {
+  "id" : "fe36f26e-ea2a-4c3a-8586-50ebee75792b",
+  "name" : "Gheorghe",
+  "currency" : "RON",
+  "tickets" : null,
+  "dateOfBirth" : "1999-01-01",
+  "requiresSpecialAssistance" : true
+}, {
+  "id" : "eb2a387f-db82-49e1-9864-ff4cf01907fe",
+  "name" : "Vasile",
+  "currency" : "EUR",
+  "tickets" : null,
+  "dateOfBirth" : "2002-02-02",
+  "requiresSpecialAssistance" : false
+} ]

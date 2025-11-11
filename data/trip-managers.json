@@ -1,0 +1,11 @@
+[ {
+  "id" : "c075b24c-374e-40a8-bed7-5488fb696d7d",
+  "name" : "Manager1",
+  "assignments" : null,
+  "employeeCode" : "MGR-007"
+}, {
+  "id" : "6cc16049-127e-4e55-9f88-82765095f743",
+  "name" : "Manager2",
+  "assignments" : null,
+  "employeeCode" : "MGR-002"
+} ]

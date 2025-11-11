@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class TripManagerRepository extends JsonFileRepository<TripManager> {
     public TripManagerRepository(ObjectMapper objectMapper) {
-        super("data/drivers.json", objectMapper, new TypeReference<>() {
+        super("data/trip-managers.json", objectMapper, new TypeReference<>() {
         });
     }
 }

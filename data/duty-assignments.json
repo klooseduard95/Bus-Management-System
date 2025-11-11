@@ -1,0 +1,16 @@
+[ {
+  "role" : "PrimaryDriver",
+  "id" : "fad3b95a-4474-4145-a845-d569f48d1e06",
+  "tripId" : "b117cd9f-fbf4-4cb9-82c2-9bb64cf05486",
+  "staffId" : "87ca6e4f-ac93-408a-b83b-91c43660c88b"
+}, {
+  "role" : "ReservDriver",
+  "id" : "a1352aad-1662-4379-a994-e2cd360ab220",
+  "tripId" : "b117cd9f-fbf4-4cb9-82c2-9bb64cf05486",
+  "staffId" : "87ca6e4f-ac93-408a-b83b-91c43660c88b"
+}, {
+  "role" : "PrimaryDriver",
+  "id" : "0e955ffa-b398-4692-a0d5-0bb41446f5e8",
+  "tripId" : "54a91ae8-bb32-41c1-9a0b-fe5119385d3d",
+  "staffId" : "ba830eeb-06df-4676-a827-bbf3d40742ad"
+} ]

@@ -4,6 +4,7 @@ import bus.station.interfaces.Identifiable;
 import bus.station.interfaces.RepoInterface;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
+import jakarta.annotation.PostConstruct;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +23,7 @@ public abstract class JsonFileRepository<T extends Identifiable> implements Repo
         this.typeReference = typeReference;
     }
 
+    @PostConstruct
     private void loadDataFromFile() {
         File file = Paths.get(jsonFilePath).toFile();
         if (!file.exists() || file.length() == 0) {

@@ -1,0 +1,36 @@
+[ {
+  "id" : "aea862e1-44a5-43f9-b902-0bdc41adc742",
+  "registrationNumber" : "MS50ROT",
+  "capacity" : 45,
+  "status" : null,
+  "lastMaintenanceDate" : "2024-12-12",
+  "hasAccessibilitySupport" : true
+}, {
+  "id" : "f2fb3c8a-4031-44aa-98d0-1beb48c173ac",
+  "registrationNumber" : "MS01ROS",
+  "capacity" : 50,
+  "status" : null,
+  "lastMaintenanceDate" : "2025-01-01",
+  "hasAccessibilitySupport" : true
+}, {
+  "id" : "52df92d8-bf76-493c-b6bb-3c163351c25d",
+  "registrationNumber" : "MS99ROS",
+  "capacity" : 55,
+  "status" : null,
+  "lastMaintenanceDate" : "2025-06-15",
+  "hasAccessibilitySupport" : true
+}, {
+  "id" : "6688963b-2dd0-46dd-9b34-c64882abf983",
+  "registrationNumber" : "MS02ROS",
+  "capacity" : 49,
+  "status" : null,
+  "lastMaintenanceDate" : "2024-01-01",
+  "hasAccessibilitySupport" : false
+}, {
+  "id" : "bb7e59b6-e9fe-4099-b10a-717025225daa",
+  "registrationNumber" : "MS03ROS",
+  "capacity" : 20,
+  "status" : null,
+  "lastMaintenanceDate" : "2024-01-01",
+  "hasAccessibilitySupport" : true
+} ]

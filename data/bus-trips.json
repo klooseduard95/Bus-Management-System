@@ -1,0 +1,31 @@
+[ {
+  "id" : "b117cd9f-fbf4-4cb9-82c2-9bb64cf05486",
+  "routeId" : "49ff578d-91d1-4077-881b-ed44d4a93598",
+  "busId" : "f2fb3c8a-4031-44aa-98d0-1beb48c173ac",
+  "startTime" : "09:30:00",
+  "tickets" : null,
+  "assignments" : null,
+  "availableSeats" : 50,
+  "basePrice" : 200.0,
+  "status" : "Planned"
+}, {
+  "id" : "54a91ae8-bb32-41c1-9a0b-fe5119385d3d",
+  "routeId" : "4bb4028e-93f6-45c6-9a61-bf50125e34c4",
+  "busId" : "6688963b-2dd0-46dd-9b34-c64882abf983",
+  "startTime" : "12:30:00",
+  "tickets" : null,
+  "assignments" : null,
+  "availableSeats" : 30,
+  "basePrice" : 120.0,
+  "status" : "Planned"
+}, {
+  "id" : "33398d38-be64-4f74-a041-3c4c20c1a895",
+  "routeId" : "3f7d8196-1c63-4219-87b8-72c7218119f0",
+  "busId" : "f2fb3c8a-4031-44aa-98d0-1beb48c173ac",
+  "startTime" : "16:30:00",
+  "tickets" : null,
+  "assignments" : null,
+  "availableSeats" : 45,
+  "basePrice" : 99.0,
+  "status" : "Planned"
+} ]

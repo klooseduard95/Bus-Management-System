@@ -1,0 +1,13 @@
+[ {
+  "id" : "39010f77-2b34-4368-b016-a7528b0a8436",
+  "tripId" : "54a91ae8-bb32-41c1-9a0b-fe5119385d3d",
+  "passengerId" : "fe36f26e-ea2a-4c3a-8586-50ebee75792b",
+  "seatNumber" : "17",
+  "price" : 0.0
+}, {
+  "id" : "21900c98-37c6-4716-8f86-69b6395039cd",
+  "tripId" : "b117cd9f-fbf4-4cb9-82c2-9bb64cf05486",
+  "passengerId" : "fe36f26e-ea2a-4c3a-8586-50ebee75792b",
+  "seatNumber" : "4",
+  "price" : 0.0
+} ]
