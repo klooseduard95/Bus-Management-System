@@ -1,7 +1,7 @@
 package bus.station.service;
 
 import bus.station.model.BusStation;
-import bus.station.repository.BusStationRepo;
+import bus.station.repository.BusStationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,30 +10,30 @@ import java.util.Optional;
 
 @Service
 public class BusStationService {
-    private final BusStationRepo busStationRepo;
+    private final BusStationRepository busStationRepository;
 
     @Autowired
-    public BusStationService(BusStationRepo busStationRepo) {
-        this.busStationRepo = busStationRepo;
+    public BusStationService(BusStationRepository busStationRepository) {
+        this.busStationRepository = busStationRepository;
     }
 
     public List<BusStation> findAll() {
-        return busStationRepo.findAll();
+        return busStationRepository.findAll();
     }
 
     public BusStation save(BusStation busStation) {
         if (busStation.getName() == null || busStation.getName().isEmpty()) {
             throw new IllegalArgumentException("Station name is required");
         }
-        return busStationRepo.save(busStation);
+        return busStationRepository.save(busStation);
     }
 
     public Optional<BusStation> findById(String id) {
-        return busStationRepo.findById(id);
+        return busStationRepository.findById(id);
     }
 
     public boolean deleteById(String id) {
-        return busStationRepo.deleteById(id);
+        return busStationRepository.deleteById(id);
     }
 
 }

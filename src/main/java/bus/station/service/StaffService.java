@@ -1,9 +1,8 @@
 package bus.station.service;
 
 import bus.station.model.Staff;
-import bus.station.repository.StaffRepo;
+import bus.station.repository.StaffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,24 +10,24 @@ import java.util.Optional;
 
 @Service
 public class StaffService {
-    private final StaffRepo staffRepo;
+    private final StaffRepository staffRepository;
 
     @Autowired
-    public StaffService(StaffRepo staffRepo) {
-        this.staffRepo = staffRepo;
+    public StaffService(StaffRepository staffRepository) {
+        this.staffRepository = staffRepository;
     }
 
     public Optional<Staff> findById(String id){
-        return staffRepo.findById(id);
+        return staffRepository.findById(id);
     }
     public List<Staff> findAll(){
-        return staffRepo.findAll();
+        return staffRepository.findAll();
     }
 
     public Staff save(Staff staff){
-        return staffRepo.save(staff);
+        return staffRepository.save(staff);
     }
     public boolean delete(String id){
-        return staffRepo.deleteById(id);
+        return staffRepository.deleteById(id);
     }
 }

@@ -3,7 +3,7 @@ package bus.station.controller;
 
 import bus.station.model.DutyAssignment;
 import bus.station.repository.BusTripRepo;
-import bus.station.repository.StaffRepo;
+import bus.station.repository.StaffRepository;
 import bus.station.service.DutyAssignmentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,20 +17,20 @@ public class DutyAssignmentController {
 
     private final DutyAssignmentService dutyAssignmentService;
     private final BusTripRepo busTripRepo;
-    private final StaffRepo staffRepo;
+    private final StaffRepository staffRepository;
 
     public DutyAssignmentController(DutyAssignmentService dutyAssignmentService,
                                     BusTripRepo busTripRepo,
-                                    StaffRepo staffRepo) {
+                                    StaffRepository staffRepository) {
         this.dutyAssignmentService = dutyAssignmentService;
         this.busTripRepo = busTripRepo;
-        this.staffRepo = staffRepo;
+        this.staffRepository = staffRepository;
     }
 
     private void addDropdownDataToModel(Model model) {
         model.addAttribute("allTrips", busTripRepo.findAll());
 
-        model.addAttribute("allStaff", staffRepo.findAll());
+        model.addAttribute("allStaff", staffRepository.findAll());
     }
 
     @GetMapping

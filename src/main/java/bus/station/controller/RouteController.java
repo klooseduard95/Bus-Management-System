@@ -2,7 +2,7 @@ package bus.station.controller;
 
 import bus.station.model.BusStation;
 import bus.station.model.Route;
-import bus.station.repository.BusStationRepo;
+import bus.station.repository.BusStationRepository;
 import bus.station.repository.RouteRepo;
 import bus.station.service.RouteService;
 import org.springframework.stereotype.Controller;
@@ -17,16 +17,16 @@ import java.util.Optional;
 public class RouteController {
     private final RouteService routeService;
     private final RouteRepo routeRepo;
-    private final BusStationRepo busStationRepo;
+    private final BusStationRepository busStationRepository;
 
-    public RouteController(RouteService routeService, RouteRepo routeRepo, BusStationRepo busStationRepo) {
+    public RouteController(RouteService routeService, RouteRepo routeRepo, BusStationRepository busStationRepository) {
         this.routeService = routeService;
         this.routeRepo = routeRepo;
-        this.busStationRepo = busStationRepo;
+        this.busStationRepository = busStationRepository;
     }
 
     private void addBusStationsToModel(Model model) {
-        List<BusStation> stations = busStationRepo.findAll();
+        List<BusStation> stations = busStationRepository.findAll();
         model.addAttribute("allBusStations", stations);
     }
 
@@ -61,9 +61,9 @@ public class RouteController {
                                       @RequestParam("destinationId") String destinationId,
                                       @RequestParam("distance") double distance) {
 
-        BusStation origin = busStationRepo.findById(originId)
+        BusStation origin = busStationRepository.findById(originId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Origin Station ID: " + originId));
-        BusStation destination = busStationRepo.findById(destinationId)
+        BusStation destination = busStationRepository.findById(destinationId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Destination Station ID: " + destinationId));
 
         Route route;
