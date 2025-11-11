@@ -11,7 +11,7 @@ import java.util.List;
 public class StaffRepository extends JsonFileRepository<Staff>{
 
     public StaffRepository(ObjectMapper objectMapper) {
-        super("data/staff.json", objectMapper, new TypeReference<List<Staff>>() {
+        super("data/staff.json", objectMapper, new TypeReference<>() {
         });
     }
 }
