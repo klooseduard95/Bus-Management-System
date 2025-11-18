@@ -1,9 +1,16 @@
 [ {
-  "id" : "aea862e1-44a5-43f9-b902-0bdc41adc742",
-  "registrationNumber" : "MS50ROT",
-  "capacity" : 45,
+  "id" : "e9797e23-da2f-4c96-b9eb-398a75b4ea09",
+  "registrationNumber" : "CJ32ABC",
+  "capacity" : 100,
   "status" : null,
-  "lastMaintenanceDate" : "2024-12-12",
+  "lastMaintenanceDate" : "2025-11-19",
+  "hasAccessibilitySupport" : true
+}, {
+  "id" : "5b5cc1f3-aeba-4a02-b8c8-12032abc6542",
+  "registrationNumber" : "MS39ROT",
+  "capacity" : 65,
+  "status" : null,
+  "lastMaintenanceDate" : "2025-09-02",
   "hasAccessibilitySupport" : true
 }, {
   "id" : "f2fb3c8a-4031-44aa-98d0-1beb48c173ac",
@@ -15,9 +22,16 @@
 }, {
   "id" : "52df92d8-bf76-493c-b6bb-3c163351c25d",
   "registrationNumber" : "MS99ROS",
-  "capacity" : 55,
+  "capacity" : 150,
   "status" : null,
   "lastMaintenanceDate" : "2025-06-15",
+  "hasAccessibilitySupport" : true
+}, {
+  "id" : "d8013f5e-523d-4e7e-b0b9-8e5eb5f3caaa",
+  "registrationNumber" : "MS49ROT",
+  "capacity" : 60,
+  "status" : null,
+  "lastMaintenanceDate" : "2022-02-07",
   "hasAccessibilitySupport" : true
 }, {
   "id" : "6688963b-2dd0-46dd-9b34-c64882abf983",
@@ -26,6 +40,27 @@
   "status" : null,
   "lastMaintenanceDate" : "2024-01-01",
   "hasAccessibilitySupport" : false
+}, {
+  "id" : "0cae69d2-8bea-4b48-9c16-b7554ccfc182",
+  "registrationNumber" : "MS43ROT",
+  "capacity" : 38,
+  "status" : null,
+  "lastMaintenanceDate" : "2023-09-03",
+  "hasAccessibilitySupport" : true
+}, {
+  "id" : "e4a55d38-26d4-4eb9-bec3-6e485b7b88b2",
+  "registrationNumber" : "MS78ROT",
+  "capacity" : 50,
+  "status" : null,
+  "lastMaintenanceDate" : "2024-12-02",
+  "hasAccessibilitySupport" : false
+}, {
+  "id" : "4fa19fea-ed20-43a9-9cbf-c700b50143f7",
+  "registrationNumber" : "MS24ROT",
+  "capacity" : 30,
+  "status" : null,
+  "lastMaintenanceDate" : "2025-09-16",
+  "hasAccessibilitySupport" : true
 }, {
   "id" : "bb7e59b6-e9fe-4099-b10a-717025225daa",
   "registrationNumber" : "MS03ROS",

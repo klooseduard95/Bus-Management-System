@@ -23,4 +23,81 @@
   "name" : "Brasov",
   "city" : "BRasov",
   "trips" : null
-} ]
+},
+  {
+    "id": "a1c2e3f4-1111-4b22-8333-abcde1111111",
+    "name": "Iasi",
+    "city": "Iasi",
+    "trips": null
+  }, {
+    "id": "b2d4f6a8-2222-4c33-9444-bbcde2222222",
+    "name": "Sibiu",
+    "city": "Sibiu",
+    "trips": null
+  }, {
+    "id": "c3e5g7h9-3333-4d44-8555-ccdde3333333",
+    "name": "Oradea",
+    "city": "Oradea",
+    "trips": null
+  }, {
+    "id": "d4f6h8j0-4444-4e55-9666-dddee4444444",
+    "name": "Timisoara",
+    "city": "Timisoara",
+    "trips": null
+  }, {
+    "id": "e5g7i9k1-5555-4f66-a777-eeeff5555555",
+    "name": "Arad",
+    "city": "Arad",
+    "trips": null
+  }, {
+    "id": "f6h8j0l2-6666-4077-b888-fffgg6666666",
+    "name": "Deva",
+    "city": "Deva",
+    "trips": null
+  }, {
+    "id": "a7i9k1m3-7777-4188-c999-aaahh7777777",
+    "name": "Targu Mures",
+    "city": "Targu Mures",
+    "trips": null
+  }, {
+    "id": "b8j0l2n4-8888-4299-d000-bbiij8888888",
+    "name": "Alba Iulia",
+    "city": "Alba Iulia",
+    "trips": null
+  }, {
+    "id": "c9k1m3o5-9999-43aa-e111-cckkk9999999",
+    "name": "Constanta",
+    "city": "Constanta",
+    "trips": null
+  }, {
+    "id": "d0l2n4p6-aaaa-44bb-f222-ddlll0000000",
+    "name": "Suceava",
+    "city": "Suceava",
+    "trips": null
+  }, {
+    "id": "e1m3o5q7-bbbb-45cc-0333-eeemm1111111",
+    "name": "Pitesti",
+    "city": "Pitesti",
+    "trips": null
+  }, {
+    "id": "f2n4p6r8-cccc-46dd-1444-fffnn2222222",
+    "name": "Buzau",
+    "city": "Buzau",
+    "trips": null
+  }, {
+    "id": "a3o5q7s9-dddd-47ee-2555-gggoo3333333",
+    "name": "Piatra Neamt",
+    "city": "Piatra Neamt",
+    "trips": null
+  }, {
+    "id": "b4p6r8t0-eeee-48ff-3666-hhhpp4444444",
+    "name": "Craiova",
+    "city": "Craiova",
+    "trips": null
+  }, {
+    "id": "c5q7s9u1-ffff-49gg-4777-iiiqq5555555",
+    "name": "Galati",
+    "city": "Galati",
+    "trips": null
+  }
+]
