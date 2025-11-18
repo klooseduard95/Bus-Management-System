@@ -1,33 +1,48 @@
 package bus.station.model;
 
-import bus.station.interfaces.Identifiable;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.util.List;
 
-public class Route implements Identifiable {
-    private String id;
+@Entity
+@Table(name = "routes")
+public class Route {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull(message = "Origin station is required")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "origin_station_id")
     private BusStation origin;
+
+    @NotNull(message = "Destination station is required")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "destination_station_id")
     private BusStation destination;
+
+    @NotNull(message = "Distance is required")
+    @Positive(message = "Distance must be a positive number")
     private double distance;
+
+    @OneToMany(mappedBy = "route", fetch = FetchType.LAZY)
     private List<BusTrip> trips;
 
     public Route() {}
 
-    public Route(String id, BusStation origin, BusStation destination, double distance, List<BusTrip> trips) {
-        this.id = id;
+    public Route(BusStation origin, BusStation destination, double distance) {
         this.origin = origin;
         this.destination = destination;
         this.distance = distance;
-        this.trips = trips;
     }
 
-    @Override
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    @Override
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -28,12 +28,12 @@ public class BusStationService {
         return busStationRepository.save(busStation);
     }
 
-    public Optional<BusStation> findById(String id) {
+    public Optional<BusStation> findById(Long id) {
         return busStationRepository.findById(id);
     }
 
-    public boolean deleteById(String id) {
-        return busStationRepository.deleteById(id);
+    public void deleteById(Long id) {
+        busStationRepository.deleteById(id);
     }
 
 }

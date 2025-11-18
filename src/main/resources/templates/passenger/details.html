@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head-links(title='Passenger Details - ' + ${passenger.name})}"></head>
+
+<body>
+<div class="d-flex">
+
+    <div th:replace="~{fragments :: sidebar}"></div>
+
+    <div class="container-fluid p-4">
+
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/passenger}" class="text-decoration-none">Passengers</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="${passenger.name}">Details</li>
+            </ol>
+        </nav>
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-3">
+                            <img src="https://placehold.co/150x150/e9ecef/495057?text=User" class="rounded-circle" alt="User Avatar">
+                        </div>
+                        <h3 class="fw-bold mb-1" th:text="${passenger.name}">Name</h3>
+                        <p class="text-muted mb-4" th:text="${'ID: #' + passenger.id}">ID</p>
+
+                        <ul class="list-group list-group-flush text-start mb-4">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Currency:</span>
+                                <strong th:text="${passenger.currency}">RON</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Date of Birth:</span>
+                                <strong th:text="${passenger.dateOfBirth}">1990-01-01</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Assistance:</span>
+                                <span th:if="${passenger.requiresSpecialAssistance}" class="badge bg-warning text-dark">Required</span>
+                                <span th:unless="${passenger.requiresSpecialAssistance}" class="badge bg-light text-dark border">None</span>
+                            </li>
+                        </ul>
+
+                        <div class="d-grid gap-2">
+                            <a th:href="@{/passenger/{id}/edit(id=${passenger.id})}" class="btn btn-warning">Edit Profile</a>
+                            <form th:action="@{/passenger/{id}/delete(id=${passenger.id})}" method="post"
+                                  onsubmit="return confirm('Delete this passenger?');">
+                                <button type="submit" class="btn btn-outline-danger w-100">Delete Passenger</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">🎟️ Ticket History</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                            <tr>
+                                <th>Ticket ID</th>
+                                <th>Trip Route</th>
+                                <th>Date</th>
+                                <th>Seat</th>
+                                <th>Price</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${#lists.isEmpty(passenger.tickets)}">
+                                <td colspan="5" class="text-center text-muted py-4">No tickets found for this passenger.</td>
+                            </tr>
+                            <tr th:each="ticket : ${passenger.tickets}">
+                                <td th:text="${'#' + ticket.id}">1</td>
+                                <td>
+                                        <span th:if="${ticket.busTrip != null && ticket.busTrip.route != null}"
+                                              th:text="${ticket.busTrip.route.origin.name + ' ➝ ' + ticket.busTrip.route.destination.name}">
+                                            Route
+                                        </span>
+                                </td>
+                                <td>
+                                    <span th:if="${ticket.busTrip != null}" th:text="${ticket.busTrip.startTime}">10:00</span>
+                                </td>
+                                <td th:text="${ticket.seatNumber}">1A</td>
+                                <td th:text="${#numbers.formatCurrency(ticket.price)}">$50</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div th:replace="~{fragments :: body-scripts}"></div>
+</body>
+</html>

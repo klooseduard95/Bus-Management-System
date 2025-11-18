@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head-links(title='Staff Details - ' + ${staffMember.name})}"></head>
+
+<body>
+<div class="d-flex">
+
+    <div th:replace="~{fragments :: sidebar}"></div>
+
+    <div class="container-fluid p-4">
+
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/staff}" class="text-decoration-none">Staff</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="${staffMember.name}">Details</li>
+            </ol>
+        </nav>
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-3 display-4">
+                            👤 </div>
+                        <h3 class="fw-bold mb-1" th:text="${staffMember.name}">Name</h3>
+
+                        <div class="mb-3">
+                            <span th:if="${staffMember instanceof T(bus.station.model.Driver)}"
+                                  class="badge bg-primary fs-6">Driver</span>
+                            <span th:if="${staffMember instanceof T(bus.station.model.TripManager)}"
+                                  class="badge bg-info text-dark fs-6">Trip Manager</span>
+                        </div>
+
+                        <ul class="list-group list-group-flush text-start mb-4">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>ID:</span>
+                                <strong th:text="${'#' + staffMember.id}">#1</strong>
+                            </li>
+
+                            <li class="list-group-item" th:if="${staffMember instanceof T(bus.station.model.Driver)}">
+                                <strong>License Date:</strong><br>
+                                <span th:text="${((bus.station.model.Driver)staffMember).licenseAcquiredDate}">2020-01-01</span>
+                            </li>
+                            <li class="list-group-item" th:if="${staffMember instanceof T(bus.station.model.Driver)}">
+                                <strong>Experience:</strong>
+                                <span th:text="${((bus.station.model.Driver)staffMember).yearsOfExperience + ' years'}" class="float-end fw-bold">5 years</span>
+                            </li>
+
+                            <li class="list-group-item" th:if="${staffMember instanceof T(bus.station.model.TripManager)}">
+                                <strong>Employee Code:</strong>
+                                <span th:text="${((bus.station.model.TripManager)staffMember).employeeCode}" class="float-end fw-bold">CODE</span>
+                            </li>
+                        </ul>
+
+                        <div class="d-grid gap-2">
+                            <a th:if="${staffMember instanceof T(bus.station.model.Driver)}"
+                               th:href="@{/staff/driver/{id}/edit(id=${staffMember.id})}" class="btn btn-warning">Edit Driver</a>
+
+                            <a th:if="${staffMember instanceof T(bus.station.model.TripManager)}"
+                               th:href="@{/staff/manager/{id}/edit(id=${staffMember.id})}" class="btn btn-warning">Edit Manager</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0">📋 Work Assignments</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                            <tr>
+                                <th>Assignment ID</th>
+                                <th>Role</th>
+                                <th>Trip Route</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${#lists.isEmpty(staffMember.assignments)}">
+                                <td colspan="5" class="text-center text-muted py-4">No assignments found.</td>
+                            </tr>
+                            <tr th:each="assign : ${staffMember.assignments}">
+                                <td th:text="${'#' + assign.id}">1</td>
+                                <td th:text="${assign.role}">PrimaryDriver</td>
+                                <td>
+                                        <span th:if="${assign.busTrip != null && assign.busTrip.route != null}"
+                                              th:text="${assign.busTrip.route.origin.name + ' ➝ ' + assign.busTrip.route.destination.name}">
+                                            Route
+                                        </span>
+                                </td>
+                                <td>
+                                    <span th:if="${assign.busTrip != null}" th:text="${assign.busTrip.startTime}">10:00</span>
+                                </td>
+                                <td>
+                                    <a th:href="@{/duty-assignment/{id}(id=${assign.id})}" class="btn btn-sm btn-light border">View</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div th:replace="~{fragments :: body-scripts}"></div>
+</body>
+</html>

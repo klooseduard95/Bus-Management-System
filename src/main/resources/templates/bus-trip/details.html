@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head-links(title='Trip Details #' + ${trip.id})}"></head>
+
+<body>
+<div class="d-flex">
+
+    <div th:replace="~{fragments :: sidebar}"></div>
+
+    <div class="container-fluid p-4">
+
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/bus-trip}" class="text-decoration-none">Bus Trips</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Details</li>
+            </ol>
+        </nav>
+
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="mb-1">
+                            Trip <span class="text-muted" th:text="${'#' + trip.id}">#123</span>
+                        </h2>
+                        <h5 class="text-primary" th:if="${trip.route != null}">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <span th:text="${trip.route.origin.name}">Origin</span>
+                            &rarr;
+                            <span th:text="${trip.route.destination.name}">Dest</span>
+                        </h5>
+                    </div>
+                    <div class="text-end">
+                         <span class="badge fs-5"
+                               th:classappend="${trip.status.name() == 'Active' ? 'bg-success' : (trip.status.name() == 'Completed' ? 'bg-secondary' : 'bg-warning text-dark')}"
+                               th:text="${trip.status}">Status</span>
+                        <div class="mt-2 text-muted">
+                            <i class="bi bi-clock"></i> <span th:text="${trip.startTime}">12:00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-header fw-bold">🚌 Assigned Bus</div>
+                    <div class="card-body">
+                        <div th:if="${trip.bus != null}">
+                            <h5 class="card-title" th:text="${trip.bus.registrationNumber}">CJ-01</h5>
+                            <p class="card-text mb-1">Capacity: <span th:text="${trip.bus.capacity}">50</span></p>
+                            <a th:href="@{/bus/{id}(id=${trip.bus.id})}" class="btn btn-sm btn-outline-primary">View Bus</a>
+                        </div>
+                        <div th:unless="${trip.bus != null}" class="text-danger">No bus assigned!</div>
+                    </div>
+                </div>
+
+                <div class="card mb-3">
+                    <div class="card-header fw-bold">📊 Stats</div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Available Seats:</span>
+                            <strong th:text="${trip.availableSeats}">10</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Base Price:</span>
+                            <strong th:text="${#numbers.formatCurrency(trip.basePrice)}">$50</strong>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <a th:href="@{/bus-trip/{id}/edit(id=${trip.id})}" class="btn btn-warning">Edit Trip</a>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+
+                <div class="card mb-4">
+                    <div class="card-header bg-light fw-bold">👷 Assigned Staff</div>
+                    <div class="card-body p-0">
+                        <table class="table table-sm mb-0">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${#lists.isEmpty(trip.assignments)}">
+                                <td colspan="2" class="text-center text-muted">No staff assigned.</td>
+                            </tr>
+                            <tr th:each="assign : ${trip.assignments}">
+                                <td th:text="${assign.staff != null ? assign.staff.name : 'Unknown'}">Name</td>
+                                <td th:text="${assign.role}">Driver</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header bg-light fw-bold">🎟️ Passenger Manifest</div>
+                    <div class="card-body p-0">
+                        <table class="table table-sm table-hover mb-0">
+                            <thead>
+                            <tr>
+                                <th>Passenger Name</th>
+                                <th>Seat</th>
+                                <th>Price Paid</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${#lists.isEmpty(trip.tickets)}">
+                                <td colspan="3" class="text-center text-muted">No tickets sold yet.</td>
+                            </tr>
+                            <tr th:each="ticket : ${trip.tickets}">
+                                <td th:text="${ticket.passenger != null ? ticket.passenger.name : 'Unknown'}">Name</td>
+                                <td th:text="${ticket.seatNumber}">1A</td>
+                                <td th:text="${#numbers.formatCurrency(ticket.price)}">$50</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div th:replace="~{fragments :: body-scripts}"></div>
+</body>
+</html>

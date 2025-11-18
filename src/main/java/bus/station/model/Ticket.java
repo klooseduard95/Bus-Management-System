@@ -1,50 +1,69 @@
 package bus.station.model;
 
 import bus.station.interfaces.Identifiable;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
 
-public class Ticket implements Identifiable {
-    private String id;
-    private String tripId;
-    private String passengerId;
+@Entity
+@Table(name = "tickets")
+public class Ticket {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull(message = "Trip is required")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bus_trip_id")
+    private BusTrip busTrip;
+
+    @NotNull(message = "Passenger is required")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "passenger_trip_id")
+    private Passenger passenger;
+
+    @NotBlank(message = "Seat number is required")
+    @Size(min = 1, max=5, message = "Seat number must be between 1 and 5 characters")
     private String seatNumber;
+
+    @Positive(message = "Price must be positive")
     private double price;
 
     public Ticket() {}
 
-    public Ticket(String id, String tripId, String passengerId, String seatNumber, double price) {
-        this.id = id;
-        this.tripId = tripId;
-        this.passengerId = passengerId;
+    public Ticket(BusTrip busTrip, Passenger passenger, String seatNumber, double price) {
+        this.busTrip = busTrip;
+        this.passenger = passenger;
         this.seatNumber = seatNumber;
         this.price = price;
     }
 
-    @Override
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    @Override
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getTripId() {
-        return tripId;
+    public BusTrip getBusTrip() {
+        return busTrip;
     }
 
-    public void setTripId(String tripId) {
-        this.tripId = tripId;
+    public void setBusTrip(BusTrip busTrip) {
+        this.busTrip = busTrip;
     }
 
-    public String getPassengerId() {
-        return passengerId;
+    public Passenger getPassenger() {
+        return passenger;
     }
 
-    public void setPassengerId(String passengerId) {
-        this.passengerId = passengerId;
+    public void setPassenger(Passenger passenger) {
+        this.passenger = passenger;
     }
 
     public String getSeatNumber() {

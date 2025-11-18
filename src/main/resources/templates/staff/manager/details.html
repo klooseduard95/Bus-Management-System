@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head-links(title='Manager Details - ' + ${manager.name})}"></head>
+
+<body>
+<div class="d-flex">
+
+    <div th:replace="~{fragments :: sidebar}"></div>
+
+    <div class="container-fluid p-4">
+
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/staff}" class="text-decoration-none">Staff</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Manager Details</li>
+            </ol>
+        </nav>
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-3 display-4">👔</div>
+
+                        <h3 class="fw-bold mb-1" th:text="${manager.name}">Nume Manager</h3>
+                        <span class="badge bg-info text-dark fs-6 mb-3">Trip Manager</span>
+
+                        <ul class="list-group list-group-flush text-start mb-4">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>ID:</span>
+                                <strong th:text="${'#' + manager.id}">#1</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>Employee Code:</span>
+                                <span class="badge bg-dark font-monospace" th:text="${manager.employeeCode}">MGR-001</span>
+                            </li>
+                        </ul>
+
+                        <div class="d-grid gap-2">
+                            <a th:href="@{/staff/manager/{id}/edit(id=${manager.id})}" class="btn btn-warning">Edit Manager</a>
+                            <form th:action="@{/staff/manager/{id}/delete(id=${manager.id})}" method="post"
+                                  onsubmit="return confirm('Delete this manager?');">
+                                <button type="submit" class="btn btn-outline-danger w-100">Delete Manager</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0">📋 Supervised Trips / Assignments</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                            <tr>
+                                <th>Assignment ID</th>
+                                <th>Role</th>
+                                <th>Trip Route</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${#lists.isEmpty(manager.assignments)}">
+                                <td colspan="5" class="text-center text-muted py-4">No assignments found.</td>
+                            </tr>
+                            <tr th:each="assign : ${manager.assignments}">
+                                <td th:text="${'#' + assign.id}">1</td>
+                                <td th:text="${assign.role}">Role</td>
+                                <td>
+                                        <span th:if="${assign.busTrip != null && assign.busTrip.route != null}"
+                                              th:text="${assign.busTrip.route.origin.name + ' ➝ ' + assign.busTrip.route.destination.name}">
+                                            Route
+                                        </span>
+                                </td>
+                                <td>
+                                    <span th:if="${assign.busTrip != null}" th:text="${assign.busTrip.startTime}">10:00</span>
+                                </td>
+                                <td>
+                                    <a th:href="@{/duty-assignment/{id}(id=${assign.id})}" class="btn btn-sm btn-light border">View</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div th:replace="~{fragments :: body-scripts}"></div>
+</body>
+</html>

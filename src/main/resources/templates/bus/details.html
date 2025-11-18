@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head-links(title='Bus Details - ' + ${bus.registrationNumber})}"></head>
+
+<body>
+<div class="d-flex">
+
+    <div th:replace="~{fragments :: sidebar}"></div>
+
+    <div class="container-fluid p-4">
+
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/bus}" class="text-decoration-none">Buses</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="${bus.registrationNumber}">Bus Details</li>
+            </ol>
+        </nav>
+
+        <div class="row g-5">
+
+            <div class="col-md-5">
+                <div class="card border-0 shadow-sm">
+                    <img src="https://placehold.co/600x400/212529/FFF?text=Bus+Image"
+                         class="card-img-top rounded"
+                         alt="Bus Image">
+                </div>
+            </div>
+
+            <div class="col-md-7">
+                <div class="h-100 d-flex flex-column justify-content-center">
+
+                    <h1 class="display-5 fw-bold text-dark mb-2" th:text="${bus.registrationNumber}">CJ-01-ABC</h1>
+
+                    <div class="mb-4">
+                        <span class="badge rounded-pill fs-6"
+                              th:classappend="${bus.status.name() == 'Active' ? 'text-bg-success' : 'text-bg-danger'}"
+                              th:text="${bus.status}">
+                            Active
+                        </span>
+                    </div>
+
+                    <div class="card bg-light border-0 mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title mb-3 text-muted text-uppercase fs-6 fw-bold">Technical Specs</h5>
+
+                            <div class="row mb-2">
+                                <div class="col-6 fw-bold">Capacity:</div>
+                                <div class="col-6" th:text="${bus.capacity + ' Seats'}">50 Seats</div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-6 fw-bold">Accessibility:</div>
+                                <div class="col-6">
+                                    <span th:if="${bus.hasAccessibilitySupport}" class="text-success">
+                                        <i class="bi bi-check-circle-fill"></i> Supported
+                                    </span>
+                                    <span th:unless="${bus.hasAccessibilitySupport}" class="text-muted">
+                                        <i class="bi bi-x-circle"></i> Not Supported
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-6 fw-bold">Last Maintenance:</div>
+                                <div class="col-6"
+                                     th:text="${bus.lastMaintenanceDate != null ? #temporals.format(bus.lastMaintenanceDate, 'dd MMM yyyy') : 'N/A'}">
+                                    01 Jan 2025
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 fw-bold">Internal ID:</div>
+                                <div class="col-6 text-muted" th:text="${'#' + bus.id}">#1</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-3 mt-auto">
+                        <a th:href="@{/bus/{id}/edit(id=${bus.id})}" class="btn btn-warning btn-lg px-4">
+                            Edit Bus
+                        </a>
+
+                        <form th:action="@{/bus/{id}/delete(id=${bus.id})}" method="post"
+                              onsubmit="return confirm('Are you sure you want to delete this bus?');">
+                            <button type="submit" class="btn btn-outline-danger btn-lg px-4">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-5">
+
+        <div class="row">
+            <div class="col-12">
+                <h3 class="mb-3 border-start border-4 border-primary ps-3">Trip History & Schedule</h3>
+
+                <div class="table-responsive shadow-sm rounded">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-dark">
+                        <tr>
+                            <th>Trip ID</th>
+                            <th>Route</th>
+                            <th>Start Time</th>
+                            <th>Status</th>
+                            <th>Seats Left</th>
+                            <th>Price</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${#lists.isEmpty(bus.busTrips)}">
+                            <td colspan="7" class="text-center py-4 text-muted">
+                                No trips assigned to this bus yet.
+                            </td>
+                        </tr>
+
+                        <tr th:each="trip : ${bus.busTrips}">
+                            <td th:text="${'#' + trip.id}">#123</td>
+
+                            <td>
+                                    <span th:if="${trip.route != null}"
+                                          th:text="${trip.route.origin.name + ' ➝ ' + trip.route.destination.name}"
+                                          class="fw-bold">
+                                        Bucuresti -> Cluj
+                                    </span>
+                                <span th:unless="${trip.route != null}" class="text-muted">Unknown Route</span>
+                            </td>
+
+                            <td th:text="${trip.startTime}">10:00</td>
+
+                            <td>
+                                <span class="badge bg-secondary" th:text="${trip.status}">Planned</span>
+                            </td>
+
+                            <td th:text="${trip.availableSeats}">45</td>
+                            <td th:text="${#numbers.formatCurrency(trip.basePrice)}">$100</td>
+
+                            <td>
+                                <a th:href="@{/bus-trip/{id}/edit(id=${trip.id})}" class="btn btn-sm btn-light border">
+                                    View Trip
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div th:replace="~{fragments :: body-scripts}"></div>
+</body>
+</html>

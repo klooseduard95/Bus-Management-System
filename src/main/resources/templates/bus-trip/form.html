@@ -15,20 +15,20 @@
             <input type="hidden" th:field="*{id}" />
 
             <div class="mb-3">
-                <label for="routeId" class="form-label">Route:</label>
-                <select id="routeId" th:field="*{routeId}" class="form-select" required>
+                <label for="route" class="form-label">Route:</label>
+                <select id="route" th:field="*{route}" class="form-select" required>
                     <option value="">-- Select Route --</option>
                     <option th:each="route : ${allRoutes}"
                             th:value="${route.id}"
-                            th:text="${route.origin != null ? route.origin.name : 'N/A'} + ' - ' + ${route.destination != null ? route.destination.name : 'N/A'}">
+                            th:text="${route.origin.name + ' - ' + route.destination.name}">
                         [Route Name]
                     </option>
                 </select>
             </div>
 
             <div class="mb-3">
-                <label for="busId" class="form-label">Bus:</label>
-                <select id="busId" th:field="*{busId}" class="form-select" required>
+                <label for="bus" class="form-label">Bus:</label>
+                <select id="bus" th:field="*{bus}" class="form-select" required>
                     <option value="">-- Select Bus --</option>
                     <option th:each="bus : ${allBuses}"
                             th:value="${bus.id}"

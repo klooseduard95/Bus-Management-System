@@ -1,61 +1,75 @@
 package bus.station.model;
 
 import bus.station.enums.BusTripStatus;
-import bus.station.interfaces.Identifiable;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalTime;
 import java.util.List;
 
+@Entity
+@Table(name = "bus_trips")
+public class BusTrip {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-public class BusTrip implements Identifiable {
-    private String id;
-    private String routeId;
-    private String busId;
+    @NotNull(message = "Start time is required")
     private LocalTime startTime;
-    private List<Ticket> tickets;
-    private List<DutyAssignment> assignments;
-    private BusTripStatus busTripStatus;
+
+    @Enumerated(EnumType.STRING)
+    private BusTripStatus status;
+
+    @NotNull(message = "Available seats is required")
+    @Min(value = 0, message = "Available seats cannot pe negative")
     private int availableSeats;
+
+    @NotNull(message = "Base price is required")
+    @Positive(message = "Base price must be positive")
     private double basePrice;
 
-    public BusTrip() {}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "route_id")
+    @NotNull(message = "Route is required")
+    private Route route;
 
-    public BusTrip(String id, String routeId, String busId, LocalTime startTime, List<Ticket> tickets, List<DutyAssignment> assignments, BusTripStatus busTripStatus, int availableSeats, double basePrice) {
-        this.id = id;
-        this.routeId = routeId;
-        this.busId = busId;
-        this.startTime = startTime;
-        this.tickets = tickets;
-        this.assignments = assignments;
-        this.busTripStatus = busTripStatus;
-        this.availableSeats = availableSeats;
-        this.basePrice = basePrice;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bus_id")
+    @NotNull(message = "Bus is required")
+    private Bus bus;
+
+    @OneToMany(mappedBy = "busTrip")
+    private List<Ticket> tickets;
+
+    @OneToMany(mappedBy = "busTrip")
+    private List<DutyAssignment> assignments;
+
+    public BusTrip() {
+        this.status = BusTripStatus.Planned;
     }
 
-    @Override
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    @Override
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getRouteId() {
-        return routeId;
+    public Route getRoute() {
+        return route;
     }
 
-    public void setRouteId(String routeId) {
-        this.routeId = routeId;
+    public void setRoute(Route route) {
+        this.route = route;
     }
 
-    public String getBusId() {
-        return busId;
+    public Bus getBus() {
+        return bus;
     }
 
-    public void setBusId(String busId) {
-        this.busId = busId;
+    public void setBus(Bus bus) {
+        this.bus = bus;
     }
 
     public LocalTime getStartTime() {
@@ -83,11 +97,11 @@ public class BusTrip implements Identifiable {
     }
 
     public BusTripStatus getStatus() {
-        return busTripStatus;
+        return status;
     }
 
-    public void setStatus(BusTripStatus busTripStatus) {
-        this.busTripStatus = busTripStatus;
+    public void setStatus(BusTripStatus status) {
+        this.status = status;
     }
 
     public int getAvailableSeats() {

@@ -1,47 +1,55 @@
 package bus.station.model;
 
 import bus.station.enums.Role;
-import bus.station.interfaces.Identifiable;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
-public class DutyAssignment implements Identifiable {
-    private String Id;
-    private String TripId;
-    private String StaffId;
+@Entity
+@Table(name = "duty_assignments")
+public class DutyAssignment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bus_trip_id")
+    @NotNull(message = "Trips is required")
+    private BusTrip busTrip;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "staff_id")
+    @NotNull(message = "Staff member is required")
+    private Staff staff;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Role is required")
     private Role role;
 
     public DutyAssignment() {}
 
-    public DutyAssignment(String id, String tripId, String staffId, Role role) {
-        Id = id;
-        TripId = tripId;
-        StaffId = staffId;
-        this.role = role;
+    public Long getId() {
+        return id;
     }
 
-    @Override
-    public String getId() {
-        return Id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    @Override
-    public void setId(String id) {
-        Id = id;
+    public BusTrip getBusTrip() {
+        return busTrip;
     }
 
-    public String getTripId() {
-        return TripId;
+    public void setBusTrip(BusTrip busTrip) {
+        this.busTrip = busTrip;
     }
 
-    public void setTripId(String tripId) {
-        TripId = tripId;
+    public Staff getStaff() {
+        return staff;
     }
 
-    public String getStaffId() {
-        return StaffId;
-    }
-
-    public void setStaffId(String staffId) {
-        StaffId = staffId;
+    public void setStaff(Staff staff) {
+        this.staff = staff;
     }
 
     public Role getRole() {

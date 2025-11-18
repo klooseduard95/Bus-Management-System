@@ -27,11 +27,11 @@ public class RouteService {
         return routeRepository.save(route);
     }
 
-    public Optional<Route> findById(String id) {
+    public Optional<Route> findById(Long id) {
         return routeRepository.findById(id);
     }
 
-    public void deleteById(String id) {
+    public void deleteById(Long id) {
         routeRepository.deleteById(id);
     }
 }

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head-links(title='Assignment Details #' + ${assignment.id})}"></head>
+
+<body>
+<div class="d-flex">
+
+    <div th:replace="~{fragments :: sidebar}"></div>
+
+    <div class="container-fluid p-4">
+
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/duty-assignment}" class="text-decoration-none">Duty Assignments</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Details</li>
+            </ol>
+        </nav>
+
+        <div class="card shadow-sm border-0 col-md-8 mx-auto">
+            <div class="card-header bg-dark text-white">
+                <h4 class="mb-0">
+                    📋 Assignment <span th:text="${'#' + assignment.id}">#1</span>
+                </h4>
+            </div>
+            <div class="card-body p-4">
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="p-3 border rounded bg-light h-100">
+                            <h5 class="text-primary fw-bold mb-3">👷 Assigned Staff</h5>
+                            <div th:if="${assignment.staff != null}">
+                                <h3 th:text="${assignment.staff.name}">Ion Popescu</h3>
+                                <span class="badge bg-info text-dark mb-2">
+                                    <span th:if="${assignment.staff instanceof T(bus.station.model.Driver)}">Driver</span>
+                                    <span th:if="${assignment.staff instanceof T(bus.station.model.TripManager)}">Manager</span>
+                                </span>
+                                <div class="text-muted">
+                                    ID: <span th:text="${assignment.staff.id}">10</span>
+                                </div>
+                            </div>
+                            <div th:unless="${assignment.staff != null}" class="text-danger">
+                                Staff member deleted or missing.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="p-3 border rounded bg-light h-100">
+                            <h5 class="text-primary fw-bold mb-3">🚌 Assigned Trip</h5>
+                            <div th:if="${assignment.busTrip != null}">
+                                <h4>Trip <span th:text="${'#' + assignment.busTrip.id}">#55</span></h4>
+                                <p class="mb-1" th:if="${assignment.busTrip.route != null}">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <span th:text="${assignment.busTrip.route.origin.name}">A</span> ➝
+                                    <span th:text="${assignment.busTrip.route.destination.name}">B</span>
+                                </p>
+                                <p class="mb-0 text-muted">
+                                    <i class="bi bi-clock"></i> <span th:text="${assignment.busTrip.startTime}">10:00</span>
+                                </p>
+                                <a th:href="@{/bus-trip/{id}(id=${assignment.busTrip.id})}" class="btn btn-sm btn-outline-primary mt-3">
+                                    View Trip Details
+                                </a>
+                            </div>
+                            <div th:unless="${assignment.busTrip != null}" class="text-danger">
+                                Trip deleted or missing.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="alert alert-secondary d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>Assigned Role:</strong>
+                                <span class="badge bg-warning text-dark fs-6" th:text="${assignment.role}">PrimaryDriver</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-3">
+                    <a th:href="@{/duty-assignment}" class="btn btn-secondary">Back</a>
+                    <a th:href="@{/duty-assignment/{id}/edit(id=${assignment.id})}" class="btn btn-warning">Edit</a>
+                    <form th:action="@{/duty-assignment/{id}/delete(id=${assignment.id})}" method="post"
+                          onsubmit="return confirm('Are you sure?');">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div th:replace="~{fragments :: body-scripts}"></div>
+</body>
+</html>

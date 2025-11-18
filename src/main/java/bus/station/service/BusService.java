@@ -21,7 +21,7 @@ public class BusService {
         return busRepository.findAll();
     }
 
-    public Optional<Bus> findBusById(String id) {
+    public Optional<Bus> findBusById(Long id) {
         return busRepository.findById(id);
     }
 
@@ -29,7 +29,7 @@ public class BusService {
         return busRepository.save(bus);
     }
 
-    public void deleteById(String id) {
+    public void deleteById(Long id) {
         busRepository.deleteById(id);
     }
 
