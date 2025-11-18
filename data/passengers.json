@@ -1,15 +1,82 @@
-[ {
-  "id" : "fe36f26e-ea2a-4c3a-8586-50ebee75792b",
-  "name" : "Gheorghe",
-  "currency" : "RON",
-  "tickets" : null,
-  "dateOfBirth" : "1999-01-01",
-  "requiresSpecialAssistance" : true
-}, {
-  "id" : "eb2a387f-db82-49e1-9864-ff4cf01907fe",
-  "name" : "Vasile",
-  "currency" : "EUR",
-  "tickets" : null,
-  "dateOfBirth" : "2002-02-02",
-  "requiresSpecialAssistance" : false
-} ]
+[
+  {
+    "id": "fe36f26e-ea2a-4c3a-8586-50ebee75792b",
+    "name": "Gheorghe",
+    "currency": "RON",
+    "tickets": null,
+    "dateOfBirth": "1999-01-01",
+    "requiresSpecialAssistance": true
+  },
+  {
+    "id": "eb2a387f-db82-49e1-9864-ff4cf01907fe",
+    "name": "Vasile",
+    "currency": "EUR",
+    "tickets": null,
+    "dateOfBirth": "2002-02-02",
+    "requiresSpecialAssistance": false
+  },
+  {
+    "id": "p1a2b3c4-1111-4d5e-8f01-111213141516",
+    "name": "Alina Munteanu",
+    "currency": "RON",
+    "tickets": null,
+    "dateOfBirth": "1994-05-12",
+    "requiresSpecialAssistance": false
+  },
+  {
+    "id": "p2b3c4d5-2222-4e6f-9a02-212223242526",
+    "name": "Bogdan Pop",
+    "currency": "RON",
+    "tickets": null,
+    "dateOfBirth": "1988-03-03",
+    "requiresSpecialAssistance": false
+  },
+  {
+    "id": "p3c4d5e6-3333-4f70-0b03-313233343536",
+    "name": "Camelia Iliescu",
+    "currency": "RON",
+    "tickets": null,
+    "dateOfBirth": "1990-07-21",
+    "requiresSpecialAssistance": false
+  },
+  {
+    "id": "p4d5e6f7-4444-4071-1c04-414243444546",
+    "name": "Daniel Georgescu",
+    "currency": "EUR",
+    "tickets": null,
+    "dateOfBirth": "1979-11-11",
+    "requiresSpecialAssistance": false
+  },
+  {
+    "id": "p5e6f708-5555-4182-2d05-515253545556",
+    "name": "Elena Bălan",
+    "currency": "RON",
+    "tickets": null,
+    "dateOfBirth": "1985-02-17",
+    "requiresSpecialAssistance": true
+  },
+  {
+    "id": "p6f70819-6666-4293-3e06-616263646566",
+    "name": "Florin Radu",
+    "currency": "RON",
+    "tickets": null,
+    "dateOfBirth": "1996-09-09",
+    "requiresSpecialAssistance": false
+  },
+  {
+    "id": "p708192a-7777-43a4-4f07-717273747576",
+    "name": "Gabriela Costin",
+    "currency": "EUR",
+    "tickets": null,
+    "dateOfBirth": "2000-12-12",
+    "requiresSpecialAssistance": false
+  },
+  {
+    "id": "p8192a3b-8888-44b5-5018-818283848586",
+    "name": "Ioana Matei",
+    "currency": "RON",
+    "tickets": null,
+    "dateOfBirth": "1992-08-08",
+    "requiresSpecialAssistance": false
+  }
+]

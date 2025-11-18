@@ -1,65 +1,155 @@
-[ {
-  "id" : "4bb4028e-93f6-45c6-9a61-bf50125e34c4",
-  "origin" : {
-    "id" : "cdb00b2e-c2e0-4a0c-9381-b5df60a76661",
-    "name" : "Brasov",
-    "city" : "BRasov",
-    "trips" : null
+[
+  {
+    "id": "4bb4028e-93f6-45c6-9a61-bf50125e34c4",
+    "origin": {
+      "id": "cdb00b2e-c2e0-4a0c-9381-b5df60a76661",
+      "name": "Brasov",
+      "city": "BRasov",
+      "trips": null
+    },
+    "destination": {
+      "id": "af8ba4b8-50e6-4a93-8ec0-73ea820117bb",
+      "name": "Cluj",
+      "city": "Cluj",
+      "trips": null
+    },
+    "distance": 300.0,
+    "trips": null
   },
-  "destination" : {
-    "id" : "af8ba4b8-50e6-4a93-8ec0-73ea820117bb",
-    "name" : "Cluj",
-    "city" : "Cluj",
-    "trips" : null
+  {
+    "id": "3f7d8196-1c63-4219-87b8-72c7218119f0",
+    "origin": {
+      "id": "5835af21-68cf-4f0a-83db-77f2ba8ed441",
+      "name": "Sighișoara",
+      "city": "Sighisoara",
+      "trips": null
+    },
+    "destination": {
+      "id": "af8ba4b8-50e6-4a93-8ec0-73ea820117bb",
+      "name": "Cluj",
+      "city": "Cluj",
+      "trips": null
+    },
+    "distance": 150.0,
+    "trips": null
   },
-  "distance" : 300.0,
-  "trips" : null
-}, {
-  "id" : "3f7d8196-1c63-4219-87b8-72c7218119f0",
-  "origin" : {
-    "id" : "5835af21-68cf-4f0a-83db-77f2ba8ed441",
-    "name" : "Sighișoara",
-    "city" : "Sighisoara",
-    "trips" : null
+  {
+    "id": "21070c2a-ece2-44f5-bd0c-519b3344f144",
+    "origin": {
+      "id": "c29abc97-1142-4918-a20e-d9080a7d4be2",
+      "name": "Militari",
+      "city": "Bucuresti",
+      "trips": null
+    },
+    "destination": {
+      "id": "af8ba4b8-50e6-4a93-8ec0-73ea820117bb",
+      "name": "Cluj",
+      "city": "Cluj",
+      "trips": null
+    },
+    "distance": 500.0,
+    "trips": null
   },
-  "destination" : {
-    "id" : "af8ba4b8-50e6-4a93-8ec0-73ea820117bb",
-    "name" : "Cluj",
-    "city" : "Cluj",
-    "trips" : null
+  {
+    "id": "49ff578d-91d1-4077-881b-ed44d4a93598",
+    "origin": {
+      "id": "af8ba4b8-50e6-4a93-8ec0-73ea820117bb",
+      "name": "Cluj",
+      "city": "Cluj",
+      "trips": null
+    },
+    "destination": {
+      "id": "c29abc97-1142-4918-a20e-d9080a7d4be2",
+      "name": "Militari",
+      "city": "Bucuresti",
+      "trips": null
+    },
+    "distance": 500.0,
+    "trips": null
   },
-  "distance" : 150.0,
-  "trips" : null
-}, {
-  "id" : "21070c2a-ece2-44f5-bd0c-519b3344f144",
-  "origin" : {
-    "id" : "c29abc97-1142-4918-a20e-d9080a7d4be2",
-    "name" : "Militari",
-    "city" : "Bucuresti",
-    "trips" : null
+  {
+    "id": "r-5-oradea-constanta-1111-0001",
+    "origin": {
+      "id": "c3e5g7h9-3333-4d44-8555-ccdde3333333",
+      "name": "Oradea",
+      "city": "Oradea",
+      "trips": null
+    },
+    "destination": {
+      "id": "c9k1m3o5-9999-43aa-e111-cckkk9999999",
+      "name": "Constanta",
+      "city": "Constanta",
+      "trips": null
+    },
+    "distance": 680.0,
+    "trips": null
   },
-  "destination" : {
-    "id" : "af8ba4b8-50e6-4a93-8ec0-73ea820117bb",
-    "name" : "Cluj",
-    "city" : "Cluj",
-    "trips" : null
+  {
+    "id": "r-6-timisoara-arad-2222-0002",
+    "origin": {
+      "id": "d4f6h8j0-4444-4e55-9666-dddee4444444",
+      "name": "Timisoara",
+      "city": "Timisoara",
+      "trips": null
+    },
+    "destination": {
+      "id": "e5g7i9k1-5555-4f66-a777-eeeff5555555",
+      "name": "Arad",
+      "city": "Arad",
+      "trips": null
+    },
+    "distance": 60.0,
+    "trips": null
   },
-  "distance" : 500.0,
-  "trips" : null
-}, {
-  "id" : "49ff578d-91d1-4077-881b-ed44d4a93598",
-  "origin" : {
-    "id" : "af8ba4b8-50e6-4a93-8ec0-73ea820117bb",
-    "name" : "Cluj",
-    "city" : "Cluj",
-    "trips" : null
+  {
+    "id": "r-7-iasi-piatra-3333-0003",
+    "origin": {
+      "id": "a1c2e3f4-1111-4b22-8333-abcde1111111",
+      "name": "Iasi",
+      "city": "Iasi",
+      "trips": null
+    },
+    "destination": {
+      "id": "a3o5q7s9-dddd-47ee-2555-gggoo3333333",
+      "name": "Piatra Neamt",
+      "city": "Piatra Neamt",
+      "trips": null
+    },
+    "distance": 120.0,
+    "trips": null
   },
-  "destination" : {
-    "id" : "c29abc97-1142-4918-a20e-d9080a7d4be2",
-    "name" : "Militari",
-    "city" : "Bucuresti",
-    "trips" : null
+  {
+    "id": "r-8-sibiu-alba-4444-0004",
+    "origin": {
+      "id": "b2d4f6a8-2222-4c33-9444-bbcde2222222",
+      "name": "Sibiu",
+      "city": "Sibiu",
+      "trips": null
+    },
+    "destination": {
+      "id": "b8j0l2n4-8888-4299-d000-bbiij8888888",
+      "name": "Alba Iulia",
+      "city": "Alba Iulia",
+      "trips": null
+    },
+    "distance": 75.0,
+    "trips": null
   },
-  "distance" : 500.0,
-  "trips" : null
-} ]
+  {
+    "id": "r-9-galați-craiova-5555-0005",
+    "origin": {
+      "id": "c5q7s9u1-ffff-49gg-4777-iiiqq5555555",
+      "name": "Galati",
+      "city": "Galati",
+      "trips": null
+    },
+    "destination": {
+      "id": "b4p6r8t0-eeee-48ff-3666-hhhpp4444444",
+      "name": "Craiova",
+      "city": "Craiova",
+      "trips": null
+    },
+    "distance": 300.0,
+    "trips": null
+  }
+]

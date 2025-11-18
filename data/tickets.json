@@ -1,13 +1,72 @@
-[ {
-  "id" : "39010f77-2b34-4368-b016-a7528b0a8436",
-  "tripId" : "54a91ae8-bb32-41c1-9a0b-fe5119385d3d",
-  "passengerId" : "fe36f26e-ea2a-4c3a-8586-50ebee75792b",
-  "seatNumber" : "17",
-  "price" : 0.0
-}, {
-  "id" : "21900c98-37c6-4716-8f86-69b6395039cd",
-  "tripId" : "b117cd9f-fbf4-4cb9-82c2-9bb64cf05486",
-  "passengerId" : "fe36f26e-ea2a-4c3a-8586-50ebee75792b",
-  "seatNumber" : "4",
-  "price" : 0.0
-} ]
+[
+  {
+    "id": "39010f77-2b34-4368-b016-a7528b0a8436",
+    "tripId": "54a91ae8-bb32-41c1-9a0b-fe5119385d3d",
+    "passengerId": "fe36f26e-ea2a-4c3a-8586-50ebee75792b",
+    "seatNumber": "17",
+    "price": 0.0
+  },
+  {
+    "id": "21900c98-37c6-4716-8f86-69b6395039cd",
+    "tripId": "b117cd9f-fbf4-4cb9-82c2-9bb64cf05486",
+    "passengerId": "fe36f26e-ea2a-4c3a-8586-50ebee75792b",
+    "seatNumber": "4",
+    "price": 0.0
+  },
+  {
+    "id": "t3a4b5c6-1111-4d5e-8f01-101112131415",
+    "tripId": "a9f44d1a-9c61-4a19-8b73-2f3b7a7b6cde",
+    "passengerId": "p1a2b3c4-1111-4d5e-8f01-111213141516",
+    "seatNumber": "10",
+    "price": 250.0
+  },
+  {
+    "id": "t4b5c6d7-2222-4e6f-9a02-202122232425",
+    "tripId": "f0b8d2a3-2e3f-4272-a2c4-6d2b9b0f1122",
+    "passengerId": "p2b3c4d5-2222-4e6f-9a02-212223242526",
+    "seatNumber": "5",
+    "price": 210.0
+  },
+  {
+    "id": "t5c6d7e8-3333-4f70-0b03-303132333435",
+    "tripId": "33398d38-be64-4f74-a041-3c4c20c1a895",
+    "passengerId": "p3c4d5e6-3333-4f70-0b03-313233343536",
+    "seatNumber": "2",
+    "price": 99.0
+  },
+  {
+    "id": "t6d7e8f9-4444-4071-1c04-404142434445",
+    "tripId": "b3f7a9c1-5e2d-4f8a-b6ea-1f7c5c2e9999",
+    "passengerId": "p4d5e6f7-4444-4071-1c04-414243444546",
+    "seatNumber": "1",
+    "price": 190.0
+  },
+  {
+    "id": "t7e8f901-5555-4182-2d05-505152535455",
+    "tripId": "c9a2f6b7-88d1-4f9a-8d9c-3b0a5d6e7777",
+    "passengerId": "p5e6f708-5555-4182-2d05-515253545556",
+    "seatNumber": "12",
+    "price": 270.0
+  },
+  {
+    "id": "t8f90123-6666-4293-3e06-606162636465",
+    "tripId": "e2d3b6f9-7b11-4d2b-b6a8-9c3a2d1c4444",
+    "passengerId": "p6f70819-6666-4293-3e06-616263646566",
+    "seatNumber": "8",
+    "price": 115.0
+  },
+  {
+    "id": "t9012345-7777-43a4-4f07-707172737475",
+    "tripId": "a7b6c5d4-e3f2-4a2b-9e8f-0a1b2c3d4444",
+    "passengerId": "p708192a-7777-43a4-4f07-717273747576",
+    "seatNumber": "20",
+    "price": 100.0
+  },
+  {
+    "id": "t0123456-8888-44b5-5018-808182838485",
+    "tripId": "e2d3b6f9-7b11-4d2b-b6a8-9c3a2d1c4444",
+    "passengerId": "p8192a3b-8888-44b5-5018-818283848586",
+    "seatNumber": "3",
+    "price": 115.0
+  }
+]
