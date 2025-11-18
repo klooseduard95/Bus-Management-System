@@ -28,11 +28,11 @@ public class BusTripService {
         return busTripRepository.save(busTrip);
     }
 
-    public Optional<BusTrip> findById(String id) {
+    public Optional<BusTrip> findById(Long id) {
         return busTripRepository.findById(id);
     }
 
-    public void deleteById(String id) {
+    public void deleteById(Long id) {
         busTripRepository.deleteById(id);
     }
 }

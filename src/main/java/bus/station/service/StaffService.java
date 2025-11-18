@@ -17,9 +17,10 @@ public class StaffService {
         this.staffRepository = staffRepository;
     }
 
-    public Optional<Staff> findById(String id){
+    public Optional<Staff> findById(Long id){
         return staffRepository.findById(id);
     }
+
     public List<Staff> findAll(){
         return staffRepository.findAll();
     }
@@ -27,7 +28,8 @@ public class StaffService {
     public Staff save(Staff staff){
         return staffRepository.save(staff);
     }
-    public boolean delete(String id){
-        return staffRepository.deleteById(id);
+
+    public void deleteById(Long id){
+        staffRepository.deleteById(id);
     }
 }

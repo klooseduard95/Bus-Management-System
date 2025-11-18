@@ -1,36 +1,51 @@
 package bus.station.model;
 
-import bus.station.interfaces.Identifiable;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class Passenger implements Identifiable {
-    private String id;
+@Entity
+@Table(name = "passengers")
+public class Passenger {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotBlank(message = "Passenger name is required")
+    @Size(min = 3, max = 100, message = "Name must be between 2 and 100 characters")
     private String name;
+
     private String currency;
-    private List<Ticket> tickets;
+
+    @NotNull(message = "Date of birth is required")
+    @Past(message = "Date of birth mus be in the past")
+    @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
+
+    @Column(name = "requires_special_assistance")
     private boolean requiresSpecialAssistance;
+
+    @OneToMany(mappedBy = "passenger", fetch = FetchType.LAZY)
+    private List<Ticket> tickets;
 
     public Passenger() {}
 
-    public Passenger(String id, String name, String currency, List<Ticket> tickets, LocalDate dateOfBirth, boolean requiresSpecialAssistance) {
-        this.id = id;
+    public Passenger(String name, String currency, LocalDate dateOfBirth, boolean requiresSpecialAssistance) {
         this.name = name;
         this.currency = currency;
-        this.tickets = tickets;
         this.dateOfBirth = dateOfBirth;
         this.requiresSpecialAssistance = requiresSpecialAssistance;
     }
 
-    @Override
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    @Override
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

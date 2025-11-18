@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head-links(title='Station Details - ' + ${station.name})}"></head>
+
+<body>
+<div class="d-flex">
+
+    <div th:replace="~{fragments :: sidebar}"></div>
+
+    <div class="container-fluid p-4">
+
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/bus-station}" class="text-decoration-none">Stations</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="${station.name}">Details</li>
+            </ol>
+        </nav>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body text-center p-5">
+                        <div class="display-1 mb-3">🚉</div> <h2 class="card-title fw-bold" th:text="${station.name}">Station Name</h2>
+                        <h5 class="text-muted mb-4" th:text="${station.city}">City</h5>
+
+                        <ul class="list-group list-group-flush text-start mb-4">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>ID:</span>
+                                <span class="fw-bold" th:text="${'#' + station.id}">#1</span>
+                            </li>
+                        </ul>
+
+                        <div class="d-grid gap-2">
+                            <a th:href="@{/bus-station/{id}/edit(id=${station.id})}" class="btn btn-warning">Edit Station</a>
+                            <form th:action="@{/bus-station/{id}/delete(id=${station.id})}" method="post"
+                                  onsubmit="return confirm('Delete this station?');">
+                                <button type="submit" class="btn btn-outline-danger w-100">Delete Station</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">🛫 Routes Starting Here (Origin)</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                            <tr>
+                                <th>Route ID</th>
+                                <th>Destination</th>
+                                <th>Distance</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${#lists.isEmpty(station.routesAsOrigin)}">
+                                <td colspan="4" class="text-center text-muted py-3">No routes start from here.</td>
+                            </tr>
+                            <tr th:each="route : ${station.routesAsOrigin}">
+                                <td th:text="${'#' + route.id}">1</td>
+                                <td th:text="${route.destination.name}" class="fw-bold">Dest</td>
+                                <td th:text="${route.distance + ' km'}">100 km</td>
+                                <td>
+                                    <a th:href="@{/route/{id}/edit(id=${route.id})}" class="btn btn-sm btn-light border">View Route</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">🛬 Routes Ending Here (Destination)</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                            <tr>
+                                <th>Route ID</th>
+                                <th>Origin</th>
+                                <th>Distance</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${#lists.isEmpty(station.routesAsDestination)}">
+                                <td colspan="4" class="text-center text-muted py-3">No routes end here.</td>
+                            </tr>
+                            <tr th:each="route : ${station.routesAsDestination}">
+                                <td th:text="${'#' + route.id}">1</td>
+                                <td th:text="${route.origin.name}" class="fw-bold">Origin</td>
+                                <td th:text="${route.distance + ' km'}">100 km</td>
+                                <td>
+                                    <a th:href="@{/route/{id}/edit(id=${route.id})}" class="btn btn-sm btn-light border">View Route</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div th:replace="~{fragments :: body-scripts}"></div>
+</body>
+</html>

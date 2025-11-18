@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head-links(title='Route Details #' + ${route.id})}"></head>
+
+<body>
+<div class="d-flex">
+
+    <div th:replace="~{fragments :: sidebar}"></div>
+
+    <div class="container-fluid p-4">
+
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/route}" class="text-decoration-none">Routes</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Details</li>
+            </ol>
+        </nav>
+
+        <div class="row g-4">
+
+            <div class="col-md-5">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-body text-center d-flex flex-column justify-content-center">
+
+                        <div class="mb-4">
+                            <span class="display-1">🗺️</span>
+                        </div>
+
+                        <h2 class="card-title fw-bold mb-3">
+                            <span th:text="${route.origin.name}">Origin</span>
+                            <i class="bi bi-arrow-right mx-2 text-primary"></i>
+                            <span th:text="${route.destination.name}">Dest</span>
+                        </h2>
+
+                        <div class="fs-5 text-muted mb-4">
+                            Distance: <span class="fw-bold text-dark" th:text="${route.distance + ' km'}">300 km</span>
+                        </div>
+
+                        <ul class="list-group list-group-flush text-start mb-4">
+                            <li class="list-group-item">
+                                <strong>Origin City:</strong> <span th:text="${route.origin.city}">City</span>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Destination City:</strong> <span th:text="${route.destination.city}">City</span>
+                            </li>
+                        </ul>
+
+                        <div class="d-grid gap-2 mt-auto">
+                            <a th:href="@{/route/{id}/edit(id=${route.id})}" class="btn btn-warning">Edit Route</a>
+                            <form th:action="@{/route/{id}/delete(id=${route.id})}" method="post"
+                                  onsubmit="return confirm('Delete this route?');">
+                                <button type="submit" class="btn btn-outline-danger w-100">Delete Route</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-7">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-header bg-info text-dark">
+                        <h5 class="mb-0">🚌 Scheduled Trips on this Route</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                            <tr>
+                                <th>Trip ID</th>
+                                <th>Start Time</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${#lists.isEmpty(route.trips)}">
+                                <td colspan="4" class="text-center text-muted py-4">No trips scheduled for this route.</td>
+                            </tr>
+                            <tr th:each="trip : ${route.trips}">
+                                <td th:text="${'#' + trip.id}">123</td>
+                                <td th:text="${trip.startTime}">10:00</td>
+                                <td>
+                                    <span class="badge bg-secondary" th:text="${trip.status}">Planned</span>
+                                </td>
+                                <td>
+                                    <a th:href="@{/bus-trip/{id}(id=${trip.id})}" class="btn btn-sm btn-outline-primary">View Trip</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div th:replace="~{fragments :: body-scripts}"></div>
+</body>
+</html>

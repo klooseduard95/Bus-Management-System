@@ -22,17 +22,17 @@ public class DutyAssignmentService {
     }
 
     public DutyAssignment save(DutyAssignment dutyAssignment) {
-        if (dutyAssignment.getTripId() == null || dutyAssignment.getStaffId() == null) {
-            throw new IllegalArgumentException("Trip ID and Staff ID are required.");
+        if (dutyAssignment.getBusTrip() == null || dutyAssignment.getStaff() == null) {
+            throw new IllegalArgumentException("Trip and Staff are required.");
         }
         return dutyAssignmentRepository.save(dutyAssignment);
     }
 
-    public Optional<DutyAssignment> findById(String id) {
+    public Optional<DutyAssignment> findById(Long id) {
         return dutyAssignmentRepository.findById(id);
     }
 
-    public void deleteById(String id) {
+    public void deleteById(Long id) {
         dutyAssignmentRepository.deleteById(id);
     }
 }

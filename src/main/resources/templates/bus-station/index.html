@@ -19,6 +19,7 @@
         <table class="table table-striped table-hover">
             <thead class="table-dark">
             <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>City</th>
                 <th>Actions</th>
@@ -26,6 +27,15 @@
             </thead>
             <tbody>
             <tr th:each="station : ${busStations}">
+
+                <td>
+                    <a th:href="@{/bus-station/{id}(id=${station.id})}"
+                       th:text="${'#' + station.id}"
+                       class="fw-bold text-decoration-none text-primary">
+                        #1
+                    </a>
+                </td>
+
                 <td th:text="${station.name}">[Name]</td>
                 <td th:text="${station.city}">[City]</td>
                 <td>
@@ -34,7 +44,8 @@
                         Edit
                     </a>
 
-                    <form th:action="@{/bus-station/{id}/delete(id=${station.id})}" method="post" class="d-inline">
+                    <form th:action="@{/bus-station/{id}/delete(id=${station.id})}" method="post" class="d-inline"
+                          onsubmit="return confirm('Are you sure you want to delete this station?');">
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
                 </td>

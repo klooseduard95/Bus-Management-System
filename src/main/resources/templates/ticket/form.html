@@ -12,35 +12,43 @@
 
         <form th:action="@{/ticket}" th:object="${ticket}" method="post" class="col-md-6">
 
+            <div th:if="${globalError}" class="alert alert-danger" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                <span th:text="${globalError}">Error message</span>
+            </div>
+
             <input type="hidden" th:field="*{id}" />
 
             <div class="mb-3">
-                <label for="tripId" class="form-label">Trip:</label>
-                <select id="tripId" th:field="*{tripId}" class="form-select" required>
+                <label for="busTrip" class="form-label">Select Trip:</label>
+                <select id="busTrip" th:field="*{busTrip}" class="form-select" required>
                     <option value="">-- Select Trip --</option>
                     <option th:each="trip : ${allTrips}"
                             th:value="${trip.id}"
-                            th:text="${trip.id + ' (Seats: ' + trip.availableSeats + ')'}">
-                        [Trip ID]
+                            th:text="${'#' + trip.id + ' | ' + (trip.route != null ? trip.route.origin.city + ' -> ' + trip.route.destination.city : 'Unknown Route') + ' (' + trip.startTime + ') - Seats: ' + trip.availableSeats}">
+                        [Trip Details]
                     </option>
                 </select>
+                <span class="text-danger" th:if="${#fields.hasErrors('busTrip')}" th:errors="*{busTrip}"></span>
             </div>
 
             <div class="mb-3">
-                <label for="passengerId" class="form-label">Passenger:</label>
-                <select id="passengerId" th:field="*{passengerId}" class="form-select" required>
+                <label for="passenger" class="form-label">Passenger:</label>
+                <select id="passenger" th:field="*{passenger}" class="form-select" required>
                     <option value="">-- Select Passenger --</option>
                     <option th:each="p : ${allPassengers}"
                             th:value="${p.id}"
-                            th:text="${p.name}">
+                            th:text="${p.name + ' (ID: ' + p.id + ')'}">
                         [Passenger Name]
                     </option>
                 </select>
+                <span class="text-danger" th:if="${#fields.hasErrors('passenger')}" th:errors="*{passenger}"></span>
             </div>
 
             <div class="mb-3">
                 <label for="seatNumber" class="form-label">Seat Number:</label>
                 <input type="text" id="seatNumber" th:field="*{seatNumber}" class="form-control" required />
+                <span class="text-danger" th:if="${#fields.hasErrors('seatNumber')}" th:errors="*{seatNumber}"></span>
             </div>
 
             <div class="mb-3">

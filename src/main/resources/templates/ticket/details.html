@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head-links(title='Ticket #' + ${ticket.id})}"></head>
+
+<body>
+<div class="d-flex">
+
+    <div th:replace="~{fragments :: sidebar}"></div>
+
+    <div class="container-fluid p-4">
+
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/ticket}" class="text-decoration-none">Tickets</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Details</li>
+            </ol>
+        </nav>
+
+        <div class="card shadow border-0 col-md-8 mx-auto">
+            <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+                <h4 class="mb-0 fw-bold">
+                    <i class="bi bi-ticket-perforated"></i> Boarding Pass
+                </h4>
+                <span class="badge bg-dark">CONFIRMED</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="row g-0">
+
+                    <div class="col-md-8 p-4 border-end">
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <small class="text-muted text-uppercase">Passenger Name</small>
+                                <h2 class="fw-bold" th:text="${ticket.passenger.name}">Ion Popescu</h2>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-6">
+                                <small class="text-muted text-uppercase">From</small>
+                                <h4 th:if="${ticket.busTrip.route != null}"
+                                    th:text="${ticket.busTrip.route.origin.city}">Bucuresti</h4>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted text-uppercase">To</small>
+                                <h4 th:if="${ticket.busTrip.route != null}"
+                                    th:text="${ticket.busTrip.route.destination.city}">Cluj</h4>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <small class="text-muted text-uppercase">Date & Time</small>
+                                <p class="fs-5 mb-0">
+                                    <i class="bi bi-clock"></i>
+                                    <span th:text="${ticket.busTrip.startTime}">12:00</span>
+                                </p>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted text-uppercase">Bus / Trip ID</small>
+                                <p class="fs-5 mb-0" th:text="${'#' + ticket.busTrip.id}">#123</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 p-4 bg-light">
+                        <div class="mb-4">
+                            <small class="text-muted text-uppercase">Seat</small>
+                            <h1 class="display-4 fw-bold text-primary" th:text="${ticket.seatNumber}">12A</h1>
+                        </div>
+
+                        <div class="mb-4">
+                            <small class="text-muted text-uppercase">Price Paid</small>
+                            <h3 class="text-success" th:text="${#numbers.formatCurrency(ticket.price)}">$50</h3>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-auto">
+                            <a th:href="@{/ticket/{id}/edit(id=${ticket.id})}" class="btn btn-outline-warning btn-sm">Edit Ticket</a>
+
+                            <form th:action="@{/ticket/{id}/delete(id=${ticket.id})}" method="post"
+                                  onsubmit="return confirm('Cancel this ticket?');">
+                                <button type="submit" class="btn btn-outline-danger btn-sm w-100">Cancel Ticket</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-muted text-center small">
+                Ticket ID: <span th:text="${ticket.id}">uuid</span> | Have a safe trip!
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div th:replace="~{fragments :: body-scripts}"></div>
+</body>
+</html>

@@ -1,31 +1,40 @@
 package bus.station.model;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
+@Entity
+@DiscriminatorValue("DRIVER")
 public class Driver extends Staff {
-    private List<DutyAssignment> assignments;
-    private int yearsOfExperience;
+    @Column(name = "license_acquired_date")
+    @NotNull(message = "License acquired date is missing")
+    @Past(message = "License date must be in the past")
+    private LocalDate licenseAcquiredDate;
 
-    public Driver() {}
-
-    public Driver(String id, String name, List<DutyAssignment> assignments, int yearsOfExperience) {
-        super(id, name);
-        this.yearsOfExperience = yearsOfExperience;
+    public Driver() {
+        super();
     }
 
-    public List<DutyAssignment> getAssignments() {
-        return assignments;
-    }
-
-    public void setAssignments(List<DutyAssignment> assignments) {
-        this.assignments = assignments;
+    public Driver(String name, LocalDate licenseAcquiredDate) {
+        super(name);
+        this.licenseAcquiredDate = licenseAcquiredDate;
     }
 
     public int getYearsOfExperience() {
-        return yearsOfExperience;
+        if (this.licenseAcquiredDate == null) {
+            return 0;
+        }
+        return Period.between(this.licenseAcquiredDate, LocalDate.now()).getYears();
     }
 
-    public void setYearsOfExperience(int yearsOfExperience) {
-        this.yearsOfExperience = yearsOfExperience;
+    public LocalDate getLicenseAcquiredDate() {
+        return licenseAcquiredDate;
+    }
+
+    public void setLicenseAcquiredDate(LocalDate licenseAcquiredDate) {
+        this.licenseAcquiredDate = licenseAcquiredDate;
     }
 }

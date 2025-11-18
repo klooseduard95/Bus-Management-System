@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head-links(title='Driver List')}"></head>
+
+<body>
+<div class="d-flex">
+    <div th:replace="~{fragments :: sidebar}"></div>
+
+    <div class="container-fluid p-4">
+        <h1 class="mb-3">🚌 Driver Management</h1>
+
+        <a th:href="@{/staff/driver/new}" class="btn btn-primary mb-3">
+            <i class="bi bi-plus-circle"></i> Add New Driver
+        </a>
+
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>License Date</th>
+                <th>Experience</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="staff : ${allStaff}">
+
+                <td>
+                    <a th:href="@{/staff/{id}(id=${staff.id})}"
+                       class="fw-bold text-decoration-none text-primary"
+                       th:text="${'#' + staff.id}">
+                        #1
+                    </a>
+                </td>
+
+                <td th:text="${staff.name}">[Name]</td>
+
+                <td th:text="${staff.licenseAcquiredDate}">2020-01-01</td>
+
+                <td>
+                    <span class="badge bg-success"
+                          th:text="${staff.yearsOfExperience + ' years'}">
+                        5 years
+                    </span>
+                </td>
+
+                <td>
+                    <a th:href="@{/staff/driver/{id}/edit(id=${staff.id})}"
+                       class="btn btn-warning btn-sm me-2">
+                        Edit
+                    </a>
+
+                    <form th:action="@{/staff/driver/{id}/delete(id=${staff.id})}"
+                          method="post" class="d-inline"
+                          onsubmit="return confirm('Are you sure you want to delete this driver?');">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:replace="~{fragments :: body-scripts}"></div>
+</body>
+</html>

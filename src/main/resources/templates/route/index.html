@@ -17,6 +17,7 @@
         <table class="table table-striped table-hover">
             <thead class="table-dark">
             <tr>
+                <th>ID</th>
                 <th>Origin</th>
                 <th>Destination</th>
                 <th>Distance (km)</th>
@@ -25,6 +26,15 @@
             </thead>
             <tbody>
             <tr th:each="route : ${routes}">
+
+                <td>
+                    <a th:href="@{/route/{id}(id=${route.id})}"
+                       th:text="${'#' + route.id}"
+                       class="fw-bold text-decoration-none text-primary">
+                        #1
+                    </a>
+                </td>
+
                 <td th:text="${route.origin != null ? route.origin.name : 'N/A'}">[Origin]</td>
                 <td th:text="${route.destination != null ? route.destination.name : 'N/A'}">[Destination]</td>
                 <td th:text="${route.distance}">[Distance]</td>
@@ -33,8 +43,9 @@
                        class="btn btn-warning btn-sm me-2">
                         Edit
                     </a>
-                    <form th:action="@{/route/{id}/delete(id=${route.id})}" method="post" class="d-inline">
-                        <button type"submit" class="btn btn-danger btn-sm">Delete</button>
+                    <form th:action="@{/route/{id}/delete(id=${route.id})}" method="post" class="d-inline"
+                          onsubmit="return confirm('Are you sure you want to delete this route?');">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
                 </td>
             </tr>

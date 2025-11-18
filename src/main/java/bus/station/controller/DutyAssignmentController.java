@@ -2,11 +2,13 @@ package bus.station.controller;
 
 
 import bus.station.model.DutyAssignment;
-import bus.station.repository.BusTripRepository;
-import bus.station.repository.DriverRepository;
+import bus.station.service.BusTripService;
 import bus.station.service.DutyAssignmentService;
+import bus.station.service.StaffService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -16,26 +18,26 @@ import java.util.Optional;
 public class DutyAssignmentController {
 
     private final DutyAssignmentService dutyAssignmentService;
-    private final BusTripRepository busTripRepository;
-    private final DriverRepository driverRepository;
+    private final BusTripService busTripService;
+    private final StaffService staffService;
 
     public DutyAssignmentController(DutyAssignmentService dutyAssignmentService,
-                                    BusTripRepository busTripRepository,
-                                    DriverRepository driverRepository) {
+                                    BusTripService busTripService,
+                                    StaffService staffService) {
         this.dutyAssignmentService = dutyAssignmentService;
-        this.busTripRepository = busTripRepository;
-        this.driverRepository = driverRepository;
+        this.busTripService = busTripService;
+        this.staffService = staffService;
     }
 
     private void addDropdownDataToModel(Model model) {
-        model.addAttribute("allTrips", busTripRepository.findAll());
-
-        model.addAttribute("allStaff", driverRepository.findAll());
+        model.addAttribute("allTrips", busTripService.findAll());
+        model.addAttribute("allStaff", staffService.findAll());
     }
 
     @GetMapping
     public String getAssignmentList(Model model) {
         model.addAttribute("assignments", dutyAssignmentService.findAll());
+        model.addAttribute("activePage", "duty-assignment");
         return "duty-assignment/index";
     }
 
@@ -43,15 +45,17 @@ public class DutyAssignmentController {
     public String showCreateForm(Model model) {
         model.addAttribute("assignment", new DutyAssignment());
         addDropdownDataToModel(model);
+        model.addAttribute("activePage", "duty-assignment");
         return "duty-assignment/form";
     }
 
     @GetMapping("/{id}/edit")
-    public String showEditForm(@PathVariable String id, Model model) {
+    public String showEditForm(@PathVariable Long id, Model model) {
         Optional<DutyAssignment> assignmentOptional = dutyAssignmentService.findById(id);
         if (assignmentOptional.isPresent()) {
             model.addAttribute("assignment", assignmentOptional.get());
             addDropdownDataToModel(model);
+            model.addAttribute("activePage", "duty-assignment");
             return "duty-assignment/form";
         } else {
             return "redirect:/duty-assignment";
@@ -59,14 +63,33 @@ public class DutyAssignmentController {
     }
 
     @PostMapping
-    public String createOrUpdateAssignment(@ModelAttribute DutyAssignment assignment) {
+    public String createOrUpdateAssignment(@Valid @ModelAttribute("assignment") DutyAssignment assignment,
+                                           BindingResult bindingResult,
+                                           Model model) {
+        if (bindingResult.hasErrors()) {
+            addDropdownDataToModel(model);
+            model.addAttribute("activePage", "duty-assignment");
+            return "duty-assignment/form";
+        }
         dutyAssignmentService.save(assignment);
         return "redirect:/duty-assignment";
     }
 
     @PostMapping("/{id}/delete")
-    public String deleteAssignment(@PathVariable String id) {
+    public String deleteAssignment(@PathVariable Long id) {
         dutyAssignmentService.deleteById(id);
+        return "redirect:/duty-assignment";
+    }
+
+    @GetMapping("/{id}")
+    public String getAssignmentDetails(@PathVariable Long id, Model model) {
+        Optional<DutyAssignment> assignmentOpt = dutyAssignmentService.findById(id);
+
+        if (assignmentOpt.isPresent()) {
+            model.addAttribute("assignment", assignmentOpt.get());
+            model.addAttribute("activePage", "duty-assignment");
+            return "duty-assignment/details";
+        }
         return "redirect:/duty-assignment";
     }
 }

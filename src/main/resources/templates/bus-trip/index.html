@@ -8,38 +8,71 @@
     <div th:replace="~{fragments :: sidebar}"></div>
 
     <div class="container-fluid p-4">
-        <h1 class="mb-3">🗺️ Bus Trip Management</h1>
+        <h1 class="mb-3">🛣️ Bus Trip Management</h1>
 
-        <a th:href="@{/bus-trip/new}" class="btn btn-primary mb-3">
-            Add New Bus Trip
-        </a>
+        <a th:href="@{/bus-trip/new}" class="btn btn-primary mb-3">Add New Bus Trip</a>
 
-        <table class="table table-striped table-hover">
-            <thead class="table-dark">
-            <tr>
-                <th>Route ID</th>
-                <th>Bus ID</th>
-                <th>Start Time</th>
-                <th>Available Seats</th>
-                <th>Base Price</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
+        <table class="table table-striped table-hover align-middle"> <thead class="table-dark">
+        <tr>
+            <th>Trip ID</th>
+            <th>Route Info</th> <th>Bus</th>
+            <th>Start Time</th>
+            <th>Status</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
             <tbody>
             <tr th:each="trip : ${busTrips}">
-                <td th:text="${trip.routeId}">[Route ID]</td>
-                <td th:text="${trip.busId}">[Bus ID]</td>
-                <td th:text="${trip.startTime}">[Start Time]</td>
-                <td th:text="${trip.availableSeats}">[Seats]</td>
-                <td th:text="${'$' + trip.basePrice}">[Price]</td>
-                <td th:text="${trip.status}">[Status]</td>
                 <td>
-                    <a th:href="@{/bus-trip/{id}/edit(id=${trip.id})}"
-                       class="btn btn-warning btn-sm me-2">
-                        Edit
-                    </a>
-                    <form th:action="@{/bus-trip/{id}/delete(id=${trip.id})}" method="post" class="d-inline">
+                    <a th:href="@{/bus-trip/{id}(id=${trip.id})}"
+                       th:text="${'#' + trip.id}"
+                       class="fw-bold text-decoration-none text-primary">#1</a>
+                </td>
+
+                <td>
+                        <span th:if="${trip.route != null}">
+                            <a th:href="@{/route/{id}(id=${trip.route.id})}"
+                               class="text-decoration-none fw-bold text-dark">
+                                Route #<span th:text="${trip.route.id}">4</span>
+                            </a>
+
+                            <div class="small text-muted">
+                                <span th:text="${trip.route.origin.city}">Bucuresti</span>
+                                <i class="bi bi-arrow-right-short"></i>
+                                <span th:text="${trip.route.destination.city}">Cluj</span>
+                            </div>
+                        </span>
+
+                    <span th:unless="${trip.route != null}" class="text-danger">No Route Assigned</span>
+                </td>
+                <td>
+                        <span th:if="${trip.bus != null}">
+                            <a th:href="@{/bus/{id}(id=${trip.bus.id})}"
+                               class="text-decoration-none text-dark"
+                               th:text="${trip.bus.registrationNumber}">
+                                CJ-01
+                            </a>
+                        </span>
+                    <span th:unless="${trip.bus != null}" class="text-danger">No Bus</span>
+                </td>
+
+                <td th:text="${trip.startTime}">12:00</td>
+
+                <td>
+                        <span class="badge"
+                              th:classappend="${trip.status.name() == 'Active' ? 'bg-success' : 'bg-secondary'}"
+                              th:text="${trip.status}">
+                            Planned
+                        </span>
+                </td>
+
+                <td th:text="${#numbers.formatCurrency(trip.basePrice)}">$10.00</td>
+
+                <td>
+                    <a th:href="@{/bus-trip/{id}/edit(id=${trip.id})}" class="btn btn-warning btn-sm me-2">Edit</a>
+                    <form th:action="@{/bus-trip/{id}/delete(id=${trip.id})}" method="post" class="d-inline"
+                          onsubmit="return confirm('Delete this trip?');">
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
                 </td>
@@ -48,7 +81,6 @@
         </table>
     </div>
 </div>
-
 <div th:replace="~{fragments :: body-scripts}"></div>
 </body>
 </html>

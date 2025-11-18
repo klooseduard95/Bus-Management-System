@@ -1,28 +1,40 @@
 package bus.station.model;
 
-import bus.station.interfaces.Identifiable;
-
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.util.List;
+@Entity
+@Table(name = "bus_stations")
+public class BusStation {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-public class BusStation implements Identifiable {
-    private String id;
+    @NotBlank(message = "Station name is required")
+    @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters long")
     private String name;
+
+    @NotBlank(message = "City is required")
     private String city;
-    private List<BusTrip> trips;
+
+    @OneToMany(mappedBy = "origin", fetch = FetchType.LAZY)
+    private List<Route> routesAsOrigin;
+
+    @OneToMany(mappedBy = "destination", fetch = FetchType.LAZY)
+    private List<Route> routesAsDestination;
 
     public BusStation() {}
 
-    public BusStation(String id, String name, String city) {
-        this.id = id;
+    public BusStation(String name, String city) {
         this.name = name;
         this.city = city;
     }
-    @Override
-    public String getId() {
+
+    public Long getId() {
         return id;
     }
-    @Override
-    public void setId(String id) {
+
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -42,12 +54,19 @@ public class BusStation implements Identifiable {
         this.city = city;
     }
 
-    public List<BusTrip> getTrips() {
-        return trips;
+    public List<Route> getRoutesAsOrigin() {
+        return routesAsOrigin;
     }
 
-    public void setTrips(List<BusTrip> trips) {
-        this.trips = trips;
+    public void setRoutesAsOrigin(List<Route> routesAsOrigin) {
+        this.routesAsOrigin = routesAsOrigin;
     }
 
+    public List<Route> getRoutesAsDestination() {
+        return routesAsDestination;
+    }
+
+    public void setRoutesAsDestination(List<Route> routesAsDestination) {
+        this.routesAsDestination = routesAsDestination;
+    }
 }

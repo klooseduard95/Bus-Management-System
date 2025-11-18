@@ -1,25 +1,36 @@
 package bus.station.model;
 
-import bus.station.interfaces.Identifiable;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
-public abstract class Staff implements Identifiable {
-    private String id;
+import java.util.List;
+
+@Entity
+@Table(name = "staff")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "staff_type")
+public abstract class Staff {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotBlank(message = "Staff name is required")
     private String name;
+
+    @OneToMany(mappedBy = "staff", fetch = FetchType.LAZY)
+    private List<DutyAssignment> assignments;
 
     public Staff() {}
 
-    public Staff(String id, String name) {
-        this.id = id;
+    public Staff(String name) {
         this.name = name;
     }
 
-    @Override
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    @Override
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -29,5 +40,13 @@ public abstract class Staff implements Identifiable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<DutyAssignment> getAssignments() {
+        return assignments;
+    }
+
+    public void setAssignments(List<DutyAssignment> assignments) {
+        this.assignments = assignments;
     }
 }

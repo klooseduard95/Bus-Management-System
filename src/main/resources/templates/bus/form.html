@@ -18,20 +18,32 @@
             <div class="mb-3">
                 <label for="registrationNumber" class="form-label">Registration Number:</label>
                 <input type="text" id="registrationNumber" th:field="*{registrationNumber}" class="form-control" />
+                <span class="text-danger" th:if="${#fields.hasErrors('registrationNumber')}" th:errors="*{registrationNumber}"></span>
             </div>
 
             <div class="mb-3">
                 <label for="capacity" class="form-label">Capacity:</label>
                 <input type="number" id="capacity" th:field="*{capacity}" class="form-control" />
+                <span class="text-danger" th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}"></span>
             </div>
 
             <div class="mb-3">
+                <label for="status" class="form-label">Status:</label>
+                <select id="status" th:field="*{status}" class="form-select">
+                    <option th:each="stat : ${T(bus.station.enums.BusStatus).values()}"
+                            th:value="${stat}"
+                            th:text="${stat}">
+                        Active
+                    </option>
+                </select>
+            </div>
+            <div class="mb-3">
                 <label for="lastMaintenanceDate" class="form-label">Last Maintenance Date:</label>
-
                 <input type="date" id="lastMaintenanceDate"
                        name="lastMaintenanceDate"
                        th:value="${bus.lastMaintenanceDate != null ? #temporals.format(bus.lastMaintenanceDate, 'yyyy-MM-dd') : ''}"
                        class="form-control" />
+                <span class="text-danger" th:if="${#fields.hasErrors('lastMaintenanceDate')}" th:errors="*{lastMaintenanceDate}"></span>
             </div>
 
             <div class="mb-3 form-check">

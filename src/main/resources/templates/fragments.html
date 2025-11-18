@@ -10,10 +10,19 @@
           rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
           crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <style>
         body { min-height: 100vh; }
         .sidebar { min-height: 100vh; }
+        .nav-pills .nav-link.active {
+            background-color: #0d6efd;
+            color: white !important;
+        }
+        .sub-link {
+            padding-left: 2rem !important;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 
@@ -21,55 +30,94 @@
 
 <div th:fragment="sidebar" class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-        <span class="fs-4">Bus Station Admin</span>
+        <span class="fs-4"><i class="bi bi-bus-front"></i> Admin Panel</span>
     </a>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
 
         <li class="nav-item">
-            <a th:href="@{/bus}" class="nav-link text-white" aria-current="page">
-                🚌 Buses
-            </a>
-        </li>
-        <li>
-            <a th:href="@{/bus-station}" class="nav-link text-white">
-                🚉 BusStations
-            </a>
-        </li>
-        <li>
-            <a th:href="@{/route}" class="nav-link text-white">
-                🛣️ Routes
-            </a>
-        </li>
-        <li>
-            <a th:href="@{/bus-trip}" class="nav-link text-white">
-                🗺️ BusTrips
-            </a>
-        </li>
-        <li>
-            <a th:href="@{/passenger}" class="nav-link text-white">
-                🧑 Passengers
-            </a>
-        </li>
-        <li>
-            <a th:href="@{/duty-assignment}" class="nav-link text-white">
-                🧑‍✈️ Duty Assignments
+            <a th:href="@{/bus}" class="nav-link text-white"
+               th:classappend="${activePage == 'bus'} ? 'active' : ''">
+                <i class="bi bi-truck-front me-2"></i> Buses
             </a>
         </li>
 
-        <li>
-            <a th:href="@{/staff}" class="nav-link text-white">
-                👥 Staff
+        <li class="nav-item">
+            <a th:href="@{/bus-station}" class="nav-link text-white"
+               th:classappend="${activePage == 'bus-station'} ? 'active' : ''">
+                <i class="bi bi-buildings me-2"></i> Stations
             </a>
         </li>
-        <li>
-            <a th:href="@{/ticket}" class="nav-link text-white">
-                🎟️ Tickets
+
+        <li class="nav-item">
+            <a th:href="@{/route}" class="nav-link text-white"
+               th:classappend="${activePage == 'route'} ? 'active' : ''">
+                <i class="bi bi-map me-2"></i> Routes
             </a>
+        </li>
+
+        <li class="nav-item">
+            <a th:href="@{/bus-trip}" class="nav-link text-white"
+               th:classappend="${activePage == 'bus-trip'} ? 'active' : ''">
+                <i class="bi bi-calendar-week me-2"></i> Bus Trips
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a th:href="@{/passenger}" class="nav-link text-white"
+               th:classappend="${activePage == 'passenger'} ? 'active' : ''">
+                <i class="bi bi-people me-2"></i> Passengers
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a th:href="@{/ticket}" class="nav-link text-white"
+               th:classappend="${activePage == 'ticket'} ? 'active' : ''">
+                <i class="bi bi-ticket-perforated me-2"></i> Tickets
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a th:href="@{/duty-assignment}" class="nav-link text-white"
+               th:classappend="${activePage == 'duty-assignment'} ? 'active' : ''">
+                <i class="bi bi-clipboard-check me-2"></i> Assignments
+            </a>
+        </li>
+
+        <hr class="text-white-50 my-2">
+
+        <li class="nav-item">
+            <a class="nav-link text-white d-flex justify-content-between align-items-center"
+               data-bs-toggle="collapse"
+               href="#staffSubmenu"
+               role="button"
+               aria-expanded="false"
+               aria-controls="staffSubmenu"
+               th:classappend="${activePage == 'staff-driver' || activePage == 'staff-manager'} ? 'active' : ''">
+                <span><i class="bi bi-person-badge me-2"></i> Staff</span>
+                <i class="bi bi-chevron-down small"></i>
+            </a>
+
+            <div class="collapse" id="staffSubmenu"
+                 th:classappend="${activePage == 'staff-driver' || activePage == 'staff-manager'} ? 'show' : ''">
+                <ul class="nav flex-column ms-3 mt-1 border-start border-secondary">
+                    <li class="nav-item">
+                        <a th:href="@{/staff/drivers}" class="nav-link text-white sub-link"
+                           th:classappend="${activePage == 'staff-driver'} ? 'fw-bold text-info' : ''">
+                            Drivers
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/staff/managers}" class="nav-link text-white sub-link"
+                           th:classappend="${activePage == 'staff-manager'} ? 'fw-bold text-info' : ''">
+                            Managers
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </li>
 
     </ul>
-    <hr>
 </div>
 
 <div th:fragment="body-scripts">

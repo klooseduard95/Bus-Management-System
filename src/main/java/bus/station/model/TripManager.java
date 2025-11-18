@@ -1,24 +1,26 @@
 package bus.station.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 
-public class TripManager extends Staff{
-    private List<DutyAssignment> assignments;
+@Entity
+@DiscriminatorValue("MANAGER")
+public class TripManager extends Staff {
+
+    @Column(name = "employee_code")
+    @NotBlank(message = "Employee code is required")
     private String employeeCode;
 
-    public TripManager() {}
+    public TripManager() {
+        super();
+    }
 
-    public TripManager(String id, String name, List<DutyAssignment> assignments, String employeeCode) {
-        super(id, name);
+    public TripManager(String name, String employeeCode) {
+        super(name);
         this.employeeCode = employeeCode;
-    }
-
-    public List<DutyAssignment> getAssignments() {
-        return assignments;
-    }
-
-    public void setAssignments(List<DutyAssignment> assignments) {
-        this.assignments = assignments;
     }
 
     public String getEmployeeCode() {

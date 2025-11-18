@@ -2,7 +2,6 @@ package bus.station.service;
 
 import bus.station.model.Driver;
 import bus.station.repository.DriverRepository;
-import bus.station.repository.TripManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,15 +21,15 @@ public class DriverService {
         return driverRepository.findAll();
     }
 
-    public Optional<Driver> findDriverById (String id) {
+    public Optional<Driver> findDriverById (Long id) {
         return driverRepository.findById(id);
     }
 
-    public Driver saveDriver(Driver driver) {
-        return driverRepository.save(driver);
+    public void saveDriver(Driver driver) {
+        driverRepository.save(driver);
     }
 
-    public void deleteDriverById(String id) {
+    public void deleteDriverById(Long id) {
         driverRepository.deleteById(id);
     }
 }

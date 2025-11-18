@@ -15,26 +15,29 @@
             <input type="hidden" th:field="*{id}" />
 
             <div class="mb-3">
-                <label for="tripId" class="form-label">Trip:</label>
-                <select id="tripId" th:field="*{tripId}" class="form-select" required>
+                <label for="busTrip" class="form-label">Trip:</label>
+                <select id="busTrip" th:field="*{busTrip}" class="form-select" required>
                     <option value="">-- Select Trip --</option>
                     <option th:each="trip : ${allTrips}"
                             th:value="${trip.id}"
-                            th:text="${trip.id}"> [Trip ID]
+                            th:text="${'#' + trip.id + ' | ' + (trip.route != null ? trip.route.origin.name + ' -> ' + trip.route.destination.name : 'Unknown') + ' (' + trip.startTime + ')'}">
+                        [Trip Details]
                     </option>
                 </select>
+                <span class="text-danger" th:if="${#fields.hasErrors('busTrip')}" th:errors="*{busTrip}"></span>
             </div>
 
             <div class="mb-3">
-                <label for="staffId" class="form-label">Staff Member:</label>
-                <select id="staffId" th:field="*{staffId}" class="form-select" required>
+                <label for="staff" class="form-label">Staff Member:</label>
+                <select id="staff" th:field="*{staff}" class="form-select" required>
                     <option value="">-- Select Staff --</option>
-                    <option th:each="staff : ${allStaff}"
-                            th:value="${staff.id}"
-                            th:text="${staff.name}">
+                    <option th:each="s : ${allStaff}"
+                            th:value="${s.id}"
+                            th:text="${s.name + ' (ID: ' + s.id + ')'}">
                         [Staff Name]
                     </option>
                 </select>
+                <span class="text-danger" th:if="${#fields.hasErrors('staff')}" th:errors="*{staff}"></span>
             </div>
 
             <div class="mb-3">
@@ -47,6 +50,7 @@
                         [Role]
                     </option>
                 </select>
+                <span class="text-danger" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></span>
             </div>
 
             <div>

@@ -17,11 +17,11 @@ public class PassengerService {
         this.passengerRepository = passengerRepository;
     }
 
-    public List<Passenger> findAllPassenger(){
+    public List<Passenger> findAll(){
         return passengerRepository.findAll();
     }
 
-    public Optional<Passenger> findPassengerById(String id){
+    public Optional<Passenger> findById(Long id){
         return passengerRepository.findById(id);
     }
 
@@ -29,7 +29,7 @@ public class PassengerService {
         return passengerRepository.save(passenger);
     }
 
-    public boolean deleteById(String id) {
-        return passengerRepository.deleteById(id);
+    public void deleteById(Long id) {
+        passengerRepository.deleteById(id);
     }
 }

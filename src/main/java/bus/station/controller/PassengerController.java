@@ -3,8 +3,10 @@ package bus.station.controller;
 import bus.station.model.Bus;
 import bus.station.model.Passenger;
 import bus.station.service.PassengerService;
+import jakarta.validation.Valid;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,38 +24,60 @@ public class PassengerController {
 
     @GetMapping
     public String getPassengerList(Model model) {
-        model.addAttribute("passengers",passengerService.findAllPassenger());
+        model.addAttribute("passengers", passengerService.findAll());
+        model.addAttribute("activePage", "passenger");
         return "passenger/index";
     }
 
     @GetMapping("/new")
-    public String addPassenger(Model model) {
+    public String showCreateForm(Model model) {
         model.addAttribute("passenger", new Passenger());
+        model.addAttribute("activePage", "passenger");
         return "passenger/form";
     }
 
     @PostMapping
-    public String createOrUpdatePassenger(@ModelAttribute Passenger passenger) {
+    public String createOrUpdatePassenger(@Valid @ModelAttribute Passenger passenger,
+                                          BindingResult bindingResult,
+                                          Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("activePage", "passenger");
+            return "passenger/form";
+        }
+
         passengerService.save(passenger);
         return "redirect:/passenger";
     }
 
-    @PostMapping("{id}/delete")
-    public String deleteBus(@PathVariable String id) {
-        passengerService.deleteById(id);
-
-        return "redirect:/passenger";
-    }
-
     @GetMapping("/{id}/edit")
-    public String showEditForm(@PathVariable String id, Model model) {
-        Optional<Passenger> passengerOptional = passengerService.findPassengerById(id);
+    public String showEditForm(@PathVariable Long id, Model model) {
+        Optional<Passenger> passengerOptional = passengerService.findById(id);
 
         if (passengerOptional.isPresent()) {
             model.addAttribute("passenger", passengerOptional.get());
+            model.addAttribute("activePage", "passenger");
             return "passenger/form";
         } else {
             return "redirect:/passenger";
         }
+    }
+
+    @PostMapping("/{id}/delete")
+    public String deletePassenger(@PathVariable Long id) {
+        passengerService.deleteById(id);
+        return "redirect:/passenger";
+    }
+
+    @GetMapping("/{id}")
+    public String getPassengerDetails(@PathVariable Long id, Model model) {
+        Optional<Passenger> passengerOpt = passengerService.findById(id);
+
+        if (passengerOpt.isPresent()) {
+            model.addAttribute("passenger", passengerOpt.get());
+            model.addAttribute("activePage", "passenger");
+            return "passenger/details";
+        }
+        return "redirect:/passenger";
     }
 }
