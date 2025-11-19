@@ -55,6 +55,7 @@
                 <label for="price" class="form-label">Price:</label>
                 <input type="number" step="0.01" id="price" th:field="*{price}" class="form-control" readonly />
                 <div class="form-text">Price is calculated automatically upon saving (based on trip price and passenger age).</div>
+                <span class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
             </div>
 
             <div>
