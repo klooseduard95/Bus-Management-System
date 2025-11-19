@@ -2,10 +2,7 @@ package bus.station.model;
 
 import bus.station.interfaces.Identifiable;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.io.Serializable;
 
@@ -30,7 +27,8 @@ public class Ticket {
     @Size(min = 1, max=5, message = "Seat number must be between 1 and 5 characters")
     private String seatNumber;
 
-    @Positive(message = "Price must be positive")
+//    @Positive(message = "Price must be positive")
+    @PositiveOrZero(message = "Price cannot be negative")
     private double price;
 
     public Ticket() {}
