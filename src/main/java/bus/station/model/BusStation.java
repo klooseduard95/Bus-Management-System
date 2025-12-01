@@ -3,6 +3,7 @@ package bus.station.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.util.List;
+
 @Entity
 @Table(name = "bus_stations")
 public class BusStation {

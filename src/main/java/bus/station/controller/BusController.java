@@ -40,7 +40,15 @@ public class BusController {
             model.addAttribute("activePage", "bus");
             return "bus/form";
         }
-        busService.save(bus);
+
+        try {
+            busService.save(bus);
+        } catch (Exception e) {
+            model.addAttribute("globalError", e.getMessage());
+            model.addAttribute("activePage", "bus");
+            return "bus/form";
+        }
+
         return "redirect:/bus";
     }
 

@@ -1,9 +1,11 @@
 package bus.station.service;
 
+import bus.station.model.Bus;
 import bus.station.model.BusStation;
 import bus.station.repository.BusStationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,10 +22,10 @@ public class BusStationService {
     public List<BusStation> findAll() {
         return busStationRepository.findAll();
     }
-
+@Transactional
     public BusStation save(BusStation busStation) {
-        if (busStation.getName() == null || busStation.getName().isEmpty()) {
-            throw new IllegalArgumentException("Station name is required");
+        if (busStation.getId() == null && busStationRepository.existsByName(busStation.getName())) {
+            throw new IllegalArgumentException("Bus station with this name " + busStation.getName() + " already exists!");
         }
         return busStationRepository.save(busStation);
     }
@@ -31,9 +33,16 @@ public class BusStationService {
     public Optional<BusStation> findById(Long id) {
         return busStationRepository.findById(id);
     }
-
+@Transactional
     public void deleteById(Long id) {
-        busStationRepository.deleteById(id);
+        Optional<BusStation> busStationOpt = busStationRepository.findById(id);
+        if (busStationOpt.isPresent()) {
+            BusStation busStation = busStationOpt.get();
+            if (busStation.getRoutesAsOrigin() != null && !busStation.getRoutesAsOrigin().isEmpty() && busStation.getRoutesAsDestination() != null && !busStation.getRoutesAsDestination().isEmpty()) {
+                throw new RuntimeException("Cannot delete busStation. It is assigned to existing routes.");
+            }
+            busStationRepository.deleteById(id);
+        }
     }
 
 }

@@ -75,7 +75,6 @@ public class TicketController {
 
         } catch (RuntimeException e) {
             model.addAttribute("globalError", e.getMessage());
-
             addDropdownDataToModel(model);
             model.addAttribute("activePage", "ticket");
             return "ticket/form";

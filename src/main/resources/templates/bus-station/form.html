@@ -14,6 +14,12 @@
 
         <form th:action="@{/bus-station}" th:object="${busStation}" method="post" class="col-md-6">
 
+            <div th:if="${globalError}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                <span th:text="${globalError}">Error message</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
             <input type="hidden" th:field="*{id}" />
 
             <div class="mb-3">
