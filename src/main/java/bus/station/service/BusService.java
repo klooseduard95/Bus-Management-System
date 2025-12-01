@@ -26,11 +26,21 @@ public class BusService {
     }
 
     public Bus save(Bus bus) {
+        if (bus.getId() == null && busRepository.existsByRegistrationNumber(bus.getRegistrationNumber())) {
+            throw new IllegalArgumentException("Bus with registration number " + bus.getRegistrationNumber() + " already exists!");
+        }
         return busRepository.save(bus);
     }
 
     public void deleteById(Long id) {
-        busRepository.deleteById(id);
+        Optional<Bus> busOpt = busRepository.findById(id);
+        if (busOpt.isPresent()) {
+            Bus bus = busOpt.get();
+            if (bus.getBusTrips() != null && !bus.getBusTrips().isEmpty()) {
+                throw new RuntimeException("Cannot delete bus. It is assigned to existing trips.");
+            }
+            busRepository.deleteById(id);
+        }
     }
 
 }

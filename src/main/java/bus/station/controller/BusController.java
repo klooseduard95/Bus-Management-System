@@ -35,12 +35,23 @@ public class BusController {
     }
 
     @PostMapping
-    public String createOrUpdateBus(@Valid @ModelAttribute Bus bus, BindingResult bindingResult, Model model) {
+    public String createOrUpdateBus(@Valid @ModelAttribute Bus bus,
+                                    BindingResult bindingResult,
+                                    Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("activePage", "bus");
             return "bus/form";
         }
-        busService.save(bus);
+
+        try {
+            busService.save(bus);
+        } catch (Exception e) {
+            // Prindem eroarea de unicitate (Registration Number)
+            model.addAttribute("globalError", e.getMessage());
+            model.addAttribute("activePage", "bus");
+            return "bus/form";
+        }
+
         return "redirect:/bus";
     }
 
