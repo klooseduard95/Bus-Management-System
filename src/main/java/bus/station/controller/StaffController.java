@@ -76,7 +76,7 @@ public class StaffController {
             return "staff/driver/form";
         }
         try {
-            driverService.saveDriver(driver);
+            driverService.save(driver);
         }catch (Exception e){
             model.addAttribute("globalError", e.getMessage());
             model.addAttribute("activePage", "staff");
@@ -103,7 +103,7 @@ public class StaffController {
 
     @GetMapping("/driver/{id}/edit")
     public String showEditFormDriver(@PathVariable Long id, Model model){
-        Optional<Driver> driver = driverService.findDriverById(id);
+        Optional<Driver> driver = driverService.findById(id);
 
         if(driver.isPresent()){
             model.addAttribute("driver", driver.get());
@@ -116,7 +116,7 @@ public class StaffController {
 
     @GetMapping("/manager/{id}/edit")
     public String showEditFormManager(@PathVariable Long id, Model model){
-        Optional<TripManager> manager = tripManagerService.findManagerById(id);
+        Optional<TripManager> manager = tripManagerService.findById(id);
 
         if(manager.isPresent()){
             model.addAttribute("manager", manager.get());
@@ -129,27 +129,27 @@ public class StaffController {
 
     @PostMapping("/driver/{id}/delete")
     public String deleteDriver(@PathVariable Long id){
-        driverService.deleteDriverById(id);
+        driverService.deleteById(id);
         return "redirect:/staff";
     }
 
     @PostMapping("/manager/{id}/delete")
     public String deleteTripManager(@PathVariable Long id){
-        tripManagerService.delete(id);
+        tripManagerService.deleteById(id);
         return "redirect:/staff";
     }
 
     @GetMapping("/{id}")
     public String getStaffDetails(@PathVariable Long id, Model model) {
 
-        Optional<Driver> driverOpt = driverService.findDriverById(id);
+        Optional<Driver> driverOpt = driverService.findById(id);
         if (driverOpt.isPresent()) {
             model.addAttribute("driver", driverOpt.get());
             model.addAttribute("activePage", "staff");
             return "staff/driver/details";
         }
 
-        Optional<TripManager> managerOpt = tripManagerService.findManagerById(id);
+        Optional<TripManager> managerOpt = tripManagerService.findById(id);
         if (managerOpt.isPresent()) {
             model.addAttribute("manager", managerOpt.get());
             model.addAttribute("activePage", "staff");
