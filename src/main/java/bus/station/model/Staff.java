@@ -3,12 +3,7 @@ package bus.station.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
-import java.util.List;
-
-@Entity
-@Table(name = "staff")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "staff_type")
+@MappedSuperclass
 public abstract class Staff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,9 +11,6 @@ public abstract class Staff {
 
     @NotBlank(message = "Staff name is required")
     private String name;
-
-    @OneToMany(mappedBy = "staff", fetch = FetchType.LAZY)
-    private List<DutyAssignment> assignments;
 
     public Staff() {}
 
@@ -42,11 +34,4 @@ public abstract class Staff {
         this.name = name;
     }
 
-    public List<DutyAssignment> getAssignments() {
-        return assignments;
-    }
-
-    public void setAssignments(List<DutyAssignment> assignments) {
-        this.assignments = assignments;
-    }
 }

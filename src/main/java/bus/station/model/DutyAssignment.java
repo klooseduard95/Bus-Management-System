@@ -12,15 +12,18 @@ public class DutyAssignment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Trip is required")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bus_trip_id")
-    @NotNull(message = "Trips is required")
     private BusTrip busTrip;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "staff_id")
-    @NotNull(message = "Staff member is required")
-    private Staff staff;
+    @JoinColumn(name = "driver_id")
+    private Driver driver;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_id")
+    private TripManager manager;
 
     @Enumerated(EnumType.STRING)
     @NotNull(message = "Role is required")
@@ -44,12 +47,17 @@ public class DutyAssignment {
         this.busTrip = busTrip;
     }
 
-    public Staff getStaff() {
-        return staff;
+    public Driver getDriver() {
+        return driver;
     }
-
-    public void setStaff(Staff staff) {
-        this.staff = staff;
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
+    public TripManager getManager() {
+        return manager;
+    }
+    public void setManager(TripManager manager) {
+        this.manager = manager;
     }
 
     public Role getRole() {

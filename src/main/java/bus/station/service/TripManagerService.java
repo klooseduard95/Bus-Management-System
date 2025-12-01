@@ -21,7 +21,7 @@ public class TripManagerService {
         return tripManagerRepository.findAll();
     }
 
-    public Optional<TripManager> findManagerById(Long id) {
+    public Optional<TripManager> findById(Long id) {
         return  tripManagerRepository.findById(id);
     }
 
@@ -29,7 +29,7 @@ public class TripManagerService {
         return tripManagerRepository.save(tripManager);
     }
 
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         tripManagerRepository.deleteById(id);
     }
 }

@@ -7,22 +7,23 @@ import java.time.Period;
 import java.util.List;
 
 @Entity
-@DiscriminatorValue("DRIVER")
+@Table(name = "drivers")
 public class Driver extends Staff {
-    @Column(name = "license_acquired_date")
     @NotNull(message = "License acquired date is missing")
-    @Past(message = "License date must be in the past")
+    @PastOrPresent(message = "License date must be in the past")
     private LocalDate licenseAcquiredDate;
 
-    public Driver() {
-        super();
-    }
+    @OneToMany(mappedBy = "driver", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DutyAssignment> assignments;
+
+    public Driver() {}
 
     public Driver(String name, LocalDate licenseAcquiredDate) {
         super(name);
         this.licenseAcquiredDate = licenseAcquiredDate;
     }
 
+    @Transient
     public int getYearsOfExperience() {
         if (this.licenseAcquiredDate == null) {
             return 0;
@@ -36,5 +37,12 @@ public class Driver extends Staff {
 
     public void setLicenseAcquiredDate(LocalDate licenseAcquiredDate) {
         this.licenseAcquiredDate = licenseAcquiredDate;
+    }
+
+    public List<DutyAssignment> getAssignments() {
+        return assignments;
+    }
+    public void setAssignments(List<DutyAssignment> assignments) {
+        this.assignments = assignments;
     }
 }

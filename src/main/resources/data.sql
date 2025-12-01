@@ -1,6 +1,8 @@
 -- ============================================================
--- 1. Curățarea Tabelelor (Ordine inversă pentru a respecta FK)
+-- 1. Curățarea Tabelelor
 -- ============================================================
+SET FOREIGN_KEY_CHECKS = 0;
+
 DELETE FROM tickets;
 DELETE FROM duty_assignments;
 DELETE FROM bus_trips;
@@ -8,7 +10,8 @@ DELETE FROM routes;
 DELETE FROM buses;
 DELETE FROM passengers;
 DELETE FROM bus_stations;
-DELETE FROM staff;
+DELETE FROM drivers;
+DELETE FROM trip_managers;
 
 -- ============================================================
 -- 2. Resetarea Auto-Increment
@@ -20,7 +23,10 @@ ALTER TABLE routes AUTO_INCREMENT = 1;
 ALTER TABLE buses AUTO_INCREMENT = 1;
 ALTER TABLE passengers AUTO_INCREMENT = 1;
 ALTER TABLE bus_stations AUTO_INCREMENT = 1;
-ALTER TABLE staff AUTO_INCREMENT = 1;
+ALTER TABLE drivers AUTO_INCREMENT = 1;
+ALTER TABLE trip_managers AUTO_INCREMENT = 1;
+
+SET FOREIGN_KEY_CHECKS = 1;
 
 -- ============================================================
 -- 3. Inserare BusStations (Stații)
@@ -92,68 +98,66 @@ INSERT INTO passengers (name, currency, date_of_birth, requires_special_assistan
                                                                                         ('Ioana Matei', 'RON', '1992-08-08', false);      -- ID: 10
 
 -- ============================================================
--- 7. Inserare Staff (Driver & TripManager)
+-- 7. Inserare Staff (Drivers & Managers)
 -- ============================================================
--- NOTĂ: 'license_acquired_date' înlocuiește 'yearsOfExperience'
--- NOTĂ: 'employee_code' este doar pentru Manageri
-INSERT INTO staff (staff_type, name, license_acquired_date, employee_code) VALUES
-                                                                               ('DRIVER', 'Sofer1', '2013-01-01', null),         -- ID: 1 (12 ani exp)
-                                                                               ('DRIVER', 'Sofer2', '2013-01-01', null),         -- ID: 2 (12 ani exp)
-                                                                               ('DRIVER', 'Sofer3', '2010-01-01', null),         -- ID: 3 (15 ani exp)
-                                                                               ('DRIVER', 'Ion Popescu', '2017-01-01', null),    -- ID: 4 (8 ani exp)
-                                                                               ('DRIVER', 'Maria Ionescu', '2019-01-01', null),  -- ID: 5 (6 ani exp)
-                                                                               ('DRIVER', 'George Enache', '2021-01-01', null),  -- ID: 6 (4 ani exp)
-                                                                               ('DRIVER', 'Ana Vasilescu', '2015-01-01', null),  -- ID: 7 (10 ani exp)
-                                                                               ('DRIVER', 'Cristian Dumitrescu', '2023-01-01', null), -- ID: 8 (2 ani exp)
-                                                                               ('DRIVER', 'Elena Marin', '2019-01-01', null),    -- ID: 9 (6 ani exp)
-                                                                               ('DRIVER', 'Mihai Georgescu', '2020-01-01', null);-- ID: 10 (5 ani exp)
+INSERT INTO drivers (name, license_acquired_date) VALUES
+                                                      ('Sofer1', '2013-01-01'),         -- ID: 1
+                                                      ('Sofer2', '2013-01-01'),         -- ID: 2
+                                                      ('Sofer3', '2010-01-01'),         -- ID: 3
+                                                      ('Ion Popescu', '2017-01-01'),    -- ID: 4
+                                                      ('Maria Ionescu', '2019-01-01'),  -- ID: 5
+                                                      ('George Enache', '2021-01-01'),  -- ID: 6
+                                                      ('Ana Vasilescu', '2015-01-01'),  -- ID: 7
+                                                      ('Cristian Dumitrescu', '2023-01-01'), -- ID: 8
+                                                      ('Elena Marin', '2019-01-01'),    -- ID: 9
+                                                      ('Mihai Georgescu', '2020-01-01');-- ID: 10
 
-INSERT INTO staff (staff_type, name, license_acquired_date, employee_code) VALUES
-                                                                               ('MANAGER', 'Manager1', null, 'MGR-007'),        -- ID: 11
-                                                                               ('MANAGER', 'Manager2', null, 'MGR-002'),        -- ID: 12
-                                                                               ('MANAGER', 'Andrei Petrescu', null, 'MGR-010'), -- ID: 13
-                                                                               ('MANAGER', 'Eliza Popa', null, 'MGR-011'),      -- ID: 14
-                                                                               ('MANAGER', 'Victor Stan', null, 'MGR-012'),     -- ID: 15
-                                                                               ('MANAGER', 'Cristina Neagu', null, 'MGR-013'),  -- ID: 16
-                                                                               ('MANAGER', 'Ionut Ionescu', null, 'MGR-014'),   -- ID: 17
-                                                                               ('MANAGER', 'Laura Dumitru', null, 'MGR-015'),   -- ID: 18
-                                                                               ('MANAGER', 'Bogdan Marinescu', null, 'MGR-016'),-- ID: 19
-                                                                               ('MANAGER', 'Alina Ciobanu', null, 'MGR-017');   -- ID: 20
+INSERT INTO trip_managers (name, employee_code) VALUES
+                                                    ('Manager1', 'MGR-007'),        -- ID: 1
+                                                    ('Manager2', 'MGR-002'),        -- ID: 2
+                                                    ('Andrei Petrescu', 'MGR-010'), -- ID: 3
+                                                    ('Eliza Popa', 'MGR-011'),      -- ID: 4
+                                                    ('Victor Stan', 'MGR-012'),     -- ID: 5
+                                                    ('Cristina Neagu', 'MGR-013'),  -- ID: 6
+                                                    ('Ionut Ionescu', 'MGR-014'),   -- ID: 7
+                                                    ('Laura Dumitru', 'MGR-015'),   -- ID: 8
+                                                    ('Bogdan Marinescu', 'MGR-016'),-- ID: 9
+                                                    ('Alina Ciobanu', 'MGR-017');   -- ID: 10
 
 -- ============================================================
 -- 8. Inserare BusTrips (Curse)
 -- ============================================================
 INSERT INTO bus_trips (route_id, bus_id, start_time, available_seats, base_price, status) VALUES
-                                                                                              (4, 3, '09:30:00', 50, 200.0, 'Planned'),  -- ID: 1
-                                                                                              (1, 6, '12:30:00', 30, 120.0, 'Planned'),  -- ID: 2
-                                                                                              (2, 3, '16:30:00', 45, 99.0,  'Planned'),  -- ID: 3
-                                                                                              (3, 4, '07:00:00', 140, 250.0, 'Planned'), -- ID: 4
-                                                                                              (4, 1, '13:45:00', 100, 210.0, 'Planned'), -- ID: 5
-                                                                                              (2, 9, '18:15:00', 30, 95.0,  'Planned'),  -- ID: 6
-                                                                                              (3, 4, '20:00:00', 145, 270.0, 'Planned'), -- ID: 7
-                                                                                              (1, 7, '06:30:00', 38, 115.0, 'Planned'),  -- ID: 8
-                                                                                              (4, 10, '11:15:00', 20, 190.0, 'Planned'), -- ID: 9
-                                                                                              (2, 8, '22:30:00', 50, 100.0, 'Planned');  -- ID: 10
+                                                                                              (4, 3, '09:30:00', 49, 200.0, 'Planned'),  -- ID: 1 (Era 50, are 1 bilet)
+                                                                                              (1, 6, '12:30:00', 29, 120.0, 'Planned'),  -- ID: 2 (Era 30, are 1 bilet)
+                                                                                              (2, 3, '16:30:00', 44, 99.0,  'Planned'),  -- ID: 3 (Era 45, are 1 bilet)
+                                                                                              (3, 4, '07:00:00', 139, 250.0, 'Planned'), -- ID: 4 (Era 140, are 1 bilet)
+                                                                                              (4, 1, '13:45:00', 99, 210.0, 'Planned'),  -- ID: 5 (Era 100, are 1 bilet)
+                                                                                              (2, 9, '18:15:00', 30, 95.0,  'Planned'),  -- ID: 6 (Fără bilete)
+                                                                                              (3, 4, '20:00:00', 144, 270.0, 'Planned'), -- ID: 7 (Era 145, are 1 bilet)
+                                                                                              (1, 7, '06:30:00', 36, 115.0, 'Planned'),  -- ID: 8 (Era 38, are 2 bilete)
+                                                                                              (4, 10, '11:15:00', 19, 190.0, 'Planned'), -- ID: 9 (Era 20, are 1 bilet)
+                                                                                              (2, 8, '22:30:00', 49, 100.0, 'Planned');  -- ID: 10 (Era 50, are 1 bilet)
 
 -- ============================================================
 -- 9. Inserare DutyAssignments (Alocări)
 -- ============================================================
-INSERT INTO duty_assignments (bus_trip_id, staff_id, role) VALUES
-                                                               (1, 1, 'PrimaryDriver'),  -- ID: 1
-                                                               (1, 2, 'ReserveDriver'),  -- ID: 2
-                                                               (2, 3, 'PrimaryDriver'),  -- ID: 3
-                                                               (3, 4, 'PrimaryDriver'),  -- ID: 4
-                                                               (3, 5, 'ReserveDriver'),  -- ID: 5
-                                                               (4, 6, 'PrimaryDriver'),  -- ID: 6
-                                                               (5, 7, 'PrimaryDriver'),  -- ID: 7
-                                                               (6, 8, 'PrimaryDriver'),  -- ID: 8
-                                                               (7, 9, 'PrimaryDriver'),  -- ID: 9
-                                                               (9, 10, 'ReserveDriver'); -- ID: 10
+INSERT INTO duty_assignments (bus_trip_id, driver_id, manager_id, role) VALUES
+                                                                            (1, 1, NULL, 'PrimaryDriver'),  -- ID: 1
+                                                                            (1, 2, NULL, 'ReserveDriver'),  -- ID: 2
+                                                                            (2, 3, NULL, 'PrimaryDriver'),  -- ID: 3
+                                                                            (3, 4, NULL, 'PrimaryDriver'),  -- ID: 4
+                                                                            (3, 5, NULL, 'ReserveDriver'),  -- ID: 5
+                                                                            (4, 6, NULL, 'PrimaryDriver'),  -- ID: 6
+                                                                            (5, 7, NULL, 'PrimaryDriver'),  -- ID: 7
+                                                                            (6, 8, NULL, 'PrimaryDriver'),  -- ID: 8
+                                                                            (7, 9, NULL, 'PrimaryDriver'),  -- ID: 9
+                                                                            (9, 10, NULL, 'ReserveDriver'), -- ID: 10
+                                                                            (10, NULL, 1, 'PrimaryDriver'); -- ID: 11 (Un Manager asignat)
 
 -- ============================================================
 -- 10. Inserare Tickets (Bilete)
 -- ============================================================
--- CORECTAT: passenger_trip_id în loc de passenger_id
 INSERT INTO tickets (bus_trip_id, passenger_trip_id, seat_number, price) VALUES
                                                                              (2, 1, '17', 0.0),    -- ID: 1
                                                                              (1, 1, '4', 0.0),     -- ID: 2

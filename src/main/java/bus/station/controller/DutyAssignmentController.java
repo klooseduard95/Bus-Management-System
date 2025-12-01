@@ -1,10 +1,7 @@
 package bus.station.controller;
 
-
 import bus.station.model.DutyAssignment;
-import bus.station.service.BusTripService;
-import bus.station.service.DutyAssignmentService;
-import bus.station.service.StaffService;
+import bus.station.service.*;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,19 +16,23 @@ public class DutyAssignmentController {
 
     private final DutyAssignmentService dutyAssignmentService;
     private final BusTripService busTripService;
-    private final StaffService staffService;
+    private final DriverService driverService;
+    private final TripManagerService managerService;
 
     public DutyAssignmentController(DutyAssignmentService dutyAssignmentService,
                                     BusTripService busTripService,
-                                    StaffService staffService) {
+                                    DriverService driverService,
+                                    TripManagerService managerService) {
         this.dutyAssignmentService = dutyAssignmentService;
         this.busTripService = busTripService;
-        this.staffService = staffService;
+        this.driverService = driverService;
+        this.managerService = managerService;
     }
 
     private void addDropdownDataToModel(Model model) {
         model.addAttribute("allTrips", busTripService.findAll());
-        model.addAttribute("allStaff", staffService.findAll());
+        model.addAttribute("allDrivers", driverService.findAll());
+        model.addAttribute("allManagers", managerService.findAll());
     }
 
     @GetMapping
@@ -66,12 +67,23 @@ public class DutyAssignmentController {
     public String createOrUpdateAssignment(@Valid @ModelAttribute("assignment") DutyAssignment assignment,
                                            BindingResult bindingResult,
                                            Model model) {
+
         if (bindingResult.hasErrors()) {
             addDropdownDataToModel(model);
             model.addAttribute("activePage", "duty-assignment");
             return "duty-assignment/form";
         }
-        dutyAssignmentService.save(assignment);
+
+        try {
+            dutyAssignmentService.save(assignment);
+
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("globalError", e.getMessage());
+            addDropdownDataToModel(model);
+            model.addAttribute("activePage", "duty-assignment");
+            return "duty-assignment/form";
+        }
+
         return "redirect:/duty-assignment";
     }
 

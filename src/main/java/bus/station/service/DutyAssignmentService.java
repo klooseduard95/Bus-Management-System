@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Service
 public class DutyAssignmentService {
+
     private final DutyAssignmentRepository dutyAssignmentRepository;
 
     @Autowired
@@ -22,9 +23,18 @@ public class DutyAssignmentService {
     }
 
     public DutyAssignment save(DutyAssignment dutyAssignment) {
-        if (dutyAssignment.getBusTrip() == null || dutyAssignment.getStaff() == null) {
-            throw new IllegalArgumentException("Trip and Staff are required.");
+        if (dutyAssignment.getBusTrip() == null) {
+            throw new IllegalArgumentException("Bus Trip is required.");
         }
+
+        if (dutyAssignment.getDriver() == null && dutyAssignment.getManager() == null) {
+            throw new IllegalArgumentException("An assignment must have either a Driver or a Trip Manager.");
+        }
+
+        if (dutyAssignment.getDriver() != null && dutyAssignment.getManager() != null) {
+            throw new IllegalArgumentException("Cannot assign both a Driver and a Manager in the same assignment entry.");
+        }
+
         return dutyAssignmentRepository.save(dutyAssignment);
     }
 

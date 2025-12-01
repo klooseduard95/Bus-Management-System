@@ -56,10 +56,10 @@
 
                         <div class="d-grid gap-2">
                             <a th:if="${staffMember instanceof T(bus.station.model.Driver)}"
-                               th:href="@{/staff/driver/{id}/edit(id=${staffMember.id})}" class="btn btn-warning">Edit Driver</a>
+                               th:href="@{/templates/driver/{id}/edit(id=${staffMember.id})}" class="btn btn-warning">Edit Driver</a>
 
                             <a th:if="${staffMember instanceof T(bus.station.model.TripManager)}"
-                               th:href="@{/staff/manager/{id}/edit(id=${staffMember.id})}" class="btn btn-warning">Edit Manager</a>
+                               th:href="@{/templates/manager/{id}/edit(id=${staffMember.id})}" class="btn btn-warning">Edit Manager</a>
                         </div>
                     </div>
                 </div>

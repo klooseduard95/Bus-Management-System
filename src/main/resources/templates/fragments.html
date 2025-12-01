@@ -93,24 +93,24 @@
                role="button"
                aria-expanded="false"
                aria-controls="staffSubmenu"
-               th:classappend="${activePage == 'staff-driver' || activePage == 'staff-manager'} ? 'active' : ''">
-                <span><i class="bi bi-person-badge me-2"></i> Staff</span>
+               th:classappend="${activePage == 'driver' || activePage == 'manager'} ? 'active' : ''">
+                <span><i class="bi bi-person-badge me-2"></i> Staff Management</span>
                 <i class="bi bi-chevron-down small"></i>
             </a>
 
             <div class="collapse" id="staffSubmenu"
-                 th:classappend="${activePage == 'staff-driver' || activePage == 'staff-manager'} ? 'show' : ''">
-                <ul class="nav flex-column ms-3 mt-1 border-start border-secondary">
+                 th:classappend="${activePage == 'driver' || activePage == 'manager'} ? 'show' : ''">
+                <ul class="nav flex-column ms-2 border-start border-secondary mt-1">
                     <li class="nav-item">
-                        <a th:href="@{/staff/drivers}" class="nav-link text-white sub-link"
-                           th:classappend="${activePage == 'staff-driver'} ? 'fw-bold text-info' : ''">
+                        <a th:href="@{/driver}" class="nav-link text-white sub-link"
+                           th:classappend="${activePage == 'driver'} ? 'text-info fw-bold' : ''">
                             Drivers
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a th:href="@{/staff/managers}" class="nav-link text-white sub-link"
-                           th:classappend="${activePage == 'staff-manager'} ? 'fw-bold text-info' : ''">
-                            Managers
+                        <a th:href="@{/manager}" class="nav-link text-white sub-link"
+                           th:classappend="${activePage == 'manager'} ? 'text-info fw-bold' : ''">
+                            Trip Managers
                         </a>
                     </li>
                 </ul>

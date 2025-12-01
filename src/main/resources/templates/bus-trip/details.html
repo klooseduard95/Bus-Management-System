@@ -94,8 +94,32 @@
                                 <td colspan="2" class="text-center text-muted">No staff assigned.</td>
                             </tr>
                             <tr th:each="assign : ${trip.assignments}">
-                                <td th:text="${assign.staff != null ? assign.staff.name : 'Unknown'}">Name</td>
-                                <td th:text="${assign.role}">Driver</td>
+
+                                <td>
+                                    <span th:if="${assign.driver != null}">
+                                        <a th:href="@{/staff/driver/{id}(id=${assign.driver.id})}"
+                                           class="text-decoration-none fw-bold text-dark"
+                                           th:text="${assign.driver.name}">
+                                            Driver Name
+                                        </a>
+                                        <span class="badge bg-primary ms-1">Driver</span>
+                                    </span>
+
+                                    <span th:if="${assign.manager != null}">
+                                        <a th:href="@{/staff/manager/{id}(id=${assign.manager.id})}"
+                                           class="text-decoration-none fw-bold text-dark"
+                                           th:text="${assign.manager.name}">
+                                            Manager Name
+                                        </a>
+                                        <span class="badge bg-info text-dark ms-1">Manager</span>
+                                    </span>
+
+                                    <span th:if="${assign.driver == null and assign.manager == null}" class="text-danger">
+                                        Unassigned
+                                    </span>
+                                </td>
+
+                                <td th:text="${assign.role}">PrimaryDriver</td>
                             </tr>
                             </tbody>
                         </table>
