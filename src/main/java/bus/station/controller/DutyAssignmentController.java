@@ -71,7 +71,13 @@ public class DutyAssignmentController {
             model.addAttribute("activePage", "duty-assignment");
             return "duty-assignment/form";
         }
-        dutyAssignmentService.save(assignment);
+        try{
+            dutyAssignmentService.save(assignment);
+        } catch(Exception e){
+            model.addAttribute("globalError", e.getMessage());
+            model.addAttribute("activePage", "duty-assignment");
+            return "duty-assignment/form";
+        }
         return "redirect:/duty-assignment";
     }
 

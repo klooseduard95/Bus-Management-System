@@ -35,12 +35,20 @@ public class BusStationController {
     }
 
     @PostMapping
-    public String createOrUpdateBusStation(@Valid @ModelAttribute BusStation busStation, BindingResult bindingResult, Model model) {
+    public String createOrUpdateBus(@Valid @ModelAttribute BusStation busStation, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("activePage", "bus-station");
             return "bus-station/form";
         }
-        busStationService.save(busStation);
+
+        try {
+            busStationService.save(busStation);
+        } catch (Exception e) {
+            model.addAttribute("globalError", e.getMessage());
+            model.addAttribute("activePage", "bus-station");
+            return "bus-station/form";
+        }
+
         return "redirect:/bus-station";
     }
 

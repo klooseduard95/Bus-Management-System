@@ -70,27 +70,35 @@ public class StaffController {
     }
 
     @PostMapping("/driver")
-    public String createOrUpdateDriver(@Valid @ModelAttribute Driver driver,
-                                       BindingResult bindingResult,
-                                       Model model) {
+    public String createOrUpdateDriver(@Valid @ModelAttribute Driver driver, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("activePage", "staff");
             return "staff/driver/form";
         }
-        driverService.saveDriver(driver);
-        return "redirect:/staff";
+        try {
+            driverService.saveDriver(driver);
+        }catch (Exception e){
+            model.addAttribute("globalError", e.getMessage());
+            model.addAttribute("activePage", "staff");
+            return "staff/driver/form";
+        }
+        return "redirect:/staff/drivers";
     }
 
     @PostMapping("/manager")
-    public String createOrUpdateManager(@Valid @ModelAttribute TripManager manager,
-                                        BindingResult bindingResult,
-                                        Model model) {
+    public String createOrUpdateManager(@Valid @ModelAttribute TripManager manager, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("activePage", "staff");
             return "staff/manager/form";
         }
-        tripManagerService.save(manager);
-        return "redirect:/staff";
+        try {
+            tripManagerService.save(manager);
+        }catch (Exception e){
+            model.addAttribute("globalError", e.getMessage());
+            model.addAttribute("activePage", "staff");
+            return "staff/manager/form";
+        }
+        return "redirect:/staff/managers";
     }
 
     @GetMapping("/driver/{id}/edit")

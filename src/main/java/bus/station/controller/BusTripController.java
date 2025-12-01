@@ -1,5 +1,6 @@
 package bus.station.controller;
 
+import bus.station.model.Bus;
 import bus.station.model.BusTrip;
 import bus.station.service.BusService;
 import bus.station.service.BusTripService;
@@ -63,14 +64,22 @@ public class BusTripController {
     }
 
     @PostMapping
-    public String createOrUpdateBusTrip(@Valid @ModelAttribute BusTrip busTrip, BindingResult bindingResult, Model model) {
+    public String createOrUpdateBus(@Valid @ModelAttribute BusTrip busTrip, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             addRoutesAndBusesToModel(model);
             model.addAttribute("activePage", "bus-trip");
             return "bus-trip/form";
         }
 
-        busTripService.save(busTrip);
+        try {
+            busTripService.save(busTrip);
+        } catch (RuntimeException e) {
+            model.addAttribute("globalError", e.getMessage());
+            addRoutesAndBusesToModel(model);
+            model.addAttribute("activePage", "bus-trip");
+            return "bus-trip/form";
+        }
+
         return "redirect:/bus-trip";
     }
 

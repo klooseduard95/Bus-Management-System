@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "duty_assignments")
-public class DutyAssignment {
+public class       DutyAssignment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
