@@ -46,14 +46,27 @@
                 </td>
 
                 <td>
-                    <span th:if="${assignment.staff != null}">
-                        <a th:href="@{/staff/{id}(id=${assignment.staff.id})}"
-                           th:text="${assignment.staff.name}"
+                    <span th:if="${assignment.driver != null}">
+                        <i class="bi bi-bus-front text-primary me-1"></i>
+                        <a th:href="@{/driver/{id}(id=${assignment.driver.id})}"
+                           th:text="${assignment.driver.name}"
                            class="text-decoration-none text-dark fw-bold">
-                            Name
+                            Nume Sofer
                         </a>
                     </span>
-                    <span th:unless="${assignment.staff != null}" class="text-danger">No Staff</span>
+
+                    <span th:if="${assignment.manager != null}">
+                        <i class="bi bi-person-workspace text-info me-1"></i>
+                        <a th:href="@{/manager/{id}(id=${assignment.manager.id})}"
+                           th:text="${assignment.manager.name}"
+                           class="text-decoration-none text-dark fw-bold">
+                            Nume Manager
+                        </a>
+                    </span>
+
+                    <span th:if="${assignment.driver == null and assignment.manager == null}" class="text-danger">
+                        Unassigned
+                    </span>
                 </td>
 
                 <td>

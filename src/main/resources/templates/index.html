@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head-links(title='Dashboard')}"></head>
+
+<body>
+<div class="d-flex">
+
+    <div th:replace="~{fragments :: sidebar}"></div>
+
+    <div class="container-fluid p-5 bg-light">
+
+        <div class="mb-5">
+            <h1 class="display-5 fw-bold text-dark">Welcome to Bus Admin! 👋</h1>
+            <p class="fs-5 text-muted">Select a module below to start managing the system.</p>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm hover-card">
+                    <div class="card-body text-center p-4">
+                        <i class="bi bi-truck-front display-4 text-primary mb-3"></i>
+                        <h3 class="card-title">Buses</h3>
+                        <p class="card-text text-muted">Manage fleet, capacity, and status.</p>
+                        <a th:href="@{/bus}" class="btn btn-outline-primary stretched-link">Go to Buses</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm hover-card">
+                    <div class="card-body text-center p-4">
+                        <i class="bi bi-map display-4 text-success mb-3"></i>
+                        <h3 class="card-title">Routes</h3>
+                        <p class="card-text text-muted">Define origins, destinations, and distances.</p>
+                        <a th:href="@{/route}" class="btn btn-outline-success stretched-link">Go to Routes</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm hover-card">
+                    <div class="card-body text-center p-4">
+                        <i class="bi bi-calendar-week display-4 text-warning mb-3"></i>
+                        <h3 class="card-title">Trips</h3>
+                        <p class="card-text text-muted">Schedule trips and assign resources.</p>
+                        <a th:href="@{/bus-trip}" class="btn btn-outline-warning stretched-link">Go to Trips</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm hover-card">
+                    <div class="card-body text-center p-4">
+                        <i class="bi bi-person-badge display-4 text-info mb-3"></i>
+                        <h3 class="card-title">Staff</h3>
+                        <p class="card-text text-muted">Manage drivers and trip managers.</p>
+                        <a th:href="@{/driver}" class="btn btn-outline-info stretched-link">Go to Staff</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm hover-card">
+                    <div class="card-body text-center p-4">
+                        <i class="bi bi-ticket-perforated display-4 text-danger mb-3"></i>
+                        <h3 class="card-title">Tickets</h3>
+                        <p class="card-text text-muted">Issue tickets and view sales.</p>
+                        <a th:href="@{/ticket}" class="btn btn-outline-danger stretched-link">Go to Tickets</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm hover-card">
+                    <div class="card-body text-center p-4">
+                        <i class="bi bi-clipboard-check display-4 text-secondary mb-3"></i>
+                        <h3 class="card-title">Assignments</h3>
+                        <p class="card-text text-muted">Assign drivers to trips.</p>
+                        <a th:href="@{/duty-assignment}" class="btn btn-outline-secondary stretched-link">Go to Assignments</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-card {
+        transition: transform 0.2s;
+    }
+    .hover-card:hover {
+        transform: translateY(-5px);
+    }
+</style>
+
+<div th:replace="~{fragments :: body-scripts}"></div>
+</body>
+</html>

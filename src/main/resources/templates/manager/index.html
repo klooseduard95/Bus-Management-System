@@ -10,7 +10,7 @@
     <div class="container-fluid p-4">
         <h1 class="mb-3">👔 Trip Manager Management</h1>
 
-        <a th:href="@{/staff/manager/new}" class="btn btn-info mb-3 text-white">
+        <a th:href="@{/manager/new}" class="btn btn-info mb-3 text-white">
             <i class="bi bi-plus-circle"></i> Add New Manager
         </a>
 
@@ -24,32 +24,31 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="staff : ${allStaff}">
-
+            <tr th:each="m : ${managers}">
                 <td>
-                    <a th:href="@{/staff/{id}(id=${staff.id})}"
+                    <a th:href="@{/manager/{id}(id=${m.id})}"
                        class="fw-bold text-decoration-none text-primary"
-                       th:text="${'#' + staff.id}">
+                       th:text="${'#' + m.id}">
                         #1
                     </a>
                 </td>
 
-                <td th:text="${staff.name}">[Name]</td>
+                <td th:text="${m.name}">[Name]</td>
 
                 <td>
                     <span class="badge bg-dark font-monospace"
-                          th:text="${staff.employeeCode}">
+                          th:text="${m.employeeCode}">
                         CODE123
                     </span>
                 </td>
 
                 <td>
-                    <a th:href="@{/staff/manager/{id}/edit(id=${staff.id})}"
+                    <a th:href="@{/manager/{id}/edit(id=${m.id})}"
                        class="btn btn-warning btn-sm me-2">
                         Edit
                     </a>
 
-                    <form th:action="@{/staff/manager/{id}/delete(id=${staff.id})}"
+                    <form th:action="@{/manager/{id}/delete(id=${m.id})}"
                           method="post" class="d-inline"
                           onsubmit="return confirm('Are you sure you want to delete this manager?');">
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>

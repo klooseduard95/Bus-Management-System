@@ -11,13 +11,13 @@
 
         <h1 th:text="${driver.id == null ? 'Create New Driver' : 'Edit Driver'}">Formular Driver</h1>
 
-        <form th:action="@{/staff/driver}" th:object="${driver}" method="post" class="col-md-6">
+        <form th:action="@{/driver}" th:object="${driver}" method="post" class="col-md-6">
 
             <input type="hidden" th:field="*{id}" />
 
             <div class="mb-3">
                 <label for="name" class="form-label">Name:</label>
-                <input type="text" id="name" th:field="*{name}" class="form-control" required/>
+                <input type="text" id="name" th:field="*{name}" class="form-control" />
                 <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
             </div>
 
@@ -34,7 +34,8 @@
                         th:text="${driver.id == null ? 'Save Driver' : 'Update Driver'}">
                     Save
                 </button>
-                <a th:href="@{/staff}" class="btn btn-secondary">Back to List</a>
+
+                <a th:href="@{/driver}" class="btn btn-secondary">Back to List</a>
             </div>
         </form>
     </div>

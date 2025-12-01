@@ -10,10 +10,10 @@
     <div class="container-fluid p-4">
         <h1 class="mb-3">👥 Staff Management</h1>
 
-        <a th:href="@{/staff/driver/new}" class="btn btn-primary mb-3 me-2">
+        <a th:href="@{/templates/driver/new}" class="btn btn-primary mb-3 me-2">
             Add New Driver
         </a>
-        <a th:href="@{/staff/manager/new}" class="btn btn-info mb-3">
+        <a th:href="@{/templates/manager/new}" class="btn btn-info mb-3">
             Add New Trip Manager
         </a>
 
@@ -50,24 +50,24 @@
 
                 <td>
                     <a th:if="${staff instanceof T(bus.station.model.Driver)}"
-                       th:href="@{/staff/driver/{id}/edit(id=${staff.id})}"
+                       th:href="@{/templates/driver/{id}/edit(id=${staff.id})}"
                        class="btn btn-warning btn-sm me-2">
                         Edit
                     </a>
                     <a th:if="${staff instanceof T(bus.station.model.TripManager)}"
-                       th:href="@{/staff/manager/{id}/edit(id=${staff.id})}"
+                       th:href="@{/templates/manager/{id}/edit(id=${staff.id})}"
                        class="btn btn-warning btn-sm me-2">
                         Edit
                     </a>
 
                     <form th:if="${staff instanceof T(bus.station.model.Driver)}"
-                          th:action="@{/staff/driver/{id}/delete(id=${staff.id})}"
+                          th:action="@{/templates/driver/{id}/delete(id=${staff.id})}"
                           method="post" class="d-inline">
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
 
                     <form th:if="${staff instanceof T(bus.station.model.TripManager)}"
-                          th:action="@{/staff/manager/{id}/delete(id=${staff.id})}"
+                          th:action="@{/templates/manager/{id}/delete(id=${staff.id})}"
                           method="post" class="d-inline">
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>

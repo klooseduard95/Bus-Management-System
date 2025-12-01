@@ -21,15 +21,15 @@ public class DriverService {
         return driverRepository.findAll();
     }
 
-    public Optional<Driver> findDriverById (Long id) {
+    public Optional<Driver> findById (Long id) {
         return driverRepository.findById(id);
     }
 
-    public void saveDriver(Driver driver) {
+    public void save(Driver driver) {
         driverRepository.save(driver);
     }
 
-    public void deleteDriverById(Long id) {
+    public void deleteById(Long id) {
         driverRepository.deleteById(id);
     }
 }

@@ -6,64 +6,58 @@
 <body>
 <div class="d-flex">
     <div th:replace="~{fragments :: sidebar}"></div>
-
     <div class="container-fluid p-4">
-        <h1 th:text="${assignment.id == null ? 'Create New Assignment' : 'Edit Assignment'}">Formular Alocare</h1>
-
+        <h1>Assignment Form</h1>
         <form th:action="@{/duty-assignment}" th:object="${assignment}" method="post" class="col-md-6">
-
+            <div th:if="${globalError}" class="alert alert-danger" th:text="${globalError}"></div>
             <input type="hidden" th:field="*{id}" />
 
             <div class="mb-3">
-                <label for="busTrip" class="form-label">Trip:</label>
-                <select id="busTrip" th:field="*{busTrip}" class="form-select" required>
-                    <option value="">-- Select Trip --</option>
-                    <option th:each="trip : ${allTrips}"
-                            th:value="${trip.id}"
-                            th:text="${'#' + trip.id + ' | ' + (trip.route != null ? trip.route.origin.name + ' -> ' + trip.route.destination.name : 'Unknown') + ' (' + trip.startTime + ')'}">
-                        [Trip Details]
-                    </option>
-                </select>
-                <span class="text-danger" th:if="${#fields.hasErrors('busTrip')}" th:errors="*{busTrip}"></span>
+                <label>Trip:</label>
+                <div class="mb-3">
+                    <label for="busTrip" class="form-label">Select Trip:</label>
+                    <select id="busTrip" th:field="*{busTrip}" class="form-select" required>
+                        <option value="">-- Select Trip --</option>
+
+                        <option th:each="trip : ${allTrips}"
+                                th:value="${trip.id}"
+                                th:text="${'Trip #' + trip.id + ' | ' +
+                                      (trip.route != null ? trip.route.origin.city + ' ➝ ' + trip.route.destination.city : 'No Route') +
+                                      ' (' + trip.startTime + ')'}">
+                            [Trip Details]
+                        </option>
+
+                    </select>
+                    <span class="text-danger" th:if="${#fields.hasErrors('busTrip')}" th:errors="*{busTrip}"></span>
+                </div>
             </div>
 
             <div class="mb-3">
-                <label for="staff" class="form-label">Staff Member:</label>
-                <select id="staff" th:field="*{staff}" class="form-select" required>
-                    <option value="">-- Select Staff --</option>
-                    <option th:each="s : ${allStaff}"
-                            th:value="${s.id}"
-                            th:text="${s.name + ' (ID: ' + s.id + ')'}">
-                        [Staff Name]
-                    </option>
+                <label>Driver (Select ONE):</label>
+                <select th:field="*{driver}" class="form-select">
+                    <option value="">-- None --</option>
+                    <option th:each="d : ${allDrivers}" th:value="${d.id}" th:text="${d.name}"></option>
                 </select>
-                <span class="text-danger" th:if="${#fields.hasErrors('staff')}" th:errors="*{staff}"></span>
             </div>
 
             <div class="mb-3">
-                <label for="role" class="form-label">Role:</label>
-                <select id="role" th:field="*{role}" class="form-select" required>
-                    <option value="">-- Select Role --</option>
-                    <option th:each="r : ${T(bus.station.enums.Role).values()}"
-                            th:value="${r}"
-                            th:text="${r}">
-                        [Role]
-                    </option>
+                <label>Manager (Select ONE):</label>
+                <select th:field="*{manager}" class="form-select">
+                    <option value="">-- None --</option>
+                    <option th:each="m : ${allManagers}" th:value="${m.id}" th:text="${m.name}"></option>
                 </select>
-                <span class="text-danger" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></span>
             </div>
 
-            <div>
-                <button type="submit" class="btn btn-success me-2"
-                        th:text="${assignment.id == null ? 'Save Assignment' : 'Update Assignment'}">
-                    Save
-                </button>
-                <a th:href="@{/duty-assignment}" class="btn btn-secondary">Back to List</a>
+            <div class="mb-3">
+                <label>Role:</label>
+                <select th:field="*{role}" class="form-select">
+                    <option th:each="r : ${T(bus.station.enums.Role).values()}" th:value="${r}" th:text="${r}"></option>
+                </select>
             </div>
+
+            <button type="submit" class="btn btn-success">Save</button>
         </form>
     </div>
 </div>
-
-<div th:replace="~{fragments :: body-scripts}"></div>
 </body>
 </html>

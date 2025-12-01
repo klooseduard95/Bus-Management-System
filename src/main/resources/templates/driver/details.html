@@ -12,7 +12,7 @@
 
         <nav aria-label="breadcrumb" class="mb-4">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{/staff}" class="text-decoration-none">Staff</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/driver}" class="text-decoration-none">Drivers</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Driver Details</li>
             </ol>
         </nav>
@@ -44,8 +44,9 @@
                         </ul>
 
                         <div class="d-grid gap-2">
-                            <a th:href="@{/staff/driver/{id}/edit(id=${driver.id})}" class="btn btn-warning">Edit Driver</a>
-                            <form th:action="@{/staff/driver/{id}/delete(id=${driver.id})}" method="post"
+                            <a th:href="@{/driver/{id}/edit(id=${driver.id})}" class="btn btn-warning">Edit Driver</a>
+
+                            <form th:action="@{/driver/{id}/delete(id=${driver.id})}" method="post"
                                   onsubmit="return confirm('Delete this driver?');">
                                 <button type="submit" class="btn btn-outline-danger w-100">Delete Driver</button>
                             </form>
@@ -78,10 +79,10 @@
                                 <td th:text="${'#' + assign.id}">1</td>
                                 <td th:text="${assign.role}">PrimaryDriver</td>
                                 <td>
-                                        <span th:if="${assign.busTrip != null && assign.busTrip.route != null}"
-                                              th:text="${assign.busTrip.route.origin.name + ' ➝ ' + assign.busTrip.route.destination.name}">
-                                            Route
-                                        </span>
+                                    <span th:if="${assign.busTrip != null && assign.busTrip.route != null}"
+                                          th:text="${assign.busTrip.route.origin.name + ' ➝ ' + assign.busTrip.route.destination.name}">
+                                        Route
+                                    </span>
                                 </td>
                                 <td>
                                     <span th:if="${assign.busTrip != null}" th:text="${assign.busTrip.startTime}">10:00</span>
