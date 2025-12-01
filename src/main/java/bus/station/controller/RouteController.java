@@ -4,8 +4,10 @@ import bus.station.model.BusStation;
 import bus.station.model.Route;
 import bus.station.service.BusStationService;
 import bus.station.service.RouteService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -57,49 +59,19 @@ public class RouteController {
     }
 
     @PostMapping
-    public String createOrUpdateRoute(
-            @RequestParam(value = "id", required = false) Long id,
-            @RequestParam("originId") Long originId,
-            @RequestParam("destinationId") Long destinationId,
-            @RequestParam("distance") double distance,
-            Model model) {
-
+    public String createOrUpdateRoute(@Valid @ModelAttribute Route route, BindingResult bindingResult, Model model) {
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("activePage",  "route");
+            return  "route/form";
+        }
         try {
-            BusStation origin = busStationService.findById(originId)
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid Origin ID"));
-            BusStation destination = busStationService.findById(destinationId)
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid Destination ID"));
-
-            if (originId.equals(destinationId)) {
-                throw new IllegalArgumentException("Origin and Destination cannot be the same.");
-            }
-
-            Route route;
-            if (id != null) {
-                route = routeService.findById(id).orElse(new Route());
-            } else {
-                route = new Route();
-            }
-
-            route.setOrigin(origin);
-            route.setDestination(destination);
-            route.setDistance(distance);
-
             routeService.save(route);
-            return "redirect:/route";
-
         } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
-
-            Route route = new Route();
-            route.setId(id);
-            route.setDistance(distance);
-            model.addAttribute("route", route);
-
-            addBusStationsToModel(model);
+            model.addAttribute("globalError", e.getMessage());
             model.addAttribute("activePage", "route");
             return "route/form";
         }
+        return "redirect:/route";
     }
 
     @PostMapping("/{id}/delete")

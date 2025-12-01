@@ -25,6 +25,7 @@ public class Ticket {
 
     @NotBlank(message = "Seat number is required")
     @Size(min = 1, max=5, message = "Seat number must be between 1 and 5 characters")
+    @Positive(message = "Seat number can't be negative")
     private String seatNumber;
 
 //    @Positive(message = "Price must be positive")

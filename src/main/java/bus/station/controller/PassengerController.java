@@ -37,16 +37,19 @@ public class PassengerController {
     }
 
     @PostMapping
-    public String createOrUpdatePassenger(@Valid @ModelAttribute Passenger passenger,
-                                          BindingResult bindingResult,
-                                          Model model) {
+    public String createOrUpdatePassenger(@Valid @ModelAttribute Passenger passenger, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("activePage", "passenger");
             return "passenger/form";
         }
-
-        passengerService.save(passenger);
+        try {
+            passengerService.save(passenger);
+        }catch(Exception e) {
+            model.addAttribute("globalError", e.getMessage());
+            model.addAttribute("activePage", "passenger");
+            return "redirect:/passenger";
+        }
         return "redirect:/passenger";
     }
 
