@@ -34,16 +34,16 @@
             </div>
 
             <div class="mb-3">
-                <label for="staff" class="form-label">Staff Member:</label>
-                <select id="staff" th:field="*{staff}" class="form-select" required>
-                    <option value="">-- Select Staff --</option>
-                    <option th:each="s : ${allStaff}"
-                            th:value="${s.id}"
-                            th:text="${s.name + ' (ID: ' + s.id + ')'}">
-                        [Staff Name]
+                <label for="driver" class="form-label">Driver:</label>
+                <select id="driver" th:field="*{driver}" class="form-select" required>
+                    <option value="">-- Select Driver --</option>
+                    <option th:each="d : ${allDrivers}"
+                            th:value="${d.id}"
+                            th:text="${d.name + ' (Exp: ' + d.yearsOfExperience + 'y)'}">
+                        [Driver Name]
                     </option>
                 </select>
-                <span class="text-danger" th:if="${#fields.hasErrors('staff')}" th:errors="*{staff}"></span>
+                <span class="text-danger" th:if="${#fields.hasErrors('driver')}" th:errors="*{driver}"></span>
             </div>
 
             <div class="mb-3">
