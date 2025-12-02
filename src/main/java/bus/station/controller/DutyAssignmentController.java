@@ -1,10 +1,9 @@
 package bus.station.controller;
 
-
 import bus.station.model.DutyAssignment;
 import bus.station.service.BusTripService;
+import bus.station.service.DriverService; // 1. Folosim DriverService
 import bus.station.service.DutyAssignmentService;
-import bus.station.service.StaffService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,19 +18,19 @@ public class DutyAssignmentController {
 
     private final DutyAssignmentService dutyAssignmentService;
     private final BusTripService busTripService;
-    private final StaffService staffService;
+    private final DriverService driverService;
 
     public DutyAssignmentController(DutyAssignmentService dutyAssignmentService,
                                     BusTripService busTripService,
-                                    StaffService staffService) {
+                                    DriverService driverService) {
         this.dutyAssignmentService = dutyAssignmentService;
         this.busTripService = busTripService;
-        this.staffService = staffService;
+        this.driverService = driverService;
     }
 
     private void addDropdownDataToModel(Model model) {
         model.addAttribute("allTrips", busTripService.findAll());
-        model.addAttribute("allStaff", staffService.findAll());
+        model.addAttribute("allDrivers", driverService.findAll());
     }
 
     @GetMapping
@@ -71,11 +70,15 @@ public class DutyAssignmentController {
             model.addAttribute("activePage", "duty-assignment");
             return "duty-assignment/form";
         }
-        try{
+
+        try {
             dutyAssignmentService.save(assignment);
-        } catch(Exception e){
+        } catch (Exception e) {
             model.addAttribute("globalError", e.getMessage());
+
+            addDropdownDataToModel(model);
             model.addAttribute("activePage", "duty-assignment");
+
             return "duty-assignment/form";
         }
         return "redirect:/duty-assignment";
