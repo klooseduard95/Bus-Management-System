@@ -24,28 +24,52 @@ public class BusStationService {
 
     @Transactional
     public BusStation save(BusStation busStation) {
-        // Check for duplicates
-        if (busStation.getId() == null && busStationRepository.existsByName(busStation.getName())) {
-            throw new IllegalArgumentException("Bus station with this name '" + busStation.getName() + "' already exists!");
+        if (busStation == null) {
+            throw new IllegalArgumentException("BusStation object cannot be null.");
         }
-        if(busStation.getName().isEmpty() || busStation.getCity().isEmpty()) {
-            throw new IllegalArgumentException("Bus station name and city must not be empty!");
+
+        String name = busStation.getName();
+        String city = busStation.getCity();
+
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Bus station name must not be null or empty.");
         }
+        if (name.length() < 3 || name.length() > 100) {
+            throw new IllegalArgumentException("Bus station name must be between 3 and 100 characters.");
+        }
+
+        if (city == null || city.trim().isEmpty()) {
+            throw new IllegalArgumentException("Bus station city must not be null or empty.");
+        }
+        if (city.length() < 3 || city.length() > 100) {
+            throw new IllegalArgumentException("Bus station city must be between 3 and 100 characters.");
+        }
+
+        if (busStation.getId() == null && busStationRepository.existsByName(name)) {
+            throw new IllegalArgumentException("Bus station with this name '" + name + "' already exists!");
+        }
+
         return busStationRepository.save(busStation);
     }
 
     public Optional<BusStation> findById(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Bus Station ID must be non-null and positive.");
+        }
         return busStationRepository.findById(id);
     }
 
     @Transactional
     public void deleteById(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Bus Station ID must be non-null and positive.");
+        }
+
         Optional<BusStation> busStationOpt = busStationRepository.findById(id);
+
         if (busStationOpt.isPresent()) {
             BusStation busStation = busStationOpt.get();
 
-            // LOGIC FIX: Changed && to ||.
-            // We cannot delete if it is an Origin OR a Destination.
             boolean isOrigin = busStation.getRoutesAsOrigin() != null && !busStation.getRoutesAsOrigin().isEmpty();
             boolean isDest = busStation.getRoutesAsDestination() != null && !busStation.getRoutesAsDestination().isEmpty();
 
@@ -53,6 +77,8 @@ public class BusStationService {
                 throw new RuntimeException("Cannot delete Bus Station. It is assigned to existing routes.");
             }
             busStationRepository.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("Bus Station with ID " + id + " not found for deletion.");
         }
     }
 }
