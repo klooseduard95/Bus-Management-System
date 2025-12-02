@@ -28,6 +28,9 @@ public class BusStationService {
         if (busStation.getId() == null && busStationRepository.existsByName(busStation.getName())) {
             throw new IllegalArgumentException("Bus station with this name '" + busStation.getName() + "' already exists!");
         }
+        if(busStation.getName().isEmpty() || busStation.getCity().isEmpty()) {
+            throw new IllegalArgumentException("Bus station name and city must not be empty!");
+        }
         return busStationRepository.save(busStation);
     }
 

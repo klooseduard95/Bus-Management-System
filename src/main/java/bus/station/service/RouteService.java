@@ -24,6 +24,13 @@ public class RouteService {
         if (route.getOrigin() != null && route.getOrigin().equals(route.getDestination())) {
             throw new IllegalArgumentException("Origin and Destination cannot be the same.");
         }
+        if(route.getDestination() == null || route.getOrigin() == null) {
+            throw new IllegalArgumentException("Destination and Origin cannot be empty.");
+        }
+
+        if(route.getDistance() <= 0){
+            throw new IllegalArgumentException("Distance must be greater than 0.");
+        }
         return routeRepository.save(route);
     }
 

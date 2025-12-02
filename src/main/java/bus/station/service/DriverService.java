@@ -5,6 +5,7 @@ import bus.station.repository.DriverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +27,13 @@ public class DriverService {
     }
 
     public void save(Driver driver) {
+        if(driver.getName().isEmpty()){
+            throw new IllegalArgumentException("Driver name must not be empty.");
+        }
+        if(driver.getLicenseAcquiredDate().isAfter(LocalDate.now())){
+            throw new IllegalArgumentException("Driver license must be acquired before today");
+        }
+
         driverRepository.save(driver);
     }
 

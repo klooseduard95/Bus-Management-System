@@ -27,6 +27,10 @@ public class BusTripService {
         if (busTrip.getBus() == null || busTrip.getRoute() == null) {
             throw new IllegalArgumentException("Bus and Route must be valid");
         }
+
+        if (busTrip.getAvailableSeats() < 0 || busTrip.getBasePrice() <= 0 ) {
+            throw new IllegalArgumentException("Available seats and base price must be greater than 0.");
+        }
         return busTripRepository.save(busTrip);
     }
 

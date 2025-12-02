@@ -26,6 +26,9 @@ public class TripManagerService {
     }
 
     public TripManager save(TripManager tripManager) {
+        if(tripManager.getName().isEmpty() || tripManager.getEmployeeCode().isEmpty()){
+            throw new IllegalArgumentException("Name and Employee code cannot be empty");
+        }
         return tripManagerRepository.save(tripManager);
     }
 
