@@ -1,6 +1,5 @@
 package bus.station.controller;
 
-import bus.station.model.Bus;
 import bus.station.model.BusTrip;
 import bus.station.service.BusService;
 import bus.station.service.BusTripService;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes; // Needed for delete errors
 
 import java.util.Optional;
 
@@ -19,7 +19,6 @@ public class BusTripController {
     private final BusTripService busTripService;
     private final RouteService routeService;
     private final BusService busService;
-
 
     public BusTripController(BusTripService busTripService,
                              RouteService routeService,
@@ -65,12 +64,14 @@ public class BusTripController {
 
     @PostMapping
     public String createOrUpdateBus(@Valid @ModelAttribute BusTrip busTrip, BindingResult bindingResult, Model model) {
+        // 1. Handle Validation Errors (@NotNull, @Min, etc.)
         if (bindingResult.hasErrors()) {
             addRoutesAndBusesToModel(model);
             model.addAttribute("activePage", "bus-trip");
             return "bus-trip/form";
         }
 
+        // 2. Handle Logic Errors (Exceptions)
         try {
             busTripService.save(busTrip);
         } catch (RuntimeException e) {
@@ -84,8 +85,13 @@ public class BusTripController {
     }
 
     @PostMapping("/{id}/delete")
-    public String deleteBusTrip(@PathVariable Long id) {
-        busTripService.deleteById(id);
+    public String deleteBusTrip(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            busTripService.deleteById(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Trip deleted successfully.");
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
         return "redirect:/bus-trip";
     }
 

@@ -21,7 +21,8 @@ public class BusTripService {
     public List<BusTrip> findAll() {
         return busTripRepository.findAll();
     }
-@Transactional
+
+    @Transactional
     public BusTrip save(BusTrip busTrip) {
         if (busTrip.getBus() == null || busTrip.getRoute() == null) {
             throw new IllegalArgumentException("Bus and Route must be valid");
@@ -32,16 +33,20 @@ public class BusTripService {
     public Optional<BusTrip> findById(Long id) {
         return busTripRepository.findById(id);
     }
-@Transactional
+
+    @Transactional
     public void deleteById(Long id) {
         Optional<BusTrip> busTripOpt = busTripRepository.findById(id);
 
         if(busTripOpt.isPresent()) {
             BusTrip busTrip = busTripOpt.get();
-            if(busTrip.getTickets() != null) {
-                throw new IllegalArgumentException("Trip is still in use by tickets");
+
+            // FIX: Check !isEmpty(), not just != null
+            if(busTrip.getTickets() != null && !busTrip.getTickets().isEmpty()) {
+                throw new RuntimeException("Cannot delete Trip. It has issued tickets.");
             }
+
+            busTripRepository.deleteById(id);
         }
-        busTripRepository.deleteById(id);
     }
 }

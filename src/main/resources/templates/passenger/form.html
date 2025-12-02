@@ -24,20 +24,21 @@
             <div class="mb-3">
                 <label for="name" class="form-label">Name:</label>
                 <input type="text" id="name" th:field="*{name}" class="form-control" />
+                <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
             </div>
 
             <div class="mb-3">
                 <label for="currency" class="form-label">Currency:</label>
                 <input type="text" id="currency" th:field="*{currency}" class="form-control" />
+                <span class="text-danger" th:if="${#fields.hasErrors('currency')}" th:errors="*{currency}"></span>
             </div>
 
             <div class="mb-3">
                 <label for="dateOfBirth" class="form-label">Date of birth:</label>
-
                 <input type="date" id="dateOfBirth"
-                       name="dateOfBirth"
-                       th:value="${passenger.dateOfBirth != null ? #temporals.format(passenger.dateOfBirth, 'yyyy-MM-dd') : ''}"
+                       th:field="*{dateOfBirth}"
                        class="form-control" />
+                <span class="text-danger" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"></span>
             </div>
 
             <div class="mb-3 form-check">

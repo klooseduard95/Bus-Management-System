@@ -10,7 +10,7 @@
     <div class="container-fluid p-4">
         <h1 th:text="${route.id == null ? 'Create New Route' : 'Edit Route'}">Formular Rută</h1>
 
-        <form th:action="@{/route}" method="post" class="col-md-6">
+        <form th:action="@{/route}" th:object="${route}" method="post" class="col-md-6">
 
             <div th:if="${globalError}" class="alert alert-danger alert-dismissible fade show" role="alert">
                 <i class="bi bi-exclamation-triangle-fill me-2"></i>
@@ -18,38 +18,38 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
 
-            <input type="hidden" th:field="${route.id}" name="id" />
+            <input type="hidden" th:field="*{id}" />
 
             <div class="mb-3">
-                <label for="originId" class="form-label">Origin Station:</label>
-                <select id="originId" name="originId" class="form-select" required>
+                <label for="origin" class="form-label">Origin Station:</label>
+                <select id="origin" th:field="*{origin}" class="form-select" required>
                     <option value="">-- Select Origin --</option>
                     <option th:each="station : ${allBusStations}"
                             th:value="${station.id}"
-                            th:text="${station.name + ' (' + station.city + ')'}"
-                            th:selected="${route.origin != null && route.origin.id == station.id}">
-                        [Station Name (City)]
+                            th:text="${station.name + ' (' + station.city + ')'}">
+                        [Station Name]
                     </option>
                 </select>
+                <span class="text-danger" th:if="${#fields.hasErrors('origin')}" th:errors="*{origin}"></span>
             </div>
 
             <div class="mb-3">
-                <label for="destinationId" class="form-label">Destination Station:</label>
-                <select id="destinationId" name="destinationId" class="form-select" required>
+                <label for="destination" class="form-label">Destination Station:</label>
+                <select id="destination" th:field="*{destination}" class="form-select" required>
                     <option value="">-- Select Destination --</option>
                     <option th:each="station : ${allBusStations}"
                             th:value="${station.id}"
-                            th:text="${station.name + ' (' + station.city + ')'}"
-                            th:selected="${route.destination != null && route.destination.id == station.id}">
-                        [Station Name (City)]
+                            th:text="${station.name + ' (' + station.city + ')'}">
+                        [Station Name]
                     </option>
                 </select>
+                <span class="text-danger" th:if="${#fields.hasErrors('destination')}" th:errors="*{destination}"></span>
             </div>
 
             <div class="mb-3">
                 <label for="distance" class="form-label">Distance (km):</label>
-                <input type="number" step="0.1" id="distance" name="distance"
-                       th:value="${route.distance}" class="form-control" required />
+                <input type="number" step="0.1" id="distance" th:field="*{distance}" class="form-control" required />
+                <span class="text-danger" th:if="${#fields.hasErrors('distance')}" th:errors="*{distance}"></span>
             </div>
 
             <div>

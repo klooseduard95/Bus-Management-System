@@ -1,6 +1,5 @@
 package bus.station.service;
 
-import bus.station.model.Bus;
 import bus.station.model.BusStation;
 import bus.station.repository.BusStationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +21,12 @@ public class BusStationService {
     public List<BusStation> findAll() {
         return busStationRepository.findAll();
     }
-@Transactional
+
+    @Transactional
     public BusStation save(BusStation busStation) {
+        // Check for duplicates
         if (busStation.getId() == null && busStationRepository.existsByName(busStation.getName())) {
-            throw new IllegalArgumentException("Bus station with this name " + busStation.getName() + " already exists!");
+            throw new IllegalArgumentException("Bus station with this name '" + busStation.getName() + "' already exists!");
         }
         return busStationRepository.save(busStation);
     }
@@ -33,16 +34,22 @@ public class BusStationService {
     public Optional<BusStation> findById(Long id) {
         return busStationRepository.findById(id);
     }
-@Transactional
+
+    @Transactional
     public void deleteById(Long id) {
         Optional<BusStation> busStationOpt = busStationRepository.findById(id);
         if (busStationOpt.isPresent()) {
             BusStation busStation = busStationOpt.get();
-            if (busStation.getRoutesAsOrigin() != null && !busStation.getRoutesAsOrigin().isEmpty() && busStation.getRoutesAsDestination() != null && !busStation.getRoutesAsDestination().isEmpty()) {
-                throw new RuntimeException("Cannot delete busStation. It is assigned to existing routes.");
+
+            // LOGIC FIX: Changed && to ||.
+            // We cannot delete if it is an Origin OR a Destination.
+            boolean isOrigin = busStation.getRoutesAsOrigin() != null && !busStation.getRoutesAsOrigin().isEmpty();
+            boolean isDest = busStation.getRoutesAsDestination() != null && !busStation.getRoutesAsDestination().isEmpty();
+
+            if (isOrigin || isDest) {
+                throw new RuntimeException("Cannot delete Bus Station. It is assigned to existing routes.");
             }
             busStationRepository.deleteById(id);
         }
     }
-
 }

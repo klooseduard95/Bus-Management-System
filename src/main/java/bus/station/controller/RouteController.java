@@ -61,6 +61,7 @@ public class RouteController {
     @PostMapping
     public String createOrUpdateRoute(@Valid @ModelAttribute Route route, BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()) {
+            addBusStationsToModel(model);
             model.addAttribute("activePage",  "route");
             return  "route/form";
         }
@@ -68,6 +69,7 @@ public class RouteController {
             routeService.save(route);
         } catch (Exception e) {
             model.addAttribute("globalError", e.getMessage());
+            addBusStationsToModel(model);
             model.addAttribute("activePage", "route");
             return "route/form";
         }
