@@ -21,8 +21,21 @@ public class BusStationController {
     }
 
     @GetMapping
-    public String findAll(Model model) {
-        model.addAttribute("busStations", busStationService.findAll());
+    public String findAll(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String city,
+            @RequestParam(defaultValue = "id") String sortField,
+            @RequestParam(defaultValue = "asc") String sortDir,
+            Model model) {
+
+        model.addAttribute("busStations", busStationService.findAll(name, city, sortField, sortDir));
+
+        model.addAttribute("name", name);
+        model.addAttribute("city", city);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         model.addAttribute("activePage", "bus-station");
         return "bus-station/index";
     }
@@ -36,13 +49,11 @@ public class BusStationController {
 
     @PostMapping
     public String createOrUpdateBus(@Valid @ModelAttribute BusStation busStation, BindingResult bindingResult, Model model) {
-        // 1. Validation Errors
         if (bindingResult.hasErrors()) {
             model.addAttribute("activePage", "bus-station");
             return "bus-station/form";
         }
 
-        // 2. Business Logic Errors (Exceptions)
         try {
             busStationService.save(busStation);
         } catch (Exception e) {
@@ -71,7 +82,6 @@ public class BusStationController {
             busStationService.deleteById(id);
             redirectAttributes.addFlashAttribute("successMessage", "Station deleted successfully.");
         } catch (RuntimeException e) {
-            // Sends the error to the index page
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
         return "redirect:/bus-station";

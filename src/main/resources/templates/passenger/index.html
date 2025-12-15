@@ -13,6 +13,41 @@
 
         <h1 class="mb-3">🧑 Passengers</h1>
 
+        <div class="card bg-light mb-4 shadow-sm">
+            <div class="card-body">
+                <form th:action="@{/passenger}" method="get" class="row g-3 align-items-end">
+
+                    <input type="hidden" name="sortField" th:value="${sortField}">
+                    <input type="hidden" name="sortDir" th:value="${sortDir}">
+
+                    <div class="col-md-4">
+                        <label for="name" class="form-label fw-bold">Passenger Name:</label>
+                        <input type="text" class="form-control" id="name" name="name"
+                               th:value="${name}" placeholder="Search name...">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="specialAssistance" class="form-label fw-bold">Special Assistance:</label>
+                        <select class="form-select" id="specialAssistance" name="specialAssistance">
+                            <option value="">All</option>
+                            <option value="true" th:selected="${specialAssistance == true}">Required</option>
+                            <option value="false" th:selected="${specialAssistance == false}">Not Required</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary flex-grow-1">
+                                <i class="bi bi-search"></i> Filter
+                            </button>
+                            <a th:href="@{/passenger}" class="btn btn-outline-secondary">
+                                Clear
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
         <a th:href="@{/passenger/new}" class="btn btn-primary mb-3">
             Add New Passenger
         </a>
@@ -20,14 +55,38 @@
         <table class="table table-striped table-hover">
             <thead class="table-dark">
             <tr>
-                <th>ID</th>
-                <th>Name</th>
+                <th>
+                    <a th:href="@{/passenger(sortField='id', sortDir=${reverseSortDir}, name=${name}, specialAssistance=${specialAssistance})}"
+                       class="text-white text-decoration-none">
+                        ID <i th:if="${sortField == 'id'}" th:class="${sortDir == 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down'}"></i>
+                    </a>
+                </th>
+
+                <th>
+                    <a th:href="@{/passenger(sortField='name', sortDir=${reverseSortDir}, name=${name}, specialAssistance=${specialAssistance})}"
+                       class="text-white text-decoration-none">
+                        Name <i th:if="${sortField == 'name'}" th:class="${sortDir == 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down'}"></i>
+                    </a>
+                </th>
+
                 <th>Currency</th>
-                <th>Tickets Count</th> <th>Date of birth</th>
+                <th>Tickets Count</th>
+
+                <th>
+                    <a th:href="@{/passenger(sortField='dateOfBirth', sortDir=${reverseSortDir}, name=${name}, specialAssistance=${specialAssistance})}"
+                       class="text-white text-decoration-none">
+                        Date of birth <i th:if="${sortField == 'dateOfBirth'}" th:class="${sortDir == 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down'}"></i>
+                    </a>
+                </th>
+
                 <th>Special Asst.</th>
-                <th>Actions</th> </tr>
+                <th>Actions</th>
+            </tr>
             </thead>
             <tbody>
+            <tr th:if="${passengers.empty}">
+                <td colspan="7" class="text-center text-muted py-4">No passengers found.</td>
+            </tr>
             <tr th:each="passenger : ${passengers}">
 
                 <td>
@@ -50,7 +109,10 @@
 
                 <td th:text="${passenger.dateOfBirth}">[Date of birth]</td>
 
-                <td th:text="${passenger.requiresSpecialAssistance} ? 'Yes' : 'No'">[Req]</td>
+                <td>
+                    <span th:if="${passenger.requiresSpecialAssistance}" class="text-warning fw-bold">Yes</span>
+                    <span th:unless="${passenger.requiresSpecialAssistance}" class="text-muted">No</span>
+                </td>
 
                 <td>
                     <a th:href="@{/passenger/{id}/edit(id=${passenger.id})}"

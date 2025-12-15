@@ -2,11 +2,12 @@ package bus.station.repository;
 
 import bus.station.model.DutyAssignment;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DutyAssignmentRepository extends JpaRepository<DutyAssignment, Long> {
-    boolean existsByBusTripIdAndDriverId(Long tripId, Long id);
+public interface DutyAssignmentRepository extends JpaRepository<DutyAssignment, Long>, JpaSpecificationExecutor<DutyAssignment> {
+    boolean existsByBusTripIdAndDriverId(Long tripId, Long driverId);
 
     boolean existsByBusTripIdAndDriverIsNotNull(Long tripId);
 

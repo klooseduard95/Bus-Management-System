@@ -1,11 +1,19 @@
 package bus.station.service;
 
+import bus.station.enums.Role;
 import bus.station.model.DutyAssignment;
 import bus.station.repository.DutyAssignmentRepository;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +29,42 @@ public class DutyAssignmentService {
 
     public List<DutyAssignment> findAll() {
         return dutyAssignmentRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<DutyAssignment> findAll(Long tripId,
+                                        Role role,
+                                        String driverName,
+                                        String sortField,
+                                        String sortDir) {
+
+        Specification<DutyAssignment> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (tripId != null) {
+                predicates.add(cb.equal(root.get("busTrip").get("id"), tripId));
+            }
+
+            if (role != null) {
+                predicates.add(cb.equal(root.get("role"), role));
+            }
+
+            if (StringUtils.hasText(driverName)) {
+                Join<Object, Object> driverJoin = root.join("driver", JoinType.LEFT);
+                predicates.add(cb.like(cb.lower(driverJoin.get("name")), "%" + driverName.toLowerCase() + "%"));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        Sort sort = Sort.by(sortField);
+        if ("desc".equalsIgnoreCase(sortDir)) {
+            sort = sort.descending();
+        } else {
+            sort = sort.ascending();
+        }
+
+        return dutyAssignmentRepository.findAll(spec, sort);
     }
 
     @Transactional

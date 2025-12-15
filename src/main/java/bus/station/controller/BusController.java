@@ -1,5 +1,6 @@
 package bus.station.controller;
 
+import bus.station.enums.BusStatus;
 import bus.station.model.Bus;
 import bus.station.service.BusService;
 import jakarta.validation.Valid;
@@ -21,8 +22,23 @@ public class BusController {
     }
 
     @GetMapping
-    public String getBusList(Model model) {
-        model.addAttribute("buses", busService.findAll());
+    public String getBusList(
+            @RequestParam(required = false) String regNum,
+            @RequestParam(required = false) BusStatus status,
+            @RequestParam(required = false) Integer minCapacity,
+            @RequestParam(defaultValue = "id") String sortField,
+            @RequestParam(defaultValue = "asc") String sortDir,
+            Model model) {
+
+        model.addAttribute("buses", busService.findAll(regNum, status, minCapacity, sortField, sortDir));
+
+        model.addAttribute("regNum", regNum);
+        model.addAttribute("status", status);
+        model.addAttribute("minCapacity", minCapacity);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         model.addAttribute("activePage", "bus");
         return "bus/index";
     }
@@ -83,5 +99,4 @@ public class BusController {
             return "redirect:/bus";
         }
     }
-
 }

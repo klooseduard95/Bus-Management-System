@@ -2,10 +2,15 @@ package bus.station.service;
 
 import bus.station.model.BusStation;
 import bus.station.repository.BusStationRepository;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +25,33 @@ public class BusStationService {
 
     public List<BusStation> findAll() {
         return busStationRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<BusStation> findAll(String name, String city, String sortField, String sortDir) {
+
+        Specification<BusStation> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (StringUtils.hasText(name)) {
+                predicates.add(cb.like(cb.lower(root.get("name")), "%" + name.toLowerCase() + "%"));
+            }
+
+            if (StringUtils.hasText(city)) {
+                predicates.add(cb.like(cb.lower(root.get("city")), "%" + city.toLowerCase() + "%"));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        Sort sort = Sort.by(sortField);
+        if ("desc".equalsIgnoreCase(sortDir)) {
+            sort = sort.descending();
+        } else {
+            sort = sort.ascending();
+        }
+
+        return busStationRepository.findAll(spec, sort);
     }
 
     @Transactional

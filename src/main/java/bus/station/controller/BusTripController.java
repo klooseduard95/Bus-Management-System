@@ -1,5 +1,6 @@
 package bus.station.controller;
 
+import bus.station.enums.BusTripStatus;
 import bus.station.model.BusTrip;
 import bus.station.service.BusService;
 import bus.station.service.BusTripService;
@@ -11,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes; // Needed for delete errors
 
+import java.time.LocalTime;
 import java.util.Optional;
 
 @Controller
@@ -34,8 +36,25 @@ public class BusTripController {
     }
 
     @GetMapping
-    public String getBusTripList(Model model) {
-        model.addAttribute("busTrips", busTripService.findAll());
+    public String getBusTripList(
+            @RequestParam(required = false) LocalTime startTimeFrom,
+            @RequestParam(required = false) LocalTime startTimeTo,
+            @RequestParam(required = false) BusTripStatus status,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(defaultValue = "id") String sortField,
+            @RequestParam(defaultValue = "asc") String sortDir,
+            Model model) {
+
+        model.addAttribute("busTrips", busTripService.findAll(startTimeFrom, startTimeTo, status, maxPrice, sortField, sortDir));
+
+        model.addAttribute("startTimeFrom", startTimeFrom);
+        model.addAttribute("startTimeTo", startTimeTo);
+        model.addAttribute("status", status);
+        model.addAttribute("maxPrice", maxPrice);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         model.addAttribute("activePage", "bus-trip");
         return "bus-trip/index";
     }
@@ -64,14 +83,12 @@ public class BusTripController {
 
     @PostMapping
     public String createOrUpdateBus(@Valid @ModelAttribute BusTrip busTrip, BindingResult bindingResult, Model model) {
-        // 1. Handle Validation Errors (@NotNull, @Min, etc.)
         if (bindingResult.hasErrors()) {
             addRoutesAndBusesToModel(model);
             model.addAttribute("activePage", "bus-trip");
             return "bus-trip/form";
         }
 
-        // 2. Handle Logic Errors (Exceptions)
         try {
             busTripService.save(busTrip);
         } catch (RuntimeException e) {

@@ -2,11 +2,16 @@ package bus.station.service;
 
 import bus.station.model.Driver;
 import bus.station.repository.DriverRepository;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +27,34 @@ public class DriverService {
 
     public List<Driver> findAll() {
         return driverRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Driver> findAll(String name, Integer minExperience, String sortField, String sortDir) {
+
+        Specification<Driver> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (StringUtils.hasText(name)) {
+                predicates.add(cb.like(cb.lower(root.get("name")), "%" + name.toLowerCase() + "%"));
+            }
+
+            if (minExperience != null) {
+                LocalDate maxLicenseDate = LocalDate.now().minusYears(minExperience);
+                predicates.add(cb.lessThanOrEqualTo(root.get("licenseAcquiredDate"), maxLicenseDate));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        Sort sort = Sort.by(sortField);
+        if ("desc".equalsIgnoreCase(sortDir)) {
+            sort = sort.descending();
+        } else {
+            sort = sort.ascending();
+        }
+
+        return driverRepository.findAll(spec, sort);
     }
 
     public Optional<Driver> findById (Long id) {

@@ -20,8 +20,21 @@ public class DriverController {
     }
 
     @GetMapping
-    public String getList(Model model) {
-        model.addAttribute("drivers", driverService.findAll());
+    public String getList(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Integer minExperience,
+            @RequestParam(defaultValue = "id") String sortField,
+            @RequestParam(defaultValue = "asc") String sortDir,
+            Model model) {
+
+        model.addAttribute("drivers", driverService.findAll(name, minExperience, sortField, sortDir));
+
+        model.addAttribute("name", name);
+        model.addAttribute("minExperience", minExperience);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         model.addAttribute("activePage", "driver");
         return "driver/index";
     }

@@ -13,23 +13,104 @@
 
         <h1 class="mb-3">🚌 Bus Management</h1>
 
-        <a th:href="@{/bus/new}" class="btn btn-primary mb-3">
-            Add New Bus
-        </a>
+        <div class="card bg-light mb-4 shadow-sm">
+            <div class="card-body">
+                <form th:action="@{/bus}" method="get" class="row g-3 align-items-end">
 
-        <table class="table table-striped table-hover">
+                    <input type="hidden" name="sortField" th:value="${sortField}">
+                    <input type="hidden" name="sortDir" th:value="${sortDir}">
+
+                    <div class="col-md-3">
+                        <label for="regNum" class="form-label fw-bold">Registration Nr:</label>
+                        <input type="text" class="form-control" id="regNum" name="regNum"
+                               th:value="${regNum}" placeholder="e.g. CJ-01">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="status" class="form-label fw-bold">Status:</label>
+                        <select class="form-select" id="status" name="status">
+                            <option value="">All Statuses</option>
+
+                            <option th:each="s : ${T(bus.station.enums.BusStatus).values()}"
+                                    th:value="${s}"
+                                    th:text="${s}"
+                                    th:selected="${status != null and s.name() == status.name()}">
+                            </option>
+
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="minCapacity" class="form-label fw-bold">Min Capacity:</label>
+                        <input type="number" class="form-control" id="minCapacity" name="minCapacity"
+                               th:value="${minCapacity}" placeholder="e.g. 50">
+                    </div>
+
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary w-100 mb-2">
+                            <i class="bi bi-search"></i> Filter
+                        </button>
+                        <a th:href="@{/bus}" class="btn btn-outline-secondary w-100">
+                            <i class="bi bi-x-circle"></i> Clear
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <a th:href="@{/bus/new}" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Add New Bus
+            </a>
+            <span class="text-muted fst-italic">
+                Showing <span th:text="${buses.size()}">0</span> buses
+            </span>
+        </div>
+
+        <table class="table table-striped table-hover shadow-sm">
             <thead class="table-dark">
             <tr>
-                <th>ID</th>
-                <th>Registration Number</th>
-                <th>Capacity</th>
+                <th>
+                    <a th:href="@{/bus(sortField='id', sortDir=${reverseSortDir}, regNum=${regNum}, status=${status}, minCapacity=${minCapacity})}"
+                       class="text-white text-decoration-none">
+                        ID <i th:if="${sortField == 'id'}"
+                              th:class="${sortDir == 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down'}"></i>
+                    </a>
+                </th>
+
+                <th>
+                    <a th:href="@{/bus(sortField='registrationNumber', sortDir=${reverseSortDir}, regNum=${regNum}, status=${status}, minCapacity=${minCapacity})}"
+                       class="text-white text-decoration-none">
+                        Registration Number <i th:if="${sortField == 'registrationNumber'}"
+                                               th:class="${sortDir == 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down'}"></i>
+                    </a>
+                </th>
+
+                <th>
+                    <a th:href="@{/bus(sortField='capacity', sortDir=${reverseSortDir}, regNum=${regNum}, status=${status}, minCapacity=${minCapacity})}"
+                       class="text-white text-decoration-none">
+                        Capacity <i th:if="${sortField == 'capacity'}"
+                                    th:class="${sortDir == 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down'}"></i>
+                    </a>
+                </th>
+
                 <th>Status</th>
-                <th>Maintenance Due</th>
+
+                <th>
+                    <a th:href="@{/bus(sortField='lastMaintenanceDate', sortDir=${reverseSortDir}, regNum=${regNum}, status=${status}, minCapacity=${minCapacity})}"
+                       class="text-white text-decoration-none">
+                        Maintenance Due <i th:if="${sortField == 'lastMaintenanceDate'}"
+                                           th:class="${sortDir == 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down'}"></i>
+                    </a>
+                </th>
+
                 <th>Accessibility</th>
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody>
+            <tr th:if="${buses.empty}">
+                <td colspan="7" class="text-center text-muted py-4">No buses found matching criteria.</td>
+            </tr>
             <tr th:each="bus : ${buses}">
 
                 <td>
@@ -42,19 +123,28 @@
 
                 <td th:text="${bus.registrationNumber}">[Reg Number]</td>
                 <td th:text="${bus.capacity}">[Capacity]</td>
-                <td th:text="${bus.status}">[Status]</td>
+
+                <td>
+                    <span class="badge"
+                          th:classappend="${bus.status.name() == 'Active' ? 'bg-success' : 'bg-danger'}"
+                          th:text="${bus.status}">Active</span>
+                </td>
 
                 <td th:text="${bus.lastMaintenanceDate}">[Maintenance]</td>
 
-                <td th:text="${bus.hasAccessibilitySupport} ? 'Yes' : 'No'">[Access]</td>
+                <td>
+                    <i th:if="${bus.hasAccessibilitySupport}" class="bi bi-check-lg text-success fs-4"></i>
+                    <i th:unless="${bus.hasAccessibilitySupport}" class="bi bi-x-lg text-secondary fs-4"></i>
+                </td>
+
                 <td>
                     <a th:href="@{/bus/{id}/edit(id=${bus.id})}"
                        class="btn btn-warning btn-sm me-2">
-                        Edit
+                        <i class="bi bi-pencil"></i>
                     </a>
                     <form th:action="@{/bus/{id}/delete(id=${bus.id})}" method="post" class="d-inline"
                           onsubmit="return confirm('Are you sure you want to delete this bus?');">
-                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
                     </form>
                 </td>
             </tr>

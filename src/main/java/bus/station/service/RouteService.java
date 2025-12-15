@@ -2,10 +2,16 @@ package bus.station.service;
 
 import bus.station.model.Route;
 import bus.station.repository.RouteRepository;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +26,39 @@ public class RouteService {
 
     public List<Route> findAll() {
         return routeRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Route> findAll(String originCity, String destCity, Double maxDistance, String sortField, String sortDir) {
+
+        Specification<Route> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (StringUtils.hasText(originCity)) {
+                Join<Object, Object> originJoin = root.join("origin");
+                predicates.add(cb.like(cb.lower(originJoin.get("city")), "%" + originCity.toLowerCase() + "%"));
+            }
+
+            if (StringUtils.hasText(destCity)) {
+                Join<Object, Object> destJoin = root.join("destination");
+                predicates.add(cb.like(cb.lower(destJoin.get("city")), "%" + destCity.toLowerCase() + "%"));
+            }
+
+            if (maxDistance != null) {
+                predicates.add(cb.lessThanOrEqualTo(root.get("distance"), maxDistance));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        Sort sort = Sort.by(sortField);
+        if ("desc".equalsIgnoreCase(sortDir)) {
+            sort = sort.descending();
+        } else {
+            sort = sort.ascending();
+        }
+
+        return routeRepository.findAll(spec, sort);
     }
 
     @Transactional

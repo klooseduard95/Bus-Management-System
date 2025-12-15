@@ -10,6 +10,44 @@
     <div class="container-fluid p-4">
         <h1 class="mb-3">🗺️ Route Management</h1>
 
+        <div class="card bg-light mb-4 shadow-sm">
+            <div class="card-body">
+                <form th:action="@{/route}" method="get" class="row g-3 align-items-end">
+
+                    <input type="hidden" name="sortField" th:value="${sortField}">
+                    <input type="hidden" name="sortDir" th:value="${sortDir}">
+
+                    <div class="col-md-3">
+                        <label for="originCity" class="form-label fw-bold">Origin City:</label>
+                        <input type="text" class="form-control" id="originCity" name="originCity"
+                               th:value="${originCity}" placeholder="e.g. Cluj">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="destCity" class="form-label fw-bold">Destination City:</label>
+                        <input type="text" class="form-control" id="destCity" name="destCity"
+                               th:value="${destCity}" placeholder="e.g. Bucuresti">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="maxDistance" class="form-label fw-bold">Max Distance (km):</label>
+                        <input type="number" class="form-control" id="maxDistance" name="maxDistance"
+                               th:value="${maxDistance}" placeholder="e.g. 500">
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary flex-grow-1">
+                                <i class="bi bi-search"></i> Filter
+                            </button>
+                            <a th:href="@{/route}" class="btn btn-outline-secondary">
+                                Clear
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
         <a th:href="@{/route/new}" class="btn btn-primary mb-3">
             Add New Route
         </a>
@@ -17,14 +55,41 @@
         <table class="table table-striped table-hover">
             <thead class="table-dark">
             <tr>
-                <th>ID</th>
-                <th>Origin</th>
-                <th>Destination</th>
-                <th>Distance (km)</th>
+                <th>
+                    <a th:href="@{/route(sortField='id', sortDir=${reverseSortDir}, originCity=${originCity}, destCity=${destCity}, maxDistance=${maxDistance})}"
+                       class="text-white text-decoration-none">
+                        ID <i th:if="${sortField == 'id'}" th:class="${sortDir == 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down'}"></i>
+                    </a>
+                </th>
+
+                <th>
+                    <a th:href="@{/route(sortField='origin.name', sortDir=${reverseSortDir}, originCity=${originCity}, destCity=${destCity}, maxDistance=${maxDistance})}"
+                       class="text-white text-decoration-none">
+                        Origin <i th:if="${sortField == 'origin.name'}" th:class="${sortDir == 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down'}"></i>
+                    </a>
+                </th>
+
+                <th>
+                    <a th:href="@{/route(sortField='destination.name', sortDir=${reverseSortDir}, originCity=${originCity}, destCity=${destCity}, maxDistance=${maxDistance})}"
+                       class="text-white text-decoration-none">
+                        Destination <i th:if="${sortField == 'destination.name'}" th:class="${sortDir == 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down'}"></i>
+                    </a>
+                </th>
+
+                <th>
+                    <a th:href="@{/route(sortField='distance', sortDir=${reverseSortDir}, originCity=${originCity}, destCity=${destCity}, maxDistance=${maxDistance})}"
+                       class="text-white text-decoration-none">
+                        Distance (km) <i th:if="${sortField == 'distance'}" th:class="${sortDir == 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down'}"></i>
+                    </a>
+                </th>
+
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody>
+            <tr th:if="${routes.empty}">
+                <td colspan="5" class="text-center text-muted py-4">No routes found matching criteria.</td>
+            </tr>
             <tr th:each="route : ${routes}">
 
                 <td>
@@ -35,9 +100,17 @@
                     </a>
                 </td>
 
-                <td th:text="${route.origin != null ? route.origin.name : 'N/A'}">[Origin]</td>
-                <td th:text="${route.destination != null ? route.destination.name : 'N/A'}">[Destination]</td>
+                <td>
+                    <span th:text="${route.origin != null ? route.origin.name : 'N/A'}" class="fw-bold">Origin</span>
+                    <br><small class="text-muted" th:text="${route.origin != null ? route.origin.city : ''}">City</small>
+                </td>
+                <td>
+                    <span th:text="${route.destination != null ? route.destination.name : 'N/A'}" class="fw-bold">Dest</span>
+                    <br><small class="text-muted" th:text="${route.destination != null ? route.destination.city : ''}">City</small>
+                </td>
+
                 <td th:text="${route.distance}">[Distance]</td>
+
                 <td>
                     <a th:href="@{/route/{id}/edit(id=${route.id})}"
                        class="btn btn-warning btn-sm me-2">

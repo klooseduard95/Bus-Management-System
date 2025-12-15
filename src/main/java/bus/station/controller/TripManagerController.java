@@ -21,8 +21,21 @@ public class TripManagerController {
     }
 
     @GetMapping
-    public String getManagerList(Model model) {
-        model.addAttribute("managers", tripManagerService.findAll());
+    public String getManagerList(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String employeeCode,
+            @RequestParam(defaultValue = "id") String sortField,
+            @RequestParam(defaultValue = "asc") String sortDir,
+            Model model) {
+
+        model.addAttribute("managers", tripManagerService.findAll(name, employeeCode, sortField, sortDir));
+
+        model.addAttribute("name", name);
+        model.addAttribute("employeeCode", employeeCode);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         model.addAttribute("activePage", "manager");
         return "manager/index";
     }

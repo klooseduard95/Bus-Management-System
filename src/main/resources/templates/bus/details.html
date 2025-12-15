@@ -137,7 +137,7 @@
                             <td th:text="${#numbers.formatCurrency(trip.basePrice)}">$100</td>
 
                             <td>
-                                <a th:href="@{/bus-trip/{id}/edit(id=${trip.id})}" class="btn btn-sm btn-light border">
+                                <a th:href="@{/bus-trip/{id}(id=${trip.id})}" class="btn btn-sm btn-light border">
                                     View Trip
                                 </a>
                             </td>

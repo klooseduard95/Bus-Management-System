@@ -1,12 +1,18 @@
 package bus.station.service;
 
+import bus.station.enums.BusStatus;
 import bus.station.model.Bus;
 import bus.station.repository.BusRepository;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +28,38 @@ public class BusService {
 
     public List<Bus> findAll() {
         return busRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Bus> findAll(String registrationNumber,
+                             BusStatus status,
+                             Integer minCapacity,
+                             String sortField,
+                             String sortDir) {
+
+        Specification<Bus> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (StringUtils.hasText(registrationNumber)) {
+                predicates.add(cb.like(cb.lower(root.get("registrationNumber")), "%" + registrationNumber.toLowerCase() + "%"));
+            }
+            if (status != null) {
+                predicates.add(cb.equal(root.get("status"), status));
+            }
+            if (minCapacity != null) {
+                predicates.add(cb.ge(root.get("capacity"), minCapacity));
+            }
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        Sort sort = Sort.by(sortField);
+        if ("desc".equalsIgnoreCase(sortDir)) {
+            sort = sort.descending();
+        } else {
+            sort = sort.ascending();
+        }
+
+        return busRepository.findAll(spec, sort);
     }
 
     public Optional<Bus> findBusById(Long id) {

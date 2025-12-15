@@ -10,6 +10,50 @@
     <div class="container-fluid p-4">
         <h1 class="mb-3">🧑‍✈️ Duty Assignments</h1>
 
+        <div class="card bg-light mb-4 shadow-sm">
+            <div class="card-body">
+                <form th:action="@{/duty-assignment}" method="get" class="row g-3 align-items-end">
+
+                    <input type="hidden" name="sortField" th:value="${sortField}">
+                    <input type="hidden" name="sortDir" th:value="${sortDir}">
+
+                    <div class="col-md-3">
+                        <label for="tripId" class="form-label fw-bold">Trip ID:</label>
+                        <input type="number" class="form-control" id="tripId" name="tripId"
+                               th:value="${tripId}" placeholder="e.g. 10">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="driverName" class="form-label fw-bold">Driver Name:</label>
+                        <input type="text" class="form-control" id="driverName" name="driverName"
+                               th:value="${driverName}" placeholder="Search driver...">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="role" class="form-label fw-bold">Role:</label>
+                        <select class="form-select" id="role" name="role">
+                            <option value="">All Roles</option>
+
+                            <option th:each="r : ${T(bus.station.enums.Role).values()}"
+                                    th:value="${r}"
+                                    th:text="${r}"
+                                    th:selected="${role != null and r.name() == role.name()}">
+                            </option>
+
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary w-100 mb-2">
+                            <i class="bi bi-funnel"></i> Apply
+                        </button>
+                        <a th:href="@{/duty-assignment}" class="btn btn-outline-secondary w-100">
+                            Reset
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
         <a th:href="@{/duty-assignment/new}" class="btn btn-primary mb-3">
             Add New Assignment
         </a>
@@ -17,14 +61,30 @@
         <table class="table table-striped table-hover">
             <thead class="table-dark">
             <tr>
-                <th>ID</th>
+                <th>
+                    <a th:href="@{/duty-assignment(sortField='id', sortDir=${reverseSortDir}, tripId=${tripId}, role=${role}, driverName=${driverName})}"
+                       class="text-white text-decoration-none">
+                        ID <i th:if="${sortField == 'id'}" th:class="${sortDir == 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down'}"></i>
+                    </a>
+                </th>
+
                 <th>Trip ID</th>
                 <th>Staff Member</th>
-                <th>Role</th>
+
+                <th>
+                    <a th:href="@{/duty-assignment(sortField='role', sortDir=${reverseSortDir}, tripId=${tripId}, role=${role}, driverName=${driverName})}"
+                       class="text-white text-decoration-none">
+                        Role <i th:if="${sortField == 'role'}" th:class="${sortDir == 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down'}"></i>
+                    </a>
+                </th>
+
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody>
+            <tr th:if="${assignments.empty}">
+                <td colspan="5" class="text-center text-muted py-4">No assignments found.</td>
+            </tr>
             <tr th:each="assignment : ${assignments}">
 
                 <td>
@@ -47,21 +107,16 @@
 
                 <td>
                     <span th:if="${assignment.driver != null}">
-                        <i class="bi bi-bus-front text-primary me-1"></i>
+                        <i class="bi bi-person-badge text-primary me-1"></i>
                         <a th:href="@{/driver/{id}(id=${assignment.driver.id})}"
                            th:text="${assignment.driver.name}"
                            class="text-decoration-none text-dark fw-bold">
                             Nume Sofer
                         </a>
                     </span>
-
                     <span th:if="${assignment.manager != null}">
                         <i class="bi bi-person-workspace text-info me-1"></i>
-                        <a th:href="@{/manager/{id}(id=${assignment.manager.id})}"
-                           th:text="${assignment.manager.name}"
-                           class="text-decoration-none text-dark fw-bold">
-                            Nume Manager
-                        </a>
+                        <span th:text="${assignment.manager.name}">Manager</span>
                     </span>
 
                     <span th:if="${assignment.driver == null and assignment.manager == null}" class="text-danger">

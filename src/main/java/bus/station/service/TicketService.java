@@ -6,12 +6,18 @@ import bus.station.model.Ticket;
 import bus.station.repository.BusTripRepository;
 import bus.station.repository.PassengerRepository;
 import bus.station.repository.TicketRepository;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +37,38 @@ public class TicketService {
 
     public List<Ticket> findAll() {
         return ticketRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Ticket> findAll(Long tripId, String passengerName, Double maxPrice, String sortField, String sortDir) {
+
+        Specification<Ticket> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (tripId != null) {
+                predicates.add(cb.equal(root.get("busTrip").get("id"), tripId));
+            }
+
+            if (StringUtils.hasText(passengerName)) {
+                Join<Ticket, Passenger> passengerJoin = root.join("passenger");
+                predicates.add(cb.like(cb.lower(passengerJoin.get("name")), "%" + passengerName.toLowerCase() + "%"));
+            }
+
+            if (maxPrice != null) {
+                predicates.add(cb.lessThanOrEqualTo(root.get("price"), maxPrice));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        Sort sort = Sort.by(sortField);
+        if ("desc".equalsIgnoreCase(sortDir)) {
+            sort = sort.descending();
+        } else {
+            sort = sort.ascending();
+        }
+
+        return ticketRepository.findAll(spec, sort);
     }
 
     public Optional<Ticket> findById(Long id) {

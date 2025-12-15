@@ -2,12 +2,17 @@ package bus.station.service;
 
 import bus.station.model.Passenger;
 import bus.station.repository.PassengerRepository;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +27,33 @@ public class PassengerService {
 
     public List<Passenger> findAll(){
         return passengerRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Passenger> findAll(String name, Boolean specialAssistance, String sortField, String sortDir) {
+
+        Specification<Passenger> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (StringUtils.hasText(name)) {
+                predicates.add(cb.like(cb.lower(root.get("name")), "%" + name.toLowerCase() + "%"));
+            }
+
+            if (specialAssistance != null) {
+                predicates.add(cb.equal(root.get("requiresSpecialAssistance"), specialAssistance));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        Sort sort = Sort.by(sortField);
+        if ("desc".equalsIgnoreCase(sortDir)) {
+            sort = sort.descending();
+        } else {
+            sort = sort.ascending();
+        }
+
+        return passengerRepository.findAll(spec, sort);
     }
 
     public Optional<Passenger> findById(Long id){

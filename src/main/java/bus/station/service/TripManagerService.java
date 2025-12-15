@@ -2,10 +2,15 @@ package bus.station.service;
 
 import bus.station.model.TripManager;
 import bus.station.repository.TripManagerRepository;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +26,33 @@ public class TripManagerService {
 
     public List<TripManager> findAll() {
         return tripManagerRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<TripManager> findAll(String name, String employeeCode, String sortField, String sortDir) {
+
+        Specification<TripManager> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (StringUtils.hasText(name)) {
+                predicates.add(cb.like(cb.lower(root.get("name")), "%" + name.toLowerCase() + "%"));
+            }
+
+            if (StringUtils.hasText(employeeCode)) {
+                predicates.add(cb.like(cb.lower(root.get("employeeCode")), "%" + employeeCode.toLowerCase() + "%"));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        Sort sort = Sort.by(sortField);
+        if ("desc".equalsIgnoreCase(sortDir)) {
+            sort = sort.descending();
+        } else {
+            sort = sort.ascending();
+        }
+
+        return tripManagerRepository.findAll(spec, sort);
     }
 
     public Optional<TripManager> findById(Long id) {

@@ -30,8 +30,23 @@ public class RouteController {
     }
 
     @GetMapping
-    public String getRouteList(Model model) {
-        model.addAttribute("routes", routeService.findAll());
+    public String getRouteList(
+            @RequestParam(required = false) String originCity,
+            @RequestParam(required = false) String destCity,
+            @RequestParam(required = false) Double maxDistance,
+            @RequestParam(defaultValue = "id") String sortField,
+            @RequestParam(defaultValue = "asc") String sortDir,
+            Model model) {
+
+        model.addAttribute("routes", routeService.findAll(originCity, destCity, maxDistance, sortField, sortDir));
+
+        model.addAttribute("originCity", originCity);
+        model.addAttribute("destCity", destCity);
+        model.addAttribute("maxDistance", maxDistance);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         model.addAttribute("activePage", "route");
         return "route/index";
     }

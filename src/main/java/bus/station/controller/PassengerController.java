@@ -23,8 +23,21 @@ public class PassengerController {
 
 
     @GetMapping
-    public String getPassengerList(Model model) {
-        model.addAttribute("passengers", passengerService.findAll());
+    public String getPassengerList(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Boolean specialAssistance,
+            @RequestParam(defaultValue = "id") String sortField,
+            @RequestParam(defaultValue = "asc") String sortDir,
+            Model model) {
+
+        model.addAttribute("passengers", passengerService.findAll(name, specialAssistance, sortField, sortDir));
+
+        model.addAttribute("name", name);
+        model.addAttribute("specialAssistance", specialAssistance);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         model.addAttribute("activePage", "passenger");
         return "passenger/index";
     }

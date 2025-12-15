@@ -34,8 +34,23 @@ public class TicketController {
     }
 
     @GetMapping
-    public String getTicketList(Model model) {
-        model.addAttribute("tickets", ticketService.findAll());
+    public String getTicketList(
+            @RequestParam(required = false) Long tripId,
+            @RequestParam(required = false) String passengerName,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(defaultValue = "id") String sortField,
+            @RequestParam(defaultValue = "asc") String sortDir,
+            Model model) {
+
+        model.addAttribute("tickets", ticketService.findAll(tripId, passengerName, maxPrice, sortField, sortDir));
+
+        model.addAttribute("tripId", tripId);
+        model.addAttribute("passengerName", passengerName);
+        model.addAttribute("maxPrice", maxPrice);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         model.addAttribute("activePage", "ticket");
         return "ticket/index";
     }
