@@ -3,9 +3,12 @@ package bus.station.model;
 import bus.station.enums.BusTripStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import jakarta.persistence.Transient;
 
+import java.time.Duration;
 import java.time.LocalTime;
 import java.util.List;
+
 
 @Entity
 @Table(name = "bus_trips")
@@ -118,5 +121,25 @@ public class BusTrip {
 
     public void setBasePrice(double basePrice) {
         this.basePrice = basePrice;
+    }
+
+    @Transient
+    public double getProgressFactor() {
+        if (this.status == BusTripStatus.Planned) return 0.0;
+        if (this.status == BusTripStatus.Completed) return 1.0;
+
+        if (this.route == null) return 0.0;
+
+        double averageSpeedKmH = 60.0;
+        double estimatedHours = this.route.getDistance() / averageSpeedKmH;
+        long estimatedMinutes = (long) (estimatedHours * 60);
+
+        LocalTime now = LocalTime.now();
+        long minutesElapsed = Duration.between(this.startTime, now).toMinutes();
+
+        if (minutesElapsed <= 0) return 0.0;
+        if (minutesElapsed >= estimatedMinutes) return 1.0;
+
+        return (double) minutesElapsed / estimatedMinutes;
     }
 }

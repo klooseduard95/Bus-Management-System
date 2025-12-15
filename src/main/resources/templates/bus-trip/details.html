@@ -43,39 +43,37 @@
             </div>
         </div>
 
-        <div class="row g-4">
-
-            <div class="col-md-4">
-                <div class="card mb-3">
-                    <div class="card-header fw-bold">🚌 Assigned Bus</div>
-                    <div class="card-body">
-                        <div th:if="${trip.bus != null}">
-                            <h5 class="card-title" th:text="${trip.bus.registrationNumber}">CJ-01</h5>
-                            <p class="card-text mb-1">Capacity: <span th:text="${trip.bus.capacity}">50</span></p>
-                            <a th:href="@{/bus/{id}(id=${trip.bus.id})}" class="btn btn-sm btn-outline-primary">View Bus</a>
-                        </div>
-                        <div th:unless="${trip.bus != null}" class="text-danger">No bus assigned!</div>
+        <div class="row g-4 mb-4"> <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-header fw-bold">🚌 Assigned Bus</div>
+                <div class="card-body">
+                    <div th:if="${trip.bus != null}">
+                        <h5 class="card-title" th:text="${trip.bus.registrationNumber}">CJ-01</h5>
+                        <p class="card-text mb-1">Capacity: <span th:text="${trip.bus.capacity}">50</span></p>
+                        <a th:href="@{/bus/{id}(id=${trip.bus.id})}" class="btn btn-sm btn-outline-primary">View Bus</a>
                     </div>
-                </div>
-
-                <div class="card mb-3">
-                    <div class="card-header fw-bold">📊 Stats</div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Available Seats:</span>
-                            <strong th:text="${trip.availableSeats}">10</strong>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Base Price:</span>
-                            <strong th:text="${#numbers.formatCurrency(trip.basePrice)}">$50</strong>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="d-grid gap-2">
-                    <a th:href="@{/bus-trip/{id}/edit(id=${trip.id})}" class="btn btn-warning">Edit Trip</a>
+                    <div th:unless="${trip.bus != null}" class="text-danger">No bus assigned!</div>
                 </div>
             </div>
+
+            <div class="card mb-3">
+                <div class="card-header fw-bold">📊 Stats</div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Available Seats:</span>
+                        <strong th:text="${trip.availableSeats}">10</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Base Price:</span>
+                        <strong th:text="${#numbers.formatCurrency(trip.basePrice)}">$50</strong>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="d-grid gap-2">
+                <a th:href="@{/bus-trip/{id}/edit(id=${trip.id})}" class="btn btn-warning">Edit Trip</a>
+            </div>
+        </div>
 
             <div class="col-md-8">
 
@@ -153,6 +151,106 @@
 
             </div>
         </div>
+
+        <div class="card mb-4 shadow-sm" th:if="${trip.route != null}">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <span class="fw-bold"><i class="bi bi-map-fill"></i> Live Tracking (Simulation)</span>
+                <span class="badge bg-light text-dark"
+                      th:text="${#numbers.formatPercent(trip.progressFactor, 1, 0)} + ' Completed'">
+                    50%
+                </span>
+            </div>
+            <div class="card-body p-0">
+                <div id="map" style="height: 400px; width: 100%;"></div>
+            </div>
+        </div>
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+        <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            var defaultLat = 45.9432;
+            var defaultLng = 24.9668;
+
+            var originLat = /*[[${trip.route.origin.latitude}]]*/ defaultLat;
+            var originLng = /*[[${trip.route.origin.longitude}]]*/ defaultLng;
+            var destLat = /*[[${trip.route.destination.latitude}]]*/ defaultLat;
+            var destLng = /*[[${trip.route.destination.longitude}]]*/ defaultLng;
+            var progress = /*[[${trip.progressFactor}]]*/ 0.0;
+
+            if(!originLat) { originLat = defaultLat; originLng = defaultLng; }
+            if(!destLat) { destLat = defaultLat; destLng = defaultLng; }
+
+            var map = L.map('map');
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap'
+            }).addTo(map);
+
+            var startPoint = L.latLng(originLat, originLng);
+            var endPoint = L.latLng(destLat, destLng);
+
+            var busIcon = L.divIcon({
+                html: '<i class="bi bi-bus-front-fill" style="font-size: 2rem; color: #d63384; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);"></i>',
+                className: 'custom-bus-icon',
+                iconSize: [30, 30],
+                iconAnchor: [15, 15]
+            });
+
+            var routingControl = L.Routing.control({
+                waypoints: [ startPoint, endPoint ],
+                routeWhileDragging: false,
+                draggableWaypoints: false,
+                addWaypoints: false,
+                show: false,
+                createMarker: function() { return null; },
+                lineOptions: {
+                    styles: [{color: 'blue', opacity: 0.6, weight: 5}]
+                }
+            })
+                .on('routesfound', function(e) {
+                    var routes = e.routes;
+                    var route = routes[0];
+
+                    var coordinates = route.coordinates;
+                    var totalPoints = coordinates.length;
+
+                    var targetIndex = Math.floor(totalPoints * progress);
+
+                    if(targetIndex >= totalPoints) targetIndex = totalPoints - 1;
+                    if(targetIndex < 0) targetIndex = 0;
+
+                    var busLatLng = coordinates[targetIndex];
+
+                    var busMarker = L.marker(busLatLng, {icon: busIcon}).addTo(map);
+
+                    var percentTxt = Math.round(progress * 100);
+                    var statusTxt = /*[[${trip.status}]]*/ 'Unknown';
+
+                    busMarker.bindPopup(
+                        `<div class='text-center'>
+                        <b>Bus Location</b><br>
+                        <span class='badge bg-warning text-dark'>${statusTxt}</span><br>
+                        On Route: ${percentTxt}%
+                     </div>`
+                    );
+
+                    if(progress > 0 && progress < 1) {
+                        busMarker.openPopup();
+                    }
+                })
+                .addTo(map);
+
+            L.circleMarker(startPoint, {color: 'green', radius: 8}).addTo(map)
+                .bindPopup("<b>Start:</b> " + /*[[${trip.route.origin.name}]]*/ 'Start');
+
+            L.circleMarker(endPoint, {color: 'red', radius: 8}).addTo(map)
+                .bindPopup("<b>Destination:</b> " + /*[[${trip.route.destination.name}]]*/ 'End');
+
+            /*]]>*/
+        </script>
 
     </div>
 </div>
