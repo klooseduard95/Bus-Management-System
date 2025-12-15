@@ -29,29 +29,29 @@ ALTER TABLE trip_managers AUTO_INCREMENT = 1;
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- ============================================================
--- 3. Inserare BusStations (Stații)
+-- 3. Inserare BusStations (Stații) - CU LAT/LONG PENTRU HARTĂ
 -- ============================================================
-INSERT INTO bus_stations (name, city) VALUES
-                                          ('Ploiesti', 'Ploiesti'),      -- ID: 1
-                                          ('Sighișoara', 'Sighisoara'),  -- ID: 2
-                                          ('Cluj', 'Cluj'),              -- ID: 3
-                                          ('Militari', 'Bucuresti'),     -- ID: 4
-                                          ('Brasov', 'Brasov'),          -- ID: 5
-                                          ('Iasi', 'Iasi'),              -- ID: 6
-                                          ('Sibiu', 'Sibiu'),            -- ID: 7
-                                          ('Oradea', 'Oradea'),          -- ID: 8
-                                          ('Timisoara', 'Timisoara'),    -- ID: 9
-                                          ('Arad', 'Arad'),              -- ID: 10
-                                          ('Deva', 'Deva'),              -- ID: 11
-                                          ('Targu Mures', 'Targu Mures'),-- ID: 12
-                                          ('Alba Iulia', 'Alba Iulia'),  -- ID: 13
-                                          ('Constanta', 'Constanta'),    -- ID: 14
-                                          ('Suceava', 'Suceava'),        -- ID: 15
-                                          ('Pitesti', 'Pitesti'),        -- ID: 16
-                                          ('Buzau', 'Buzau'),            -- ID: 17
-                                          ('Piatra Neamt', 'Piatra Neamt'), -- ID: 18
-                                          ('Craiova', 'Craiova'),        -- ID: 19
-                                          ('Galati', 'Galati');          -- ID: 20
+INSERT INTO bus_stations (name, city, latitude, longitude) VALUES
+                                                               ('Ploiesti', 'Ploiesti', 44.9367, 26.0129),      -- ID: 1
+                                                               ('Sighișoara', 'Sighisoara', 46.2197, 24.7964),  -- ID: 2
+                                                               ('Cluj', 'Cluj', 46.7712, 23.6236),              -- ID: 3
+                                                               ('Militari', 'Bucuresti', 44.4355, 26.0163),     -- ID: 4
+                                                               ('Brasov', 'Brasov', 45.6427, 25.5887),          -- ID: 5
+                                                               ('Iasi', 'Iasi', 47.1585, 27.6014),              -- ID: 6
+                                                               ('Sibiu', 'Sibiu', 45.7983, 24.1256),            -- ID: 7
+                                                               ('Oradea', 'Oradea', 47.0465, 21.9189),          -- ID: 8
+                                                               ('Timisoara', 'Timisoara', 45.7489, 21.2087),    -- ID: 9
+                                                               ('Arad', 'Arad', 46.1866, 21.3123),              -- ID: 10
+                                                               ('Deva', 'Deva', 45.8775, 22.9121),              -- ID: 11
+                                                               ('Targu Mures', 'Targu Mures', 46.5456, 24.5625),-- ID: 12
+                                                               ('Alba Iulia', 'Alba Iulia', 46.0710, 23.5805),  -- ID: 13
+                                                               ('Constanta', 'Constanta', 44.1792, 28.6121),    -- ID: 14
+                                                               ('Suceava', 'Suceava', 47.6514, 26.2555),        -- ID: 15
+                                                               ('Pitesti', 'Pitesti', 44.8565, 24.8692),        -- ID: 16
+                                                               ('Buzau', 'Buzau', 45.1502, 26.8167),            -- ID: 17
+                                                               ('Piatra Neamt', 'Piatra Neamt', 46.9317, 26.3685), -- ID: 18
+                                                               ('Craiova', 'Craiova', 44.3302, 23.7949),        -- ID: 19
+                                                               ('Galati', 'Galati', 45.4353, 28.0080);          -- ID: 20
 
 -- ============================================================
 -- 4. Inserare Buses (Autobuze)
@@ -128,16 +128,16 @@ INSERT INTO trip_managers (name, employee_code) VALUES
 -- 8. Inserare BusTrips (Curse)
 -- ============================================================
 INSERT INTO bus_trips (route_id, bus_id, start_time, available_seats, base_price, status) VALUES
-                                                                                              (4, 3, '09:30:00', 49, 200.0, 'Planned'),  -- ID: 1 (Era 50, are 1 bilet)
-                                                                                              (1, 6, '12:30:00', 29, 120.0, 'Planned'),  -- ID: 2 (Era 30, are 1 bilet)
-                                                                                              (2, 3, '16:30:00', 44, 99.0,  'Planned'),  -- ID: 3 (Era 45, are 1 bilet)
-                                                                                              (3, 4, '07:00:00', 139, 250.0, 'Planned'), -- ID: 4 (Era 140, are 1 bilet)
-                                                                                              (4, 1, '13:45:00', 99, 210.0, 'Planned'),  -- ID: 5 (Era 100, are 1 bilet)
-                                                                                              (2, 9, '18:15:00', 30, 95.0,  'Planned'),  -- ID: 6 (Fără bilete)
-                                                                                              (3, 4, '20:00:00', 144, 270.0, 'Planned'), -- ID: 7 (Era 145, are 1 bilet)
-                                                                                              (1, 7, '06:30:00', 36, 115.0, 'Planned'),  -- ID: 8 (Era 38, are 2 bilete)
-                                                                                              (4, 10, '11:15:00', 19, 190.0, 'Planned'), -- ID: 9 (Era 20, are 1 bilet)
-                                                                                              (2, 8, '22:30:00', 49, 100.0, 'Planned');  -- ID: 10 (Era 50, are 1 bilet)
+                                                                                              (4, 3, '09:30:00', 49, 200.0, 'Planned'),  -- ID: 1
+                                                                                              (1, 6, '12:30:00', 29, 120.0, 'Planned'),  -- ID: 2
+                                                                                              (2, 3, '16:30:00', 44, 99.0,  'Planned'),  -- ID: 3
+                                                                                              (3, 4, '07:00:00', 139, 250.0, 'Planned'), -- ID: 4
+                                                                                              (4, 1, '13:45:00', 99, 210.0, 'Planned'),  -- ID: 5
+                                                                                              (2, 9, '18:15:00', 30, 95.0,  'Planned'),  -- ID: 6
+                                                                                              (3, 4, '20:00:00', 144, 270.0, 'Planned'), -- ID: 7
+                                                                                              (1, 7, '06:30:00', 36, 115.0, 'Planned'),  -- ID: 8
+                                                                                              (4, 10, '11:15:00', 19, 190.0, 'Planned'), -- ID: 9
+                                                                                              (2, 8, '22:30:00', 49, 100.0, 'Planned');  -- ID: 10
 
 -- ============================================================
 -- 9. Inserare DutyAssignments (Alocări)
@@ -153,11 +153,12 @@ INSERT INTO duty_assignments (bus_trip_id, driver_id, manager_id, role) VALUES
                                                                             (6, 8, NULL, 'PrimaryDriver'),  -- ID: 8
                                                                             (7, 9, NULL, 'PrimaryDriver'),  -- ID: 9
                                                                             (9, 10, NULL, 'ReserveDriver'), -- ID: 10
-                                                                            (10, NULL, 1, 'PrimaryDriver'); -- ID: 11 (Un Manager asignat)
+                                                                            (10, NULL, 1, 'PrimaryDriver'); -- ID: 11
 
 -- ============================================================
 -- 10. Inserare Tickets (Bilete)
 -- ============================================================
+-- REVENIRE LA passenger_trip_id PENTRU COMPATIBILITATE CU DB EXISTENT
 INSERT INTO tickets (bus_trip_id, passenger_trip_id, seat_number, price) VALUES
                                                                              (2, 1, '17', 0.0),    -- ID: 1
                                                                              (1, 1, '4', 0.0),     -- ID: 2

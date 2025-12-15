@@ -127,4 +127,8 @@ public class BusTripService {
             throw new IllegalArgumentException("Bus Trip with ID " + id + " not found for deletion.");
         }
     }
+
+    public List<BusTrip> findActiveTrips() {
+        return busTripRepository.findAllByStatus(bus.station.enums.BusTripStatus.Active);
+    }
 }
